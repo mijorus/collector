@@ -1,0 +1,6 @@
+data/it.mijorus.collector.desktop.in
+data/it.mijorus.collector.metainfo.xml.in
+data/it.mijorus.collector.gschema.xml
+src/main.py
+src/window.py
+src/window.ui

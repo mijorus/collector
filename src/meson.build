@@ -26,10 +26,4 @@ configure_file(
   install_mode: 'r-xr--r--'
 )
 
-collector_sources = [
-  '__init__.py',
-  'main.py',
-  'window.py',
-]
-
-install_data(collector_sources, install_dir: moduledir)
+install_subdir('.', install_dir: moduledir, exclude_files: ['collector.in'])

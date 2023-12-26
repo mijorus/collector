@@ -19,6 +19,7 @@
 
 import sys
 import gi
+import subprocess
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')

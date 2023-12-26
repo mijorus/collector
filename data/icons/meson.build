@@ -11,3 +11,6 @@ install_data(
   symbolic_dir / ('@0@-symbolic.svg').format(application_id),
   install_dir: get_option('datadir') / 'icons' / symbolic_dir
 )
+
+action_dir = join_paths('hicolor', 'scalable', 'actions')
+subdir(action_dir)

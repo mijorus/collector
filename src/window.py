@@ -140,7 +140,8 @@ class CollectorWindow(Adw.ApplicationWindow):
         ])
 
     def on_drag_end(self, source, drag, move_data):
-        self.is_dragging_away = True
+        self.is_dragging_away = False
+        self.drops_label.set_label(_('Release to drop'))
         self.on_drop_leave(None)
 
     def on_drag_start(self, drag, move_data):
@@ -167,22 +168,24 @@ class CollectorWindow(Adw.ApplicationWindow):
         return True
 
     def on_drop_enter(self, widget, x, y):
-        self.icon_stack.set_visible_child(self.release_drop_icon)
-        self.drops_label.set_label(_('Release to collect'))
+        if not self.is_dragging_away:
+            self.icon_stack.set_visible_child(self.release_drop_icon)
+            self.drops_label.set_label(_('Release to collect'))
 
         return Gdk.DragAction.COPY
 
     def on_drop_leave(self, widget):
-        if self.dropped_items:
-            self.icon_stack.set_visible_child(self.carousel_container)
+        if not self.is_dragging_away:
+            if self.dropped_items:
+                self.icon_stack.set_visible_child(self.carousel_container)
 
-            if len(self.dropped_items) == 1:
-                self.drops_label.set_label(_('1 File'))
+                if len(self.dropped_items) == 1:
+                    self.drops_label.set_label(_('1 File'))
+                else:
+                    self.drops_label.set_label(_('{files_count} Files').format(files_count=len(self.dropped_items)))
             else:
-                self.drops_label.set_label(_('{files_count} Files').format(files_count=len(self.dropped_items)))
-        else:
-            self.drops_label.set_label(self.EMPTY_DROP_TEXT)
-            self.icon_stack.set_visible_child(self.default_drop_icon)
+                self.drops_label.set_label(self.EMPTY_DROP_TEXT)
+                self.icon_stack.set_visible_child(self.default_drop_icon)
 
     def on_key_pressed(self, widget, keyval, keycode, state):
         if keyval == Gdk.KEY_Escape:

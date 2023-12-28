@@ -22,6 +22,7 @@ import gi
 import subprocess
 
 gi.require_version('Gtk', '4.0')
+gi.require_version('Gdk', '4.0')
 gi.require_version('Adw', '1')
 
 from gi.repository import Gtk, Gio, Adw
@@ -47,6 +48,7 @@ class CollectorApplication(Adw.Application):
         win = self.props.active_window
         if not win:
             win = CollectorWindow(application=self)
+
         win.present()
 
     def on_about_action(self, widget, _):

@@ -5,6 +5,7 @@
     "sdk": "org.gnome.Sdk",
     "command": "collector",
     "finish-args": [
+        "--filesystem=home",
         "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
@@ -64,8 +65,8 @@
             "buildsystem": "meson",
             "sources": [
                 {
-                    "type": "git",
-                    "url": "file:///home/lorenzo/Progetti"
+                    "type": "dir",
+                    "path": "./"
                 }
             ]
         }

@@ -20,6 +20,7 @@
 import os
 import gi
 import shutil
+import subprocess
 
 gi.require_version('Gdk', '4.0')
 
@@ -35,7 +36,7 @@ class CollectorWindow(Adw.ApplicationWindow):
     CAROUSEL_ICONS_PIX_SIZE=50
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(**kwargs, title='CollectorMainWindow')
 
         header_bar = Adw.HeaderBar(
             show_title=False,
@@ -116,10 +117,14 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.set_resizable(False)
         self.set_content(overlay)
 
+        self.init_cache_folder()
+
+
+    def init_cache_folder(self):
         drops_cache_path = GLib.get_user_cache_dir() + f'/drops'
         if os.path.exists(drops_cache_path):
             shutil.rmtree(drops_cache_path)
-        
+
         os.mkdir(drops_cache_path)
 
     def on_drag_prepare(self, source, x, y):
@@ -131,6 +136,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         uri_list = '\n'.join([f'file://{f.target_path}' for f in self.dropped_items])
 
         return Gdk.ContentProvider.new_union([
+            Gdk.ContentProvider.new_for_value(dropped_files[0]),
             Gdk.ContentProvider.new_for_value(path_list),
             Gdk.ContentProvider.new_for_value(uri_list),
             Gdk.ContentProvider.new_for_bytes(
@@ -178,11 +184,22 @@ class CollectorWindow(Adw.ApplicationWindow):
         if not self.is_dragging_away:
             if self.dropped_items:
                 self.icon_stack.set_visible_child(self.carousel_container)
+                tot_size = sum([d.size for d in self.dropped_items])
+
+                if tot_size > (1024 * 1024 * 1024):
+                    tot_size = f'{round(tot_size / (1024 * 1024 * 1024), 1)} GB'
+                elif tot_size > (1024 * 1024):
+                    tot_size = f'{round(tot_size / (1024 * 1024), 1)} MB'
+                else:
+                    tot_size = f'{round(tot_size / (1024), 1)} KB'
 
                 if len(self.dropped_items) == 1:
-                    self.drops_label.set_label(_('1 File'))
+                    self.drops_label.set_label(_('1 File | {size}').format(size=tot_size))
                 else:
-                    self.drops_label.set_label(_('{files_count} Files').format(files_count=len(self.dropped_items)))
+                    self.drops_label.set_label(_('{files_count} Files | {size}').format(
+                        files_count=len(self.dropped_items),
+                        size=tot_size
+                    ))
             else:
                 self.drops_label.set_label(self.EMPTY_DROP_TEXT)
                 self.icon_stack.set_visible_child(self.default_drop_icon)

@@ -9,6 +9,7 @@
         "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
+        "--socket=wayland",
         "--device=dri"
     ],
     "cleanup": [
@@ -23,42 +24,6 @@
         "*.a"
     ],
     "modules": [
-        {
-            "name": "libwnck",
-            "buildsystem": "meson",
-            "config-opts": [
-                "-Dgtk_doc=false"
-            ],
-            "cleanup": [
-                "/include",
-                "/lib/pkgconfig",
-                "/bin"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libwnck.git",
-                    "tag": "43.0",
-                    "commit": "6147abd0c1fe35b96e1fbb63fa94d23f91fb2934"
-                }
-            ]
-        },
-        {
-            "name": "raise",
-            "buildsystem": "simple",
-            "build-commands": [
-                "ls",
-                "cp raise.py ${FLATPAK_DEST}/bin",
-                "ls /app/bin",
-                "chmod +x /app/bin/raise.py"
-            ],
-            "sources": [
-                {
-                    "type": "file",
-                    "path": "src/raise.py"
-                }
-            ]
-        },
         {
             "name": "collector",
             "builddir": true,

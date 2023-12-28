@@ -11,13 +11,14 @@ class DroppedItem():
         self.display_value = ''
         self.preview_image = Gtk.Image(icon_name='paper-symbolic', pixel_size=70)
         self.item = item
+        self.size = 0
 
         if isinstance(item, Gio.File):
             self.target_path = item.get_path()
-            print(self.target_path)
             self.display_value = item.get_basename()            
             info = item.query_info('standard::icon' , 0 , Gio.Cancellable())
             self.preview_image.set_from_gicon(info.get_icon())
+            self.size = os.stat(item.get_path()).st_size
 
         elif isinstance(item, str):
             base_filename = 'collected_text_'
@@ -31,6 +32,7 @@ class DroppedItem():
             with open(self.target_path, 'w+') as f:
                 f.write(text_string)
 
+            self.size = os.stat(self.target_path).st_size
             self.preview_image.set_from_icon_name('text-justify-left-symbolic')
 
             self.display_value = text_string[:15]

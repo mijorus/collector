@@ -18,16 +18,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import sys
-import os
 import gi
-import subprocess
-import threading
-import time
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Gdk', '4.0')
 gi.require_version('Adw', '1')
 
+from .lib.constants import *
 from gi.repository import Gtk, Gio, Adw, GLib
 from .window import CollectorWindow
 
@@ -36,7 +33,7 @@ class CollectorApplication(Adw.Application):
     """The main application singleton class."""
 
     def __init__(self):
-        super().__init__(application_id='it.mijorus.collector',
+        super().__init__(application_id=APP_ID,
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
@@ -58,7 +55,7 @@ class CollectorApplication(Adw.Application):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='collector',
-                                application_icon='it.mijorus.collector',
+                                application_icon=APP_ID,
                                 developer_name='lorenzo',
                                 version='0.1.0',
                                 developers=['lorenzo'],

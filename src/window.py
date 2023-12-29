@@ -20,12 +20,11 @@
 import os
 import gi
 import shutil
-import subprocess
-
-gi.require_version('Gdk', '4.0')
 
 from gi.repository import Gtk, Adw, Gio, Gdk, GObject, GLib
 
+from .lib.constants import *
+from .lib.CarouselItem import CarouselItem
 from .lib.utils import get_giofile_content_type
 from .lib.DroppedItem import DroppedItem, DroppedItemNotSupportedException
 
@@ -37,6 +36,8 @@ class CollectorWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs, title='CollectorMainWindow')
+
+        self.settings = Gio.Settings.new(APP_ID)
 
         header_bar = Adw.HeaderBar(
             show_title=False,
@@ -96,6 +97,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         drag_source_controller = Gtk.DragSource()
         drag_source_controller.connect('prepare', self.on_drag_prepare)
         drag_source_controller.connect('drag-end', self.on_drag_end)
+        drag_source_controller.connect('drag-cancel', self.on_drag_cancel)
         drag_source_controller.connect('drag-begin', self.on_drag_start)
 
         self.is_dragging_away = False
@@ -112,7 +114,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.add_controller(event_controller_key)
         content.add_controller(drag_source_controller)
 
-        self.dropped_items: list[DroppedItem] = []
+        self.dropped_items: list[CarouselItem] = []
         self.set_default_size(200, 200)
         self.set_resizable(False)
         self.set_content(overlay)
@@ -131,43 +133,58 @@ class CollectorWindow(Adw.ApplicationWindow):
         if not self.dropped_items:
             return None
 
-        dropped_files = [f.item for f in self.dropped_items]
-        path_list = '\n'.join([f.target_path for f in self.dropped_items])
-        uri_list = '\n'.join([f'file://{f.target_path}' for f in self.dropped_items])
+        dropped_files = [f.dropped_item.gfile for f in self.dropped_items]
+        # path_list = '\n'.join([f.target_path for f in self.dropped_items])
+        # uri_list = '\n'.join([f'file://{f.target_path}' for f in self.dropped_items])
 
         return Gdk.ContentProvider.new_union([
-            Gdk.ContentProvider.new_for_value(dropped_files[0]),
-            Gdk.ContentProvider.new_for_value(path_list),
-            Gdk.ContentProvider.new_for_value(uri_list),
-            Gdk.ContentProvider.new_for_bytes(
-                'text/uri-list', 
-                GLib.Bytes.new(uri_list.encode())
-            )
+            Gdk.ContentProvider.new_for_value(Gdk.FileList.new_from_array(dropped_files)),
+            # Gdk.ContentProvider.new_for_value(path_list),
+            # Gdk.ContentProvider.new_for_value(uri_list),
+            # Gdk.ContentProvider.new_for_bytes(
+            #     'text/uri-list', 
+            #     GLib.Bytes.new(uri_list.encode())
+            # )
         ])
+
+    def on_drag_cancel(self, source, reason):
+        print(reason)
 
     def on_drag_end(self, source, drag, move_data):
         self.is_dragging_away = False
-        self.drops_label.set_label(_('Release to drop'))
+
+        if self.settings.get_boolean('clear-on-drag'):
+            for d in self.dropped_items:
+                self.icon_carousel.remove(d.image)
+
+            self.dropped_items = []
+
         self.on_drop_leave(None)
 
     def on_drag_start(self, drag, move_data):
         self.is_dragging_away = True
+        self.drops_label.set_label(_('Release to drop'))
         self.icon_stack.set_visible_child(self.release_drag_icon)
 
     def on_drop_event(self, widget, value, x, y):
         if self.is_dragging_away:
             return False
 
-        try:
+        try: 
             dropped_item = DroppedItem(value)
         except DroppedItemNotSupportedException:
             return False
 
-        new_dropped_icon = dropped_item.preview_image
+        if isinstance(dropped_item.preview_image, str):
+            new_image = Gtk.Image(icon_name=dropped_item.preview_image, pixel_size=70)
+        else:
+            new_image = Gtk.Image(gicon=dropped_item.preview_image, pixel_size=70)
 
-        self.dropped_items.append(dropped_item)
-        self.icon_carousel.append(new_dropped_icon)
-        self.icon_carousel.scroll_to(new_dropped_icon, True)
+        carousel_item = CarouselItem(item=dropped_item, image=new_image)
+
+        self.dropped_items.append(carousel_item)
+        self.icon_carousel.append(new_image)
+        self.icon_carousel.scroll_to(new_image, True)
         self.icon_stack.set_visible_child(self.carousel_container)
 
         self.on_drop_leave(widget)
@@ -184,7 +201,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         if not self.is_dragging_away:
             if self.dropped_items:
                 self.icon_stack.set_visible_child(self.carousel_container)
-                tot_size = sum([d.size for d in self.dropped_items])
+                tot_size = sum([d.dropped_item.size for d in self.dropped_items])
 
                 if tot_size > (1024 * 1024 * 1024):
                     tot_size = f'{round(tot_size / (1024 * 1024 * 1024), 1)} GB'
@@ -205,5 +222,8 @@ class CollectorWindow(Adw.ApplicationWindow):
                 self.icon_stack.set_visible_child(self.default_drop_icon)
 
     def on_key_pressed(self, widget, keyval, keycode, state):
-        if keyval == Gdk.KEY_Escape:
+        if keyval == Gdk.KEY_Escape and not self.is_dragging_away:
             self.close()
+            return True
+        
+        return False

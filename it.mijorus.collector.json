@@ -1,5 +1,5 @@
 {
-    "app-id": "it.mijorus.collector",
+    "id": "it.mijorus.collector",
     "runtime": "org.gnome.Platform",
     "runtime-version": "45",
     "sdk": "org.gnome.Sdk",

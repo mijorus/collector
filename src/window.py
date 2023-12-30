@@ -62,13 +62,28 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.icon_stack = Gtk.Stack(transition_type=Gtk.StackTransitionType.CROSSFADE)
         self.carousel_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
+        carousel_info_btn = Gtk.Button(
+            css_classes=['circular', 'opaque', 'dropped-item-info-btn'],
+            icon_name='view-more-symbolic',
+            valign=Gtk.Align.CENTER,
+            halign=Gtk.Align.CENTER,
+        )
+
+        carousel_info_btn.connect('clicked', self.on_carousel_info_btn)
         self.icon_carousel = Adw.Carousel(spacing=15, allow_mouse_drag=False)
         carousel_indicator = Adw.CarouselIndicatorDots(carousel=self.icon_carousel)
         self.default_drop_icon = Gtk.Image(icon_name='go-jump-symbolic', pixel_size=self.CAROUSEL_ICONS_PIX_SIZE)
         self.release_drop_icon = Gtk.Image(icon_name='arrow2-down-symbolic', pixel_size=self.CAROUSEL_ICONS_PIX_SIZE)
         self.release_drag_icon = Gtk.Image(icon_name='arrow2-up-symbolic', pixel_size=self.CAROUSEL_ICONS_PIX_SIZE)
 
-        self.carousel_container.append(self.icon_carousel)
+        carousel_overlay = Gtk.Overlay(child=self.icon_carousel)
+        carousel_overlay.add_overlay(carousel_info_btn)
+
+        
+        self.carousel_popover = Gtk.Popover(child=self.get_carousel_popover_content())
+        carousel_overlay.add_overlay(self.carousel_popover)
+
+        self.carousel_container.append(carousel_overlay)
         self.carousel_container.append(carousel_indicator)
 
         self.icon_stack.add_child(self.carousel_container)
@@ -80,7 +95,11 @@ class CollectorWindow(Adw.ApplicationWindow):
         content.append(self.icon_stack)
 
         label_stack = Adw.ViewStack()
-        self.drops_label = Gtk.Label(label=self.EMPTY_DROP_TEXT, css_classes=['dim-label'])
+        self.drops_label = Gtk.Label(
+            justify=Gtk.Justification.CENTER,
+            label=self.EMPTY_DROP_TEXT, 
+            css_classes=['dim-label']
+        )
 
         label_stack.add(self.drops_label)
 
@@ -94,13 +113,15 @@ class CollectorWindow(Adw.ApplicationWindow):
         overlay.add_overlay(header_bar)
         overlay.set_clip_overlay(header_bar, True)
 
-        drag_source_controller = Gtk.DragSource()
-        drag_source_controller.connect('prepare', self.on_drag_prepare)
-        drag_source_controller.connect('drag-end', self.on_drag_end)
-        drag_source_controller.connect('drag-cancel', self.on_drag_cancel)
-        drag_source_controller.connect('drag-begin', self.on_drag_start)
+        self.drag_source_controller = Gtk.DragSource()
+        self.drag_source_controller.connect('prepare', self.on_drag_prepare)
+        self.drag_source_controller.connect('drag-end', self.on_drag_end)
+        self.drag_source_controller.connect('drag-cancel', self.on_drag_cancel)
+        self.drag_source_controller.connect('drag-begin', self.on_drag_start)
 
         self.is_dragging_away = False
+        self.drag_aborted = False
+
         drop_target_controller = Gtk.DropTarget(actions=Gdk.DragAction.COPY)
         drop_target_controller.set_gtypes([Gio.File, GObject.TYPE_STRING])
         drop_target_controller.connect('drop', self.on_drop_event)
@@ -112,7 +133,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         self.add_controller(drop_target_controller)
         self.add_controller(event_controller_key)
-        content.add_controller(drag_source_controller)
+        content.add_controller(self.drag_source_controller)
 
         self.dropped_items: list[CarouselItem] = []
         self.set_default_size(200, 200)
@@ -128,6 +149,26 @@ class CollectorWindow(Adw.ApplicationWindow):
             shutil.rmtree(drops_cache_path)
 
         os.mkdir(drops_cache_path)
+
+    def get_carousel_popover_content(self):
+        carousel_popover_content = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        carousel_popover_content.append(
+            Gtk.Button(icon_name='info-symbolic')
+        )
+
+        preview_btn = Gtk.Button(icon_name='eye-open-negative-filled-symbolic')
+        preview_btn.connect('clicked', self.on_preview_btn_clicked)
+        carousel_popover_content.append(
+            preview_btn
+        )
+
+        delete_btn = Gtk.Button(icon_name='user-trash-symbolic', css_classes=['error'])
+        delete_btn.connect('clicked', self.delete_focused_item)
+        carousel_popover_content.append(
+            delete_btn
+        )
+
+        return carousel_popover_content
 
     def on_drag_prepare(self, source, x, y):
         if not self.dropped_items:
@@ -147,23 +188,26 @@ class CollectorWindow(Adw.ApplicationWindow):
             # )
         ])
 
-    def on_drag_cancel(self, source, reason):
-        print(reason)
+    def on_drag_cancel(self, source, drag, reason):
+        pass
 
     def on_drag_end(self, source, drag, move_data):
         self.is_dragging_away = False
 
-        if self.settings.get_boolean('clear-on-drag'):
-            for d in self.dropped_items:
-                self.icon_carousel.remove(d.image)
+        if not self.drag_aborted:
+            if self.settings.get_boolean('clear-on-drag'):
+                for d in self.dropped_items:
+                    self.icon_carousel.remove(d.image)
 
-            self.dropped_items = []
+                self.dropped_items = []
 
+        self.drag_aborted = False
         self.on_drop_leave(None)
 
     def on_drag_start(self, drag, move_data):
         self.is_dragging_away = True
-        self.drops_label.set_label(_('Release to drop'))
+        
+        self.drops_label.set_label(_('Release to drop\nPress Esc to cancel drag'))
         self.icon_stack.set_visible_child(self.release_drag_icon)
 
     def on_drop_event(self, widget, value, x, y):
@@ -198,32 +242,64 @@ class CollectorWindow(Adw.ApplicationWindow):
         return Gdk.DragAction.COPY
 
     def on_drop_leave(self, widget):
-        if not self.is_dragging_away:
+        if self.is_dragging_away:
+            self.drag_aborted = True
+        else:
             if self.dropped_items:
                 self.icon_stack.set_visible_child(self.carousel_container)
-                tot_size = sum([d.dropped_item.size for d in self.dropped_items])
-
-                if tot_size > (1024 * 1024 * 1024):
-                    tot_size = f'{round(tot_size / (1024 * 1024 * 1024), 1)} GB'
-                elif tot_size > (1024 * 1024):
-                    tot_size = f'{round(tot_size / (1024 * 1024), 1)} MB'
-                else:
-                    tot_size = f'{round(tot_size / (1024), 1)} KB'
-
-                if len(self.dropped_items) == 1:
-                    self.drops_label.set_label(_('1 File | {size}').format(size=tot_size))
-                else:
-                    self.drops_label.set_label(_('{files_count} Files | {size}').format(
-                        files_count=len(self.dropped_items),
-                        size=tot_size
-                    ))
+                self.update_tot_size_sum()
             else:
                 self.drops_label.set_label(self.EMPTY_DROP_TEXT)
                 self.icon_stack.set_visible_child(self.default_drop_icon)
 
     def on_key_pressed(self, widget, keyval, keycode, state):
-        if keyval == Gdk.KEY_Escape and not self.is_dragging_away:
-            self.close()
-            return True
+        if keyval == Gdk.KEY_Escape:
+            if self.is_dragging_away:
+                self.drag_aborted = True
+                self.drag_source_controller.drag_cancel()
+                return True
+            else:
+                self.close()
+                return True
         
         return False
+
+    def on_carousel_info_btn(self, widget: Gtk.Button):
+        self.carousel_popover.popup()
+
+    def delete_focused_item(self, widget):
+        i = int(self.icon_carousel.get_position())
+        
+        self.icon_carousel.remove(self.dropped_items[i].image)
+        self.dropped_items.pop(i)
+
+        self.update_tot_size_sum()
+
+        self.carousel_popover.popdown()
+
+    def on_preview_btn_clicked(self, btn: Gtk.Button):
+        i = int(self.icon_carousel.get_position())
+        file = self.dropped_items[i].dropped_item.gfile
+
+        launcher = Gtk.FileLauncher.new(file)
+        launcher.launch(self, None, None, None)
+
+    def update_tot_size_sum(self):
+        tot_size = sum([d.dropped_item.size for d in self.dropped_items])
+
+        if tot_size > (1024 * 1024 * 1024):
+            tot_size = f'{round(tot_size / (1024 * 1024 * 1024), 1)} GB'
+        elif tot_size > (1024 * 1024):
+            tot_size = f'{round(tot_size / (1024 * 1024), 1)} MB'
+        elif tot_size > 1014:
+            tot_size = f'{round(tot_size / (1024), 1)} KB'
+        else:
+            tot_size = f'{round(tot_size)} Byte'
+
+        if len(self.dropped_items) == 1:
+            self.drops_label.set_label(_('1 File | {size}').format(size=tot_size))
+        else:
+            self.drops_label.set_label(_('{files_count} Files | {size}').format(
+                files_count=len(self.dropped_items),
+                size=tot_size
+            ))

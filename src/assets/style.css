@@ -1,0 +1,7 @@
+.dropped-item-info-btn {
+    opacity: 0;
+}
+
+.dropped-item-info-btn:hover {
+    opacity: 1;
+}

@@ -25,7 +25,7 @@ gi.require_version('Gdk', '4.0')
 gi.require_version('Adw', '1')
 
 from .lib.constants import *
-from gi.repository import Gtk, Gio, Adw, GLib
+from gi.repository import Gtk, Gio, Adw, Gdk
 from .window import CollectorWindow
 
 
@@ -38,6 +38,13 @@ class CollectorApplication(Adw.Application):
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
+
+    def do_startup(self):
+        Adw.Application.do_startup(self)
+
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_resource('/it/mijorus/collector/assets/style.css')
+        Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     def do_activate(self):
         """Called when the application is activated.

@@ -30,7 +30,6 @@ from .lib.DroppedItem import DroppedItem, DroppedItemNotSupportedException
 
 class CollectorWindow(Adw.ApplicationWindow):
 
-    DEFAULT_DROP_ICON_NAME = 'go-jump-symbolic'
     EMPTY_DROP_TEXT = _('Drop content here')
     CAROUSEL_ICONS_PIX_SIZE=50
 
@@ -142,7 +141,6 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         self.init_cache_folder()
 
-
     def init_cache_folder(self):
         drops_cache_path = GLib.get_user_cache_dir() + f'/drops'
         if os.path.exists(drops_cache_path):
@@ -196,10 +194,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         if not self.drag_aborted:
             if self.settings.get_boolean('clear-on-drag'):
-                for d in self.dropped_items:
-                    self.icon_carousel.remove(d.image)
-
-                self.dropped_items = []
+               self.remove_all_items()
 
         self.drag_aborted = False
         self.on_drop_leave(None)
@@ -213,6 +208,8 @@ class CollectorWindow(Adw.ApplicationWindow):
     def on_drop_event(self, widget, value, x, y):
         if self.is_dragging_away:
             return False
+        
+        print(value)
 
         try: 
             dropped_item = DroppedItem(value)
@@ -241,7 +238,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         return Gdk.DragAction.COPY
 
-    def on_drop_leave(self, widget):
+    def on_drop_leave(self, widget=None):
         if self.is_dragging_away:
             self.drag_aborted = True
         else:
@@ -261,6 +258,13 @@ class CollectorWindow(Adw.ApplicationWindow):
             else:
                 self.close()
                 return True
+        elif keyval == Gdk.KEY_Control_L:
+            if self.is_dragging_away:
+                pass
+        elif keyval == Gdk.KEY_BackSpace:
+            if self.dropped_items and not self.is_dragging_away:
+                self.remove_all_items()
+                self.carousel_popover.popdown()
         
         return False
 
@@ -272,6 +276,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         
         self.icon_carousel.remove(self.dropped_items[i].image)
         self.dropped_items.pop(i)
+        self.on_drop_leave(None)
 
         self.update_tot_size_sum()
 
@@ -303,3 +308,10 @@ class CollectorWindow(Adw.ApplicationWindow):
                 files_count=len(self.dropped_items),
                 size=tot_size
             ))
+
+    def remove_all_items(self):
+        for d in self.dropped_items:
+            self.icon_carousel.remove(d.image)
+
+        self.dropped_items = []
+        self.update_tot_size_sum()

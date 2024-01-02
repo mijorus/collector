@@ -5,3 +5,7 @@
 .dropped-item-info-btn:hover {
     opacity: 1;
 }
+
+.dropped-item-thumb {
+    border-radius: 10px;
+}

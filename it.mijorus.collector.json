@@ -24,6 +24,7 @@
         "*.a"
     ],
     "modules": [
+        "./python3-requirements.json",
         {
             "name": "collector",
             "builddir": true,

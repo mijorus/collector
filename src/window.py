@@ -20,6 +20,7 @@
 import os
 import gi
 import shutil
+import logging
 
 from gi.repository import Gtk, Adw, Gio, Gdk, GObject, GLib
 
@@ -122,7 +123,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.drag_aborted = False
 
         drop_target_controller = Gtk.DropTarget(actions=Gdk.DragAction.COPY)
-        drop_target_controller.set_gtypes([Gio.File, GObject.TYPE_STRING])
+        drop_target_controller.set_gtypes([Gdk.FileList, GObject.TYPE_STRING])
         drop_target_controller.connect('drop', self.on_drop_event)
         drop_target_controller.connect('enter', self.on_drop_enter)
         drop_target_controller.connect('leave', self.on_drop_leave)
@@ -150,10 +151,6 @@ class CollectorWindow(Adw.ApplicationWindow):
 
     def get_carousel_popover_content(self):
         carousel_popover_content = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        carousel_popover_content.append(
-            Gtk.Button(icon_name='info-symbolic')
-        )
-
         preview_btn = Gtk.Button(icon_name='eye-open-negative-filled-symbolic')
         preview_btn.connect('clicked', self.on_preview_btn_clicked)
         carousel_popover_content.append(
@@ -209,26 +206,41 @@ class CollectorWindow(Adw.ApplicationWindow):
         if self.is_dragging_away:
             return False
         
-        print(value)
+        dropped_items = []
 
-        try: 
-            dropped_item = DroppedItem(value)
-        except DroppedItemNotSupportedException:
+        try:
+            if isinstance(value, Gdk.FileList):
+                for file in value.get_files():
+                    d = DroppedItem(file)
+                    dropped_items.append(d)
+            else:
+                dropped_item = DroppedItem(value)
+        except DroppedItemNotSupportedException as e:
+            logging.warn(f'Invalid data type: {e.item}')
             return False
+        except Exception as e:
+            logging.error(e)
 
-        if isinstance(dropped_item.preview_image, str):
-            new_image = Gtk.Image(icon_name=dropped_item.preview_image, pixel_size=70)
-        else:
-            new_image = Gtk.Image(gicon=dropped_item.preview_image, pixel_size=70)
+        new_image = None
+        for dropped_item in dropped_items:
+            if isinstance(dropped_item.preview_image, str):
+                new_image = Gtk.Image(icon_name=dropped_item.preview_image, pixel_size=70)
+            elif isinstance(dropped_item.preview_image, Gio.Icon):
+                new_image = Gtk.Image(gicon=dropped_item.preview_image, pixel_size=70)
+            else:
+                new_image = dropped_item.preview_image
 
-        carousel_item = CarouselItem(item=dropped_item, image=new_image)
+            new_image.set_tooltip_text(dropped_item.display_value)
+            
+            carousel_item = CarouselItem(item=dropped_item, image=new_image)
 
-        self.dropped_items.append(carousel_item)
-        self.icon_carousel.append(new_image)
-        self.icon_carousel.scroll_to(new_image, True)
+            self.dropped_items.append(carousel_item)
+            self.icon_carousel.append(new_image)
+
         self.icon_stack.set_visible_child(self.carousel_container)
-
         self.on_drop_leave(widget)
+
+        self.icon_carousel.scroll_to(new_image, True)
         return True
 
     def on_drop_enter(self, widget, x, y):
@@ -315,3 +327,6 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         self.dropped_items = []
         self.update_tot_size_sum()
+
+        self.drops_label.set_label(self.EMPTY_DROP_TEXT)
+        self.icon_stack.set_visible_child(self.default_drop_icon)

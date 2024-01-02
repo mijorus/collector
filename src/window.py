@@ -140,6 +140,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.set_resizable(False)
         self.set_content(overlay)
 
+        self.connect('close-request', self.on_close_request)
         self.init_cache_folder()
 
     def init_cache_folder(self):
@@ -330,3 +331,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         self.drops_label.set_label(self.EMPTY_DROP_TEXT)
         self.icon_stack.set_visible_child(self.default_drop_icon)
+
+    def on_close_request(self, widget):
+        self.init_cache_folder()
+        return False

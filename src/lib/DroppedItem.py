@@ -18,6 +18,8 @@ class DroppedItem():
         self.gfile = None
         self.size = 0
 
+        MAX_PREVIEW_SIZE_MB = 50
+
         if isinstance(item, Gio.File):
             self.gfile = item
             self.target_path = item.get_path()
@@ -26,7 +28,7 @@ class DroppedItem():
             self.size = os.stat(item.get_path()).st_size
 
             content_type = get_giofile_content_type(item)
-            if content_type in ['image/png', 'image/jpg', 'image/jpeg']:
+            if content_type in ['image/png', 'image/jpg', 'image/jpeg'] and self.size < (MAX_PREVIEW_SIZE_MB * (1024 * 1024)):
                 filehash = get_file_hash(item)
                 preview_path = f'{ GLib.get_user_cache_dir()}/drops/{filehash}.{content_type.split("/")[1]}'
                 image = Image.open(self.target_path)

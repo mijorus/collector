@@ -228,8 +228,14 @@ class CollectorWindow(Adw.ApplicationWindow):
                 new_image = Gtk.Image(icon_name=dropped_item.preview_image, pixel_size=70)
             elif isinstance(dropped_item.preview_image, Gio.Icon):
                 new_image = Gtk.Image(gicon=dropped_item.preview_image, pixel_size=70)
-            else:
-                new_image = dropped_item.preview_image
+            elif isinstance(dropped_item.preview_image, Gio.File):
+                new_image = Gtk.Image(
+                    file=dropped_item.preview_image.get_path(),
+                    overflow=Gtk.Overflow.HIDDEN,
+                    css_classes=['dropped-item-thumb'],
+                    height_request=70,
+                    width_request=70,
+                )
 
             new_image.set_tooltip_text(dropped_item.display_value)
             
@@ -243,6 +249,9 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         self.icon_carousel.scroll_to(new_image, True)
         return True
+    
+    def on_drop_event_complete(self):
+        pass
 
     def on_drop_enter(self, widget, x, y):
         if not self.is_dragging_away:

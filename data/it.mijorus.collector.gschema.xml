@@ -4,5 +4,8 @@
 		<key name="clear-on-drag" type="b">
             <default>true</default>
         </key>
+		<key name="google-images-support" type="b">
+            <default>true</default>
+        </key>
 	</schema>
 </schemalist>

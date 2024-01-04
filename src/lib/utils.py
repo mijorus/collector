@@ -1,6 +1,8 @@
 import os
 import hashlib
 import logging
+import random
+import string
 import requests
 import re
 from gi.repository import Gtk, Adw, Gio, Gdk, GObject, GLib
@@ -37,21 +39,34 @@ def link_is_image(link):
 
     return is_image
 
+# def download_image(link: str):
+#     logging.debug(f'Downloading image from url: {link}')
+#     r = requests.get(link.strip())
 
-def download_image(link: str):
-    logging.log(f'Downloading image from url: {link}')
+#     extension = r.headers["content-type"].split('/')[1]
+#     filename = link.split('/')[-1]
+
+#     if r.headers.get('content-disposition', None):
+#         d = r.headers['content-disposition']
+#         filename = re.findall("filename=(.+)", d)[0]
+
+#     extension = extension.split('+')[0]
+#     return (r.content, extension, filename)
+
+def download_file(link: str):
+    logging.debug(f'Downloading file from url: {link}')
     r = requests.get(link.strip())
 
-    extension = r.headers["content-type"].split('/')[1]
+    ct = r.headers["content-type"]
+    extension = ct.split('/')[1]
     filename = link.split('/')[-1]
 
     if r.headers.get('content-disposition', None):
         d = r.headers['content-disposition']
         filename = re.findall("filename=(.+)", d)[0]
 
-
-    return (r.content(), extension, filename)
-
+    extension = extension.split('+')[0]
+    return (r.content, extension, filename, ct)
 
 def get_safe_path(p, ext):
     i = 1
@@ -59,3 +74,7 @@ def get_safe_path(p, ext):
         i += 1
 
     return f'{p}{i}.{ext}'
+
+def get_random_string(length):
+    result_str = ''.join(random.choice(string.ascii_letters) for i in range(length))
+    return result_str

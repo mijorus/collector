@@ -21,6 +21,7 @@ import os
 import gi
 import shutil
 import logging
+import threading
 
 from gi.repository import Gtk, Adw, Gio, Gdk, GObject, GLib
 
@@ -208,6 +209,7 @@ class CollectorWindow(Adw.ApplicationWindow):
             return False
         
         dropped_items = []
+        carousel_items = []
 
         try:
             if isinstance(value, Gdk.FileList):
@@ -216,42 +218,87 @@ class CollectorWindow(Adw.ApplicationWindow):
                     dropped_items.append(d)
             else:
                 dropped_item = DroppedItem(value)
+                dropped_items.append(dropped_item)
         except DroppedItemNotSupportedException as e:
             logging.warn(f'Invalid data type: {e.item}')
             return False
         except Exception as e:
-            logging.error(e)
+            logging.error(f'Item not supported: {e}')
+            return False
 
         new_image = None
         for dropped_item in dropped_items:
-            if isinstance(dropped_item.preview_image, str):
-                new_image = Gtk.Image(icon_name=dropped_item.preview_image, pixel_size=70)
-            elif isinstance(dropped_item.preview_image, Gio.Icon):
-                new_image = Gtk.Image(gicon=dropped_item.preview_image, pixel_size=70)
-            elif isinstance(dropped_item.preview_image, Gio.File):
-                new_image = Gtk.Image(
-                    file=dropped_item.preview_image.get_path(),
-                    overflow=Gtk.Overflow.HIDDEN,
-                    css_classes=['dropped-item-thumb'],
-                    height_request=70,
-                    width_request=70,
+            if dropped_item.async_load:
+                loader = Gtk.Spinner(spinning=True, hexpand=False, vexpand=False)
+                carousel_item = CarouselItem(
+                    item=dropped_item, 
+                    image=loader,
+                    index=len(self.dropped_items)
                 )
 
-            new_image.set_tooltip_text(dropped_item.display_value)
-            
-            carousel_item = CarouselItem(item=dropped_item, image=new_image)
+                carousel_items.append(carousel_item)
+                self.icon_carousel.append(loader)
+            else:
+                new_image = self.get_new_image_from_dropped_item(dropped_item)
+                new_image.set_tooltip_text(dropped_item.display_value)
+                
+                carousel_item = CarouselItem(
+                    item=dropped_item, 
+                    image=new_image,
+                    index=len(self.dropped_items)
+                )
 
-            self.dropped_items.append(carousel_item)
-            self.icon_carousel.append(new_image)
+                carousel_items.append(carousel_item)
+                self.icon_carousel.append(new_image)
+
+        self.dropped_items.extend(carousel_items)
+
+        if any([d.async_load for d in dropped_items]):
+            threading.Thread(
+                target=self.on_drop_event_complete_async, 
+                args=(carousel_items,)
+            ).start()
 
         self.icon_stack.set_visible_child(self.carousel_container)
         self.on_drop_leave(widget)
 
-        self.icon_carousel.scroll_to(new_image, True)
+        if new_image:
+            self.icon_carousel.scroll_to(new_image, True)
+
         return True
     
-    def on_drop_event_complete(self):
-        pass
+    def on_drop_event_complete(self, carousel_items: list[CarouselItem]):
+        new_image = False
+        for carousel_item in carousel_items:
+            self.icon_carousel.remove(carousel_item.image)
+
+            new_image = self.get_new_image_from_dropped_item(carousel_item.dropped_item)
+            carousel_item.image = new_image
+
+            self.icon_carousel.append(new_image)            
+            self.dropped_items[carousel_item.index] = carousel_item
+
+        if new_image:
+            self.icon_carousel.scroll_to(new_image, True)
+
+    def on_drop_event_complete_async(self, carousel_items: list[CarouselItem]):
+        async_items: list[CarouselItem] = []
+
+        for carousel_item in carousel_items:
+            if carousel_item.dropped_item.async_load:
+                async_items.append(carousel_item)
+
+        async_opts: list[threading.Thread] = []
+
+        for item in async_items:
+            t = threading.Thread(target=item.dropped_item.complete_load)
+            async_opts.append(t)
+
+        [t.start() for t in async_opts]
+        [t.join() for t in async_opts]
+
+        logging.debug('Loading async items terminated')
+        GLib.idle_add(lambda: self.on_drop_event_complete(async_items))
 
     def on_drop_enter(self, widget, x, y):
         if not self.is_dragging_away:
@@ -296,11 +343,14 @@ class CollectorWindow(Adw.ApplicationWindow):
     def delete_focused_item(self, widget):
         i = int(self.icon_carousel.get_position())
         
-        self.icon_carousel.remove(self.dropped_items[i].image)
-        self.dropped_items.pop(i)
-        self.on_drop_leave(None)
+        if len(self.dropped_items) == 1:
+            self.remove_all_items()
+        else:
+            self.icon_carousel.remove(self.dropped_items[i].image)
+            self.dropped_items.pop(i)
+            self.on_drop_leave(None)
 
-        self.update_tot_size_sum()
+            self.update_tot_size_sum()
 
         self.carousel_popover.popdown()
 
@@ -344,3 +394,20 @@ class CollectorWindow(Adw.ApplicationWindow):
     def on_close_request(self, widget):
         self.init_cache_folder()
         return False
+    
+    def get_new_image_from_dropped_item(self, dropped_item: DroppedItem):
+        new_image = None
+        if isinstance(dropped_item.preview_image, str):
+            new_image = Gtk.Image(icon_name=dropped_item.preview_image, pixel_size=70)
+        elif isinstance(dropped_item.preview_image, Gio.Icon):
+            new_image = Gtk.Image(gicon=dropped_item.preview_image, pixel_size=70)
+        elif isinstance(dropped_item.preview_image, Gio.File):
+            new_image = Gtk.Image(
+                file=dropped_item.preview_image.get_path(),
+                overflow=Gtk.Overflow.HIDDEN,
+                css_classes=['dropped-item-thumb'],
+                height_request=70,
+                width_request=70,
+            )
+
+        return new_image

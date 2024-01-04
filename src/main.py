@@ -19,6 +19,7 @@
 
 import sys
 import gi
+import logging
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Gdk', '4.0')
@@ -91,5 +92,13 @@ class CollectorApplication(Adw.Application):
 
 def main(version):
     """The application's entry point."""
+
+    logging.basicConfig(
+        stream=sys.stdout,
+        encoding='utf-8',
+        level= logging.DEBUG,
+        force=True
+    )
+
     app = CollectorApplication()
     return app.run(sys.argv)

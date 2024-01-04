@@ -91,7 +91,6 @@ class DroppedItem():
                 f.write(data)
 
             self.gfile = Gio.File.new_for_path(self.target_path)
-
             self.generate_preview_for_image()
 
         self.async_load = False

@@ -55,7 +55,7 @@ def link_is_image(link):
 
 def download_file(link: str):
     logging.debug(f'Downloading file from url: {link}')
-    r = requests.get(link.strip())
+    r = requests.get(link.strip(), timeout=30)
 
     ct = r.headers["content-type"]
     extension = ct.split('/')[1]

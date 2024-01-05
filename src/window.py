@@ -51,7 +51,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         content = Gtk.Box(
             css_classes=['droparea-target'],
-            margin_top=30,
+            margin_top=20,
             margin_end=5,
             margin_start=5,
             spacing=10,
@@ -244,6 +244,8 @@ class CollectorWindow(Adw.ApplicationWindow):
         if new_image:
             self.icon_carousel.scroll_to(new_image, True)
 
+        self.update_tot_size_sum()
+
     def on_drop_event_complete_async(self, carousel_items: list[CarouselItem]):
         async_items: list[CarouselItem] = []
 
@@ -294,34 +296,33 @@ class CollectorWindow(Adw.ApplicationWindow):
                 self.close()
                 return True
         elif keyval == Gdk.KEY_Control_L:
+            print(self.dropped_items)
             if self.dropped_items:
-                self.keep_items_indicator.set_reveal_child(True)
+                r = self.keep_items_indicator.get_reveal_child()
+                self.keep_items_indicator.set_reveal_child(not r)
         elif keyval == Gdk.KEY_v:
             if ctrl_key and not self.is_dragging_away:
-
-                cp_read_mime = None
                 cp_read_type = None
-                # for mt in SUPPORTED_IMG_TYPES:
-                #     if mt in self.clipboard.get_formats().get_mime_types():
-                #         cp_read_mime = mt
-                #         break
+                cp_is_text = 'text/plain' in self.clipboard.get_formats().get_mime_types()
 
-                print(self.clipboard.get_formats().get_gtypes())
-                for t in self.clipboard.get_formats().get_gtypes():
-                    supported_types = [Gdk.FileList, Gdk.Texture, GObject.GType]
-                    if type(t) in supported_types:
+                gtypes = self.clipboard.get_formats()
+                supported_types = [Gdk.FileList]
+
+                for t in supported_types:
+                    if gtypes.contain_gtype(t):
                         cp_read_type = t
                         break
 
                 if cp_read_type:
-                    if cp_read_type ==  GObject.GType: 
-                        self.clipboard.read_value_async(cp_read_type, 1, None, 
-                            callback=self.clipboard_read_async_end)
-
+                    logging.debug(f'Selected type from clipboard: {cp_read_type}')
+                    self.clipboard.read_value_async(cp_read_type, 1, None, 
+                        callback=self.clipboard_read_async_end)
+                elif cp_is_text:
+                    logging.debug('Reading text from clipboard')
+                    self.clipboard.read_text_async(None, 
+                        callback=self.clipboard_read_text_async_end)
                 
-
-                print(cp_read_type)
-
+                return True
         elif keyval == Gdk.KEY_BackSpace:
             if self.dropped_items and not self.is_dragging_away:
                 self.remove_all_items()
@@ -388,7 +389,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
     def on_key_released(self, widget, keyval, keycode, state):
         if keyval == Gdk.KEY_Control_L:
-            self.keep_items_indicator.set_reveal_child(False)
+            # self.keep_items_indicator.set_reveal_child(False)
             return True
 
         return False
@@ -448,7 +449,7 @@ class CollectorWindow(Adw.ApplicationWindow):
     def reset_to_empty_state(self):
         self.drops_label.set_label(self.EMPTY_DROP_TEXT)
         self.icon_stack.set_visible_child(self.default_drop_icon)
-        self.keep_items_indicator.set_child_visible(False)
+        self.keep_items_indicator.set_reveal_child(False)
 
     def on_close_request(self, widget):
         self.init_cache_folder()
@@ -472,18 +473,26 @@ class CollectorWindow(Adw.ApplicationWindow):
         return new_image
     
     def clipboard_read_async_end(self, source, res):
-        result = self.clipboard.read_finish(res)[0]
+        result = self.clipboard.read_value_finish(res)
         logging.debug(f'Received clipboard content {result}')
+
+        drop_value = False
 
         if isinstance(result, Gdk.Texture):
             tmp_filename = get_safe_path(f'{self.DROPS_PATH}/pasted_image_', '.png')
             result.save_to_png(tmp_filename)
 
             file = Gio.File.new_for_path(tmp_filename)
-            self.drop_value(file)
+            drop_value = file
 
         elif isinstance(result, Gio.File) or isinstance(result, Gdk.FileList):
-            self.drop_value(result)
+            drop_value = result
 
-        elif isinstance(result, GObject.GType):
-            print(str(result))
+        if drop_value:
+            self.drop_value(drop_value)
+            self.on_drop_leave()
+
+    def clipboard_read_text_async_end(self, source, res):
+        result = self.clipboard.read_text_finish(res)
+        self.drop_value(result)
+        self.on_drop_leave()

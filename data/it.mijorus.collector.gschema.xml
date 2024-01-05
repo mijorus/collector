@@ -7,5 +7,8 @@
 		<key name="google-images-support" type="b">
             <default>true</default>
         </key>
+        <key name="download-images" type="b">
+            <default>true</default>
+        </key>
 	</schema>
 </schemalist>

@@ -25,20 +25,22 @@ import threading
 
 from gi.repository import Gtk, Adw, Gio, Gdk, GObject, GLib
 
-from .lib.constants import *
+from .lib.constants import APP_ID, SUPPORTED_IMG_TYPES
 from .lib.CarouselItem import CarouselItem
-from .lib.utils import get_giofile_content_type
+from .lib.utils import get_safe_path
 from .lib.DroppedItem import DroppedItem, DroppedItemNotSupportedException
 
 class CollectorWindow(Adw.ApplicationWindow):
 
     EMPTY_DROP_TEXT = _('Drop content here')
     CAROUSEL_ICONS_PIX_SIZE=50
+    DROPS_PATH = GLib.get_user_cache_dir() + f'/drops'
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs, title='CollectorMainWindow')
 
         self.settings = Gio.Settings.new(APP_ID)
+        self.clipboard = Gdk.Display.get_default().get_clipboard()
 
         header_bar = Adw.HeaderBar(
             show_title=False,
@@ -49,7 +51,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         content = Gtk.Box(
             css_classes=['droparea-target'],
-            margin_top=20,
+            margin_top=30,
             margin_end=5,
             margin_start=5,
             spacing=10,
@@ -104,7 +106,17 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         label_stack.add(self.drops_label)
 
+        self.keep_items_indicator = Gtk.Revealer(
+            reveal_child=False,
+            transition_type=Gtk.RevealerTransitionType.CROSSFADE,
+            child=Gtk.Image(
+                icon_name='padlock2-symbolic', 
+                pixel_size=10,
+            )
+        )
+
         content.append(label_stack)
+        content.append(self.keep_items_indicator)
 
         # toolbar = Adw.ToolbarView()
         # toolbar.add_top_bar(header_bar)
@@ -131,6 +143,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         event_controller_key = Gtk.EventControllerKey()
         event_controller_key.connect('key-pressed', self.on_key_pressed)
+        event_controller_key.connect('key-released', self.on_key_released)
 
         self.add_controller(drop_target_controller)
         self.add_controller(event_controller_key)
@@ -145,11 +158,10 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.init_cache_folder()
 
     def init_cache_folder(self):
-        drops_cache_path = GLib.get_user_cache_dir() + f'/drops'
-        if os.path.exists(drops_cache_path):
-            shutil.rmtree(drops_cache_path)
+        if os.path.exists(self.DROPS_PATH):
+            shutil.rmtree(self.DROPS_PATH)
 
-        os.mkdir(drops_cache_path)
+        os.mkdir(self.DROPS_PATH)
 
     def get_carousel_popover_content(self):
         carousel_popover_content = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
@@ -186,13 +198,16 @@ class CollectorWindow(Adw.ApplicationWindow):
         ])
 
     def on_drag_cancel(self, source, drag, reason):
-        pass
+        logging.debug('Drag operation canceled')
+        self.drag_aborted = True
 
     def on_drag_end(self, source, drag, move_data):
         self.is_dragging_away = False
 
         if not self.drag_aborted:
-            if self.settings.get_boolean('clear-on-drag'):
+            if self.settings.get_boolean('clear-on-drag') or \
+                not self.keep_items_indicator.get_child_visible():
+
                self.remove_all_items()
 
         self.drag_aborted = False
@@ -208,9 +223,116 @@ class CollectorWindow(Adw.ApplicationWindow):
         if self.is_dragging_away:
             return False
         
+        self.drop_value(value)
+        self.on_drop_leave(widget)
+
+        return True
+    
+    def on_drop_event_complete(self, carousel_items: list[CarouselItem]):
+        new_image = False
+        for carousel_item in carousel_items:
+            self.icon_carousel.remove(carousel_item.image)
+
+            new_image = self.get_new_image_from_dropped_item(carousel_item.dropped_item)
+            new_image.set_tooltip_text(carousel_item.dropped_item.display_value)
+
+            carousel_item.image = new_image
+
+            self.icon_carousel.append(new_image)            
+            self.dropped_items[carousel_item.index] = carousel_item
+
+        if new_image:
+            self.icon_carousel.scroll_to(new_image, True)
+
+    def on_drop_event_complete_async(self, carousel_items: list[CarouselItem]):
+        async_items: list[CarouselItem] = []
+
+        for carousel_item in carousel_items:
+            if carousel_item.dropped_item.async_load:
+                async_items.append(carousel_item)
+
+        async_opts: list[threading.Thread] = []
+
+        for item in async_items:
+            t = threading.Thread(target=item.dropped_item.complete_load)
+            async_opts.append(t)
+
+        [t.start() for t in async_opts]
+        [t.join() for t in async_opts]
+
+        logging.debug('Loading async items terminated')
+        GLib.idle_add(lambda: self.on_drop_event_complete(async_items))
+
+    def on_drop_enter(self, widget, x, y):
+        if not self.is_dragging_away:
+            self.icon_stack.set_visible_child(self.release_drop_icon)
+            self.drops_label.set_label(_('Release to collect'))
+
+        return Gdk.DragAction.COPY
+
+    def on_drop_leave(self, widget=None):
+        if self.is_dragging_away:
+            self.drag_aborted = True
+        else:
+            if self.dropped_items:
+                self.icon_stack.set_visible_child(self.carousel_container)
+                self.update_tot_size_sum()
+            else:
+                self.reset_to_empty_state()
+
+    def on_key_pressed(self, widget, keyval, keycode, state):
+        ctrl_key = bool(state & Gdk.ModifierType.CONTROL_MASK)
+        shift_key = bool(state & Gdk.ModifierType.SHIFT_MASK)
+        alt_key = bool(state & Gdk.ModifierType.ALT_MASK)
+    
+        if keyval == Gdk.KEY_Escape:
+            if self.is_dragging_away:
+                self.drag_aborted = True
+                self.drag_source_controller.drag_cancel()
+                return True
+            else:
+                self.close()
+                return True
+        elif keyval == Gdk.KEY_Control_L:
+            if self.dropped_items:
+                self.keep_items_indicator.set_reveal_child(True)
+        elif keyval == Gdk.KEY_v:
+            if ctrl_key and not self.is_dragging_away:
+
+                cp_read_mime = None
+                cp_read_type = None
+                # for mt in SUPPORTED_IMG_TYPES:
+                #     if mt in self.clipboard.get_formats().get_mime_types():
+                #         cp_read_mime = mt
+                #         break
+
+                print(self.clipboard.get_formats().get_gtypes())
+                for t in self.clipboard.get_formats().get_gtypes():
+                    supported_types = [Gdk.FileList, Gdk.Texture, GObject.GType]
+                    if type(t) in supported_types:
+                        cp_read_type = t
+                        break
+
+                if cp_read_type:
+                    if cp_read_type ==  GObject.GType: 
+                        self.clipboard.read_value_async(cp_read_type, 1, None, 
+                            callback=self.clipboard_read_async_end)
+
+                
+
+                print(cp_read_type)
+
+        elif keyval == Gdk.KEY_BackSpace:
+            if self.dropped_items and not self.is_dragging_away:
+                self.remove_all_items()
+                self.carousel_popover.popdown()
+        
+        return False
+    
+    def drop_value(self, value):
         dropped_items = []
         carousel_items = []
-
+    
         try:
             if isinstance(value, Gdk.FileList):
                 for file in value.get_files():
@@ -260,81 +382,15 @@ class CollectorWindow(Adw.ApplicationWindow):
             ).start()
 
         self.icon_stack.set_visible_child(self.carousel_container)
-        self.on_drop_leave(widget)
 
         if new_image:
             self.icon_carousel.scroll_to(new_image, True)
 
-        return True
-    
-    def on_drop_event_complete(self, carousel_items: list[CarouselItem]):
-        new_image = False
-        for carousel_item in carousel_items:
-            self.icon_carousel.remove(carousel_item.image)
+    def on_key_released(self, widget, keyval, keycode, state):
+        if keyval == Gdk.KEY_Control_L:
+            self.keep_items_indicator.set_reveal_child(False)
+            return True
 
-            new_image = self.get_new_image_from_dropped_item(carousel_item.dropped_item)
-            carousel_item.image = new_image
-
-            self.icon_carousel.append(new_image)            
-            self.dropped_items[carousel_item.index] = carousel_item
-
-        if new_image:
-            self.icon_carousel.scroll_to(new_image, True)
-
-    def on_drop_event_complete_async(self, carousel_items: list[CarouselItem]):
-        async_items: list[CarouselItem] = []
-
-        for carousel_item in carousel_items:
-            if carousel_item.dropped_item.async_load:
-                async_items.append(carousel_item)
-
-        async_opts: list[threading.Thread] = []
-
-        for item in async_items:
-            t = threading.Thread(target=item.dropped_item.complete_load)
-            async_opts.append(t)
-
-        [t.start() for t in async_opts]
-        [t.join() for t in async_opts]
-
-        logging.debug('Loading async items terminated')
-        GLib.idle_add(lambda: self.on_drop_event_complete(async_items))
-
-    def on_drop_enter(self, widget, x, y):
-        if not self.is_dragging_away:
-            self.icon_stack.set_visible_child(self.release_drop_icon)
-            self.drops_label.set_label(_('Release to collect'))
-
-        return Gdk.DragAction.COPY
-
-    def on_drop_leave(self, widget=None):
-        if self.is_dragging_away:
-            self.drag_aborted = True
-        else:
-            if self.dropped_items:
-                self.icon_stack.set_visible_child(self.carousel_container)
-                self.update_tot_size_sum()
-            else:
-                self.drops_label.set_label(self.EMPTY_DROP_TEXT)
-                self.icon_stack.set_visible_child(self.default_drop_icon)
-
-    def on_key_pressed(self, widget, keyval, keycode, state):
-        if keyval == Gdk.KEY_Escape:
-            if self.is_dragging_away:
-                self.drag_aborted = True
-                self.drag_source_controller.drag_cancel()
-                return True
-            else:
-                self.close()
-                return True
-        elif keyval == Gdk.KEY_Control_L:
-            if self.is_dragging_away:
-                pass
-        elif keyval == Gdk.KEY_BackSpace:
-            if self.dropped_items and not self.is_dragging_away:
-                self.remove_all_items()
-                self.carousel_popover.popdown()
-        
         return False
 
     def on_carousel_info_btn(self, widget: Gtk.Button):
@@ -387,9 +443,12 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         self.dropped_items = []
         self.update_tot_size_sum()
+        self.reset_to_empty_state()
 
+    def reset_to_empty_state(self):
         self.drops_label.set_label(self.EMPTY_DROP_TEXT)
         self.icon_stack.set_visible_child(self.default_drop_icon)
+        self.keep_items_indicator.set_child_visible(False)
 
     def on_close_request(self, widget):
         self.init_cache_folder()
@@ -411,3 +470,20 @@ class CollectorWindow(Adw.ApplicationWindow):
             )
 
         return new_image
+    
+    def clipboard_read_async_end(self, source, res):
+        result = self.clipboard.read_finish(res)[0]
+        logging.debug(f'Received clipboard content {result}')
+
+        if isinstance(result, Gdk.Texture):
+            tmp_filename = get_safe_path(f'{self.DROPS_PATH}/pasted_image_', '.png')
+            result.save_to_png(tmp_filename)
+
+            file = Gio.File.new_for_path(tmp_filename)
+            self.drop_value(file)
+
+        elif isinstance(result, Gio.File) or isinstance(result, Gdk.FileList):
+            self.drop_value(result)
+
+        elif isinstance(result, GObject.GType):
+            print(str(result))

@@ -20,7 +20,9 @@ class DroppedItem():
     MAX_PREVIEW_SIZE_MB = 50
     DROPS_DIR = f'{GLib.get_user_cache_dir()}/drops'
 
-    def __init__(self, item) -> None:
+    def __init__(self, item, drops_dir) -> None:
+        self.DROPS_DIR = drops_dir
+
         self.received_item = item
         self.target_path = None
         self.display_value = ''
@@ -134,7 +136,8 @@ class DroppedItem():
             preview_path = f'{self.DROPS_DIR}/__{filehash}.{extension}'
 
             image = self.crop_image(self.target_path)
-            image.save(preview_path)
+            image.save(preview_path, format='png')
+        
             self.preview_image = Gio.File.new_for_path(preview_path)
         else:
             info = self.gfile.query_info('standard::icon' , 0 , Gio.Cancellable())

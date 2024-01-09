@@ -38,7 +38,6 @@ def link_is_image(link) -> tuple[bool, str]:
     MAX_SIZE_MB_FOR_BINARIES = 25
     
     file_ext = link.split('.')[-1]
-    print(file_ext)
 
     if settings.get_boolean('google-images-support'):   
         is_google_image = google_re.findall(link)

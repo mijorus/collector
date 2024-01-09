@@ -53,7 +53,7 @@ class CollectorApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
-        w_index = len(self.get_windows()) + 1
+        w_index = len(self.get_windows())
 
         win = CollectorWindow(window_index=w_index, application=self)
         self.add_window(win)

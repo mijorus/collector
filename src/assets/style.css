@@ -9,3 +9,45 @@
 .dropped-item-thumb {
     border-radius: 10px;
 }
+
+.droparea-target {
+	outline: transparent;
+	background: transparent;
+	border: 0px solid transparent;
+}
+
+.collector-yellow {
+    color: #FFBE0B;
+}
+
+
+.collector-blue {
+    color: #3a86ffff;
+}
+
+
+.collector-purple {
+    color: #8338ecff;
+}
+
+
+.collector-rose {
+    color: #ff006eff;
+}
+
+
+.collector-orange {
+    color: #fb5607ff;
+}
+
+.collector-green {
+    color: #52b788;
+}
+
+.collector-color-image {
+    margin: 5px;
+}
+
+.keep-items {
+    margin: 10px;
+}

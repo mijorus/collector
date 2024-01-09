@@ -22,6 +22,7 @@ import gi
 import shutil
 import logging
 import threading
+from typing import Optional
 
 from gi.repository import Gtk, Adw, Gio, Gdk, GObject, GLib
 
@@ -32,23 +33,23 @@ from .lib.DroppedItem import DroppedItem, DroppedItemNotSupportedException
 
 class CollectorWindow(Adw.ApplicationWindow):
 
+    COLLECTOR_COLORS = ["blue", "yellow", "purple", "rose", "orange", "green"]
     EMPTY_DROP_TEXT = _('Drop content here')
     CAROUSEL_ICONS_PIX_SIZE=50
-    DROPS_PATH = GLib.get_user_cache_dir() + f'/drops'
+    DROPS_BASE_PATH = GLib.get_user_cache_dir() + f'/drops'
     settings = Gio.Settings.new(APP_ID)
 
     def __init__(self, window_index=0, **kwargs):
         super().__init__(**kwargs, title='CollectorMainWindow')
+        self.DROPS_PATH = f'{self.DROPS_BASE_PATH}/{window_index}'
 
-        self.window_index = window_index
+        self.WINDOW_INDEX = window_index
+        self.window_color = self.get_color()
         self.clipboard = Gdk.Display.get_default().get_clipboard()
+        self.window_color_btn: Optional[Gtk.Button] = None
 
-        header_bar = Adw.HeaderBar(
-            show_title=False,
-            decoration_layout='icon:close',
-            valign=Gtk.Align.START,
-            css_classes=['flat']
-        )
+        header_bar = self.create_header_bar()
+        bottom_bar = self.create_bottom_bar()
 
         content_box = self.create_content_box()
 
@@ -72,7 +73,6 @@ class CollectorWindow(Adw.ApplicationWindow):
         carousel_overlay = Gtk.Overlay(child=self.icon_carousel)
         carousel_overlay.add_overlay(carousel_info_btn)
 
-        
         self.carousel_popover = Gtk.Popover(child=self.get_carousel_popover_content())
         carousel_overlay.add_overlay(self.carousel_popover)
 
@@ -98,17 +98,19 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.keep_items_indicator = Gtk.Revealer(
             reveal_child=False,
             transition_type=Gtk.RevealerTransitionType.CROSSFADE,
-            child=Gtk.Image(
-                icon_name='padlock2-symbolic', 
-                pixel_size=10,
+            child=Gtk.Button(
+                icon_name='padlock2-symbolic',
+                css_classes=['flat'],
+                sensitive=False
             )
         )
 
         content_box.append(label_stack)
-        content_box.append(self.keep_items_indicator)
+        bottom_bar.pack_end(self.keep_items_indicator)
 
         toolbar = Adw.ToolbarView()
         toolbar.add_top_bar(header_bar)
+        toolbar.add_bottom_bar(bottom_bar)
         toolbar.set_content(content_box)
 
         # overlay = Gtk.Overlay(child=content)
@@ -119,7 +121,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.is_dragging_away = False
         self.drag_aborted = False
 
-        drop_target_controller = self.create_event_controller_key()
+        drop_target_controller = self.create_drop_target_controller()
 
         event_controller_key = self.create_event_controller_key()
 
@@ -128,17 +130,22 @@ class CollectorWindow(Adw.ApplicationWindow):
         content_box.add_controller(self.drag_source_controller)
 
         self.dropped_items: list[CarouselItem] = []
-        self.set_default_size(200, 200)
+        self.set_default_size(225, 225)
         self.set_resizable(False)
         self.set_content(toolbar)
 
         self.connect('close-request', self.on_close_request)
         self.init_cache_folder()
 
+    def get_color(self):
+        return self.COLLECTOR_COLORS[(self.WINDOW_INDEX % len(self.COLLECTOR_COLORS))]
+
     def init_cache_folder(self):
         if os.path.exists(self.DROPS_PATH):
+            logging.debug('Removing ' +  self.DROPS_PATH)
             shutil.rmtree(self.DROPS_PATH)
 
+        logging.debug('Creting empty folder for drops at: ' +  self.DROPS_PATH)
         os.mkdir(self.DROPS_PATH)
 
     def get_carousel_popover_content(self):
@@ -274,7 +281,6 @@ class CollectorWindow(Adw.ApplicationWindow):
                 self.close()
                 return True
         elif keyval == Gdk.KEY_Control_L:
-            print(self.dropped_items)
             if self.dropped_items:
                 r = self.keep_items_indicator.get_reveal_child()
                 self.keep_items_indicator.set_reveal_child(not r)
@@ -315,10 +321,10 @@ class CollectorWindow(Adw.ApplicationWindow):
         try:
             if isinstance(value, Gdk.FileList):
                 for file in value.get_files():
-                    d = DroppedItem(file)
+                    d = DroppedItem(file, drops_dir=self.DROPS_PATH)
                     dropped_items.append(d)
             else:
-                dropped_item = DroppedItem(value)
+                dropped_item = DroppedItem(value, drops_dir=self.DROPS_PATH)
                 dropped_items.append(dropped_item)
         except DroppedItemNotSupportedException as e:
             logging.warn(f'Invalid data type: {e.item}')
@@ -475,6 +481,14 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.drop_value(result)
         self.on_drop_leave()
 
+    def set_window_color(self, color):
+        old_color = self.window_color
+        self.window_color = color
+
+        if self.window_color_btn:
+            self.window_color_btn.remove_css_class(f'collector-{old_color}')
+            self.window_color_btn.add_css_class(f'collector-{color}')
+
     # Create methods
         
     def create_drag_source_controller(self):
@@ -503,7 +517,7 @@ class CollectorWindow(Adw.ApplicationWindow):
     def create_content_box(self):
         content_box = Gtk.Box(
             css_classes=['droparea-target'],
-            margin_top=20,
+            margin_top=15,
             margin_end=5,
             margin_start=5,
             spacing=10,
@@ -515,3 +529,51 @@ class CollectorWindow(Adw.ApplicationWindow):
         )
         
         return content_box
+
+    def create_header_bar(self):
+        header_bar = Adw.HeaderBar(
+            show_title=False,
+            decoration_layout='icon:close',
+            valign=Gtk.Align.START,
+            css_classes=['flat']
+        )
+        
+        return header_bar
+    
+    def create_bottom_bar(self):
+        bottom_bar = Gtk.ActionBar()
+
+        self.window_color_btn = Gtk.MenuButton(
+            icon_name='big-dot-symbolic',
+            css_classes=['flat', 'circular', f'collector-{self.window_color}']
+        )
+
+        color_list = Gtk.FlowBox(
+            homogeneous=True,
+            min_children_per_line=len(self.COLLECTOR_COLORS),
+            max_children_per_line=len(self.COLLECTOR_COLORS)
+        )
+
+        for c in self.COLLECTOR_COLORS:
+            b = Gtk.Image(
+                icon_name='big-dot-symbolic',
+                css_classes=[f'collector-{c}', 'collector-color-image']
+            )
+
+            r = Gtk.FlowBoxChild(child=b)
+            r.__color = c
+            color_list.append(r)
+
+            if c == self.window_color:
+                color_list.select_child(r)
+
+        color_list.connect('child-activated',
+                           lambda w, c: self.set_window_color(c.__color))
+        
+        color_popover = Gtk.Popover(child=color_list)
+        self.window_color_btn.set_popover(color_popover)
+
+        bottom_bar.pack_start(self.window_color_btn)
+        return bottom_bar
+        
+        # bottom_

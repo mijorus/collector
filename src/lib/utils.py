@@ -6,6 +6,7 @@ import string
 import requests
 import re
 import urllib
+from datetime import datetime
 from .constants import APP_ID, SUPPORTED_IMG_TYPES, IMAGE_EXT_FORMATS
 from gi.repository import Gtk, Adw, Gio, Gdk, GObject, GLib
 
@@ -93,11 +94,18 @@ def download_file(link: str):
     return (r.content, filename, ct)
 
 def get_safe_path(p, ext):
-    i = 1
-    while os.path.exists(f'{p}{i}.{ext}'):
-        i += 1
+    now = datetime.now()
+    date_f = now.strftime("%d-%m-%Y_%H-%M-%S")
 
-    return f'{p}{i}.{ext}'
+    pn = f'{p}{date_f}.{ext}'
+
+    if os.path.exists(pn):
+        i = 1
+        while os.path.exists(f'{p}{i}.{ext}'):
+            i += 1
+            pn = f'{p}{date_f}_{i}.{ext}'
+
+    return pn
 
 def get_random_string(length):
     result_str = ''.join(random.choice(string.ascii_letters) for i in range(length))

@@ -462,14 +462,11 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         drop_value = False
 
-        if isinstance(result, Gdk.Texture):
-            tmp_filename = get_safe_path(f'{self.DROPS_PATH}/pasted_image_', '.png')
-            result.save_to_png(tmp_filename)
+        # if isinstance(result, Gdk.Texture):
+        #     drop_value = self.create_tmp_file_from_texture(result)
 
-            file = Gio.File.new_for_path(tmp_filename)
-            drop_value = file
-
-        elif isinstance(result, Gio.File) or isinstance(result, Gdk.FileList):
+        if isinstance(result, Gio.File) or isinstance(result, Gdk.FileList) \
+                or isinstance(result, Gdk.Texture):
             drop_value = result
 
         if drop_value:
@@ -489,6 +486,13 @@ class CollectorWindow(Adw.ApplicationWindow):
             self.window_color_btn.remove_css_class(f'collector-{old_color}')
             self.window_color_btn.add_css_class(f'collector-{color}')
 
+    # def create_tmp_file_from_texture(self, texture: Gdk.Texture):
+    #     tmp_filename = get_safe_path(f'{self.DROPS_PATH}/pasted_image_', '.png')
+    #     texture.save_to_png(tmp_filename)
+
+    #     file = Gio.File.new_for_path(tmp_filename)
+    #     return file
+
     # Create methods
         
     def create_drag_source_controller(self):
@@ -502,7 +506,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
     def create_drop_target_controller(self):
         drop_target_controller = Gtk.DropTarget(actions=Gdk.DragAction.COPY)
-        drop_target_controller.set_gtypes([Gdk.FileList, GObject.TYPE_STRING])
+        drop_target_controller.set_gtypes([Gdk.Texture, Gdk.FileList, GObject.TYPE_STRING])
         drop_target_controller.connect('drop', self.on_drop_event)
         drop_target_controller.connect('enter', self.on_drop_enter)
         drop_target_controller.connect('leave', self.on_drop_leave)

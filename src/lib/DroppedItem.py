@@ -2,7 +2,8 @@ import os
 import logging
 import inspect
 from PIL import Image
-from gi.repository import Gtk, Adw, Gio, GLib, GObject
+
+from gi.repository import Gtk, Adw, Gio, GLib, Gdk
 
 from .constants import APP_ID, SUPPORTED_IMG_TYPES
 from .utils import get_giofile_content_type, \
@@ -12,13 +13,14 @@ from .utils import get_giofile_content_type, \
     
 
 class DroppedItemNotSupportedException(Exception):
-    def __init__(self, item, *args: object) -> None:
+    def __init__(self, item, msg, *args: object) -> None:
         super().__init__(*args)
         self.item = item
 
+        logging.warn(msg)
+
 class DroppedItem():
     MAX_PREVIEW_SIZE_MB = 50
-    DROPS_DIR = f'{GLib.get_user_cache_dir()}/drops'
 
     def __init__(self, item, drops_dir) -> None:
         self.DROPS_DIR = drops_dir
@@ -33,26 +35,30 @@ class DroppedItem():
 
         MAX_PREVIEW_SIZE_MB = 50
 
-        # detect if is a dummy file
-        if isinstance(item, Gio.File) and not item.get_path() and item.get_uri():
+        logging.debug(f'Creating item from type: {type(item)}')
+
+        if isinstance(item, Gdk.Texture):
+            item = self.create_tmp_file_from_texture(item)
+        elif isinstance(item, Gio.File) and not item.get_path() and item.get_uri():
+            # detect if is a dummy file
             item = item.get_uri()
             self.received_item = item
 
         if isinstance(item, Gio.File):
             self.gfile = item
             self.target_path = item.get_path()
-            self.display_value = item.get_basename()            
+            self.display_value = item.get_basename()  
             self.size = os.stat(item.get_path()).st_size
             self.generate_preview_for_image()
 
         elif isinstance(item, str):
-            base_filename = 'dropped_text_'
+            base_filename = 'collected_text_'
             text_string = item
 
             self.preview_image = 'font-x-generic-symbolic'
             if text_string.startswith('http://') or text_string.startswith('https://'):
                 logging.debug(f'Found http url: {text_string}')
-                base_filename = 'dropped_link_'
+                base_filename = 'collected_link_'
                 self.async_load = True
                 self.preview_image = 'chain-link-symbolic'
 
@@ -151,6 +157,13 @@ class DroppedItem():
         image = pillow_crop_center(image, min(image.size))
         return image
     
+    def create_tmp_file_from_texture(self, texture: Gdk.Texture):
+        tmp_filename = get_safe_path(f'{self.DROPS_DIR}/collected_image_', '.png')
+        texture.save_to_png(tmp_filename)
+
+        file = Gio.File.new_for_path(tmp_filename)
+        return file
+
     def set_display_value(self, text):
         self.display_value = text[:25]
         if len(text) > 26:

@@ -35,11 +35,12 @@ class CollectorWindow(Adw.ApplicationWindow):
     EMPTY_DROP_TEXT = _('Drop content here')
     CAROUSEL_ICONS_PIX_SIZE=50
     DROPS_PATH = GLib.get_user_cache_dir() + f'/drops'
+    settings = Gio.Settings.new(APP_ID)
 
-    def __init__(self, **kwargs):
+    def __init__(self, window_index=0, **kwargs):
         super().__init__(**kwargs, title='CollectorMainWindow')
 
-        self.settings = Gio.Settings.new(APP_ID)
+        self.window_index = window_index
         self.clipboard = Gdk.Display.get_default().get_clipboard()
 
         header_bar = Adw.HeaderBar(
@@ -49,18 +50,7 @@ class CollectorWindow(Adw.ApplicationWindow):
             css_classes=['flat']
         )
 
-        content = Gtk.Box(
-            css_classes=['droparea-target'],
-            margin_top=20,
-            margin_end=5,
-            margin_start=5,
-            spacing=10,
-            halign=Gtk.Align.FILL,
-            valign=Gtk.Align.CENTER,
-            orientation=Gtk.Orientation.VERTICAL,
-            hexpand=True,
-            vexpand=True,
-        )
+        content_box = self.create_content_box()
 
         self.icon_stack = Gtk.Stack(transition_type=Gtk.StackTransitionType.CROSSFADE)
         self.carousel_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -89,13 +79,12 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.carousel_container.append(carousel_overlay)
         self.carousel_container.append(carousel_indicator)
 
-        self.icon_stack.add_child(self.carousel_container)
-        self.icon_stack.add_child(self.default_drop_icon)
-        self.icon_stack.add_child(self.release_drop_icon)
-        self.icon_stack.add_child(self.release_drag_icon)
+        [self.icon_stack.add_child(w) for w in [self.carousel_container, 
+            self.default_drop_icon, self.release_drop_icon, self.release_drag_icon]]
+
         self.icon_stack.set_visible_child(self.default_drop_icon)
 
-        content.append(self.icon_stack)
+        content_box.append(self.icon_stack)
 
         label_stack = Adw.ViewStack()
         self.drops_label = Gtk.Label(
@@ -115,44 +104,33 @@ class CollectorWindow(Adw.ApplicationWindow):
             )
         )
 
-        content.append(label_stack)
-        content.append(self.keep_items_indicator)
+        content_box.append(label_stack)
+        content_box.append(self.keep_items_indicator)
 
-        # toolbar = Adw.ToolbarView()
-        # toolbar.add_top_bar(header_bar)
-        # toolbar.set_content(content)
+        toolbar = Adw.ToolbarView()
+        toolbar.add_top_bar(header_bar)
+        toolbar.set_content(content_box)
 
-        overlay = Gtk.Overlay(child=content)
-        overlay.add_overlay(header_bar)
-        overlay.set_clip_overlay(header_bar, True)
+        # overlay = Gtk.Overlay(child=content)
+        # overlay.add_overlay(header_bar)
+        # overlay.set_clip_overlay(header_bar, True)
 
-        self.drag_source_controller = Gtk.DragSource()
-        self.drag_source_controller.connect('prepare', self.on_drag_prepare)
-        self.drag_source_controller.connect('drag-end', self.on_drag_end)
-        self.drag_source_controller.connect('drag-cancel', self.on_drag_cancel)
-        self.drag_source_controller.connect('drag-begin', self.on_drag_start)
-
+        self.drag_source_controller = self.create_drag_source_controller()
         self.is_dragging_away = False
         self.drag_aborted = False
 
-        drop_target_controller = Gtk.DropTarget(actions=Gdk.DragAction.COPY)
-        drop_target_controller.set_gtypes([Gdk.FileList, GObject.TYPE_STRING])
-        drop_target_controller.connect('drop', self.on_drop_event)
-        drop_target_controller.connect('enter', self.on_drop_enter)
-        drop_target_controller.connect('leave', self.on_drop_leave)
+        drop_target_controller = self.create_event_controller_key()
 
-        event_controller_key = Gtk.EventControllerKey()
-        event_controller_key.connect('key-pressed', self.on_key_pressed)
-        event_controller_key.connect('key-released', self.on_key_released)
+        event_controller_key = self.create_event_controller_key()
 
         self.add_controller(drop_target_controller)
         self.add_controller(event_controller_key)
-        content.add_controller(self.drag_source_controller)
+        content_box.add_controller(self.drag_source_controller)
 
         self.dropped_items: list[CarouselItem] = []
         self.set_default_size(200, 200)
         self.set_resizable(False)
-        self.set_content(overlay)
+        self.set_content(toolbar)
 
         self.connect('close-request', self.on_close_request)
         self.init_cache_folder()
@@ -496,3 +474,44 @@ class CollectorWindow(Adw.ApplicationWindow):
         result = self.clipboard.read_text_finish(res)
         self.drop_value(result)
         self.on_drop_leave()
+
+    # Create methods
+        
+    def create_drag_source_controller(self):
+        drag_source_controller = Gtk.DragSource()
+        drag_source_controller.connect('prepare', self.on_drag_prepare)
+        drag_source_controller.connect('drag-end', self.on_drag_end)
+        drag_source_controller.connect('drag-cancel', self.on_drag_cancel)
+        drag_source_controller.connect('drag-begin', self.on_drag_start)
+
+        return drag_source_controller
+
+    def create_drop_target_controller(self):
+        drop_target_controller = Gtk.DropTarget(actions=Gdk.DragAction.COPY)
+        drop_target_controller.set_gtypes([Gdk.FileList, GObject.TYPE_STRING])
+        drop_target_controller.connect('drop', self.on_drop_event)
+        drop_target_controller.connect('enter', self.on_drop_enter)
+        drop_target_controller.connect('leave', self.on_drop_leave)
+        return drop_target_controller
+    
+    def create_event_controller_key(self):
+        event_controller_key = Gtk.EventControllerKey()
+        event_controller_key.connect('key-pressed', self.on_key_pressed)
+        event_controller_key.connect('key-released', self.on_key_released)
+        return event_controller_key
+    
+    def create_content_box(self):
+        content_box = Gtk.Box(
+            css_classes=['droparea-target'],
+            margin_top=20,
+            margin_end=5,
+            margin_start=5,
+            spacing=10,
+            halign=Gtk.Align.FILL,
+            valign=Gtk.Align.CENTER,
+            orientation=Gtk.Orientation.VERTICAL,
+            hexpand=True,
+            vexpand=True,
+        )
+        
+        return content_box

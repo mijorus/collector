@@ -28,6 +28,7 @@ from gi.repository import Gtk, Adw, Gio, Gdk, GObject, GLib
 
 from .lib.constants import APP_ID, SUPPORTED_IMG_TYPES
 from .lib.CarouselItem import CarouselItem
+from .lib.CsvCollector import CsvCollector
 from .lib.utils import get_safe_path
 from .lib.DroppedItem import DroppedItem, DroppedItemNotSupportedException
 
@@ -47,6 +48,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.window_color = self.get_color()
         self.clipboard = Gdk.Display.get_default().get_clipboard()
         self.window_color_btn: Optional[Gtk.Button] = None
+        self.csvcollector: Optional[CsvCollector] = None
 
         header_bar = self.create_header_bar()
         bottom_bar = self.create_bottom_bar()
@@ -280,7 +282,7 @@ class CollectorWindow(Adw.ApplicationWindow):
             else:
                 self.close()
                 return True
-        elif keyval == Gdk.KEY_Control_L:
+        elif keyval == Gdk.KEY_Alt_L:
             if self.dropped_items:
                 r = self.keep_items_indicator.get_reveal_child()
                 self.keep_items_indicator.set_reveal_child(not r)
@@ -323,6 +325,28 @@ class CollectorWindow(Adw.ApplicationWindow):
                 for file in value.get_files():
                     d = DroppedItem(file, drops_dir=self.DROPS_PATH)
                     dropped_items.append(d)
+            elif isinstance(value, str) and self.settings.get_boolean('collect-text-to-csv'):
+                if not self.csvcollector:
+                    self.csvcollector = CsvCollector(self.DROPS_PATH)
+                    dropped_item = DroppedItem(self.csvcollector.get_gfile(), 
+                                               drops_dir=self.DROPS_PATH, dynamic_size=True)
+
+                    dropped_item.preview_image = 'notepad-symbolic'
+                    self.csvcollector.set_dropped_item(dropped_item)
+                    self.csvcollector.append_text(value)
+                    dropped_items.append(dropped_item)
+
+                else:
+                    self.csvcollector.append_text(value)
+
+                    if self.csvcollector.dropped_item:
+                        for c in self.dropped_items:
+                            if c.dropped_item is self.csvcollector.dropped_item:
+                                self.icon_carousel.scroll_to(c.image, True)
+                                break
+
+                    self.update_tot_size_sum()
+                    return
             else:
                 dropped_item = DroppedItem(value, drops_dir=self.DROPS_PATH)
                 dropped_items.append(dropped_item)
@@ -372,9 +396,9 @@ class CollectorWindow(Adw.ApplicationWindow):
             self.icon_carousel.scroll_to(new_image, True)
 
     def on_key_released(self, widget, keyval, keycode, state):
-        if keyval == Gdk.KEY_Control_L:
-            # self.keep_items_indicator.set_reveal_child(False)
-            return True
+        # ctrl_key = bool(state & Gdk.ModifierType.CONTROL_MASK)
+        # shift_key = bool(state & Gdk.ModifierType.SHIFT_MASK)
+        # alt_key = bool(state & Gdk.ModifierType.ALT_MASK)
 
         return False
 
@@ -383,11 +407,16 @@ class CollectorWindow(Adw.ApplicationWindow):
 
     def delete_focused_item(self, widget):
         i = int(self.icon_carousel.get_position())
+        item = self.dropped_items[i]
         
         if len(self.dropped_items) == 1:
             self.remove_all_items()
         else:
-            self.icon_carousel.remove(self.dropped_items[i].image)
+            if self.csvcollector and \
+                self.csvcollector.dropped_item == item.dropped_item:
+                self.csvcollector.delete_file()
+
+            self.icon_carousel.remove(item.image)
             self.dropped_items.pop(i)
             self.on_drop_leave(None)
 
@@ -403,7 +432,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         launcher.launch(self, None, None, None)
 
     def update_tot_size_sum(self):
-        tot_size = sum([d.dropped_item.size for d in self.dropped_items])
+        tot_size = sum([d.dropped_item.get_size() for d in self.dropped_items])
 
         if tot_size > (1024 * 1024 * 1024):
             tot_size = f'{round(tot_size / (1024 * 1024 * 1024), 1)} GB'
@@ -425,6 +454,9 @@ class CollectorWindow(Adw.ApplicationWindow):
     def remove_all_items(self):
         for d in self.dropped_items:
             self.icon_carousel.remove(d.image)
+
+        if self.csvcollector:
+            self.csvcollector.delete_file()
 
         self.dropped_items = []
         self.update_tot_size_sum()

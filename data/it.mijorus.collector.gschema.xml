@@ -10,5 +10,8 @@
         <key name="download-images" type="b">
             <default>true</default>
         </key>
+        <key name="collect-text-to-csv" type="b">
+            <default>true</default>
+        </key>
 	</schema>
 </schemalist>

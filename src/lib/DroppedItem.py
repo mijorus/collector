@@ -22,7 +22,7 @@ class DroppedItemNotSupportedException(Exception):
 class DroppedItem():
     MAX_PREVIEW_SIZE_MB = 50
 
-    def __init__(self, item, drops_dir) -> None:
+    def __init__(self, item, drops_dir, dynamic_size=False) -> None:
         self.DROPS_DIR = drops_dir
 
         self.received_item = item
@@ -32,8 +32,7 @@ class DroppedItem():
         self.gfile = None
         self.size = 0
         self.async_load = False
-
-        MAX_PREVIEW_SIZE_MB = 50
+        self.dynamic_size = dynamic_size
 
         logging.debug(f'Creating item from type: {type(item)}')
 
@@ -48,7 +47,7 @@ class DroppedItem():
             self.gfile = item
             self.target_path = item.get_path()
             self.display_value = item.get_basename()  
-            self.size = os.stat(item.get_path()).st_size
+            self.size = self.get_size(True)
             self.generate_preview_for_image()
 
         elif isinstance(item, str):
@@ -75,6 +74,12 @@ class DroppedItem():
         else:
             raise DroppedItemNotSupportedException(msg=f'item of type {type(item)} not supported')
     
+    def get_size(self, force=False):
+        if not force and not self.dynamic_size:
+            return self.size
+        
+        return self.gfile.query_info('standard::', Gio.FileQueryInfoFlags.NONE, None).get_size()
+
     def complete_load(self):
         logging.debug(f'Completing load for {self.received_item}')
 
@@ -125,7 +130,8 @@ class DroppedItem():
             tmp_file.move(self.gfile, Gio.FileCopyFlags.OVERWRITE)
 
             self.display_value = self.set_display_value(img_link)
-            self.size = os.stat(self.gfile.get_path()).st_size
+            self.size = self.get_size(True)
+
             self.generate_preview_for_image()
 
         self.async_load = False

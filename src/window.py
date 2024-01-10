@@ -297,9 +297,40 @@ class CollectorWindow(Adw.ApplicationWindow):
             if self.dropped_items and not self.is_dragging_away:
                 self.remove_all_items()
                 self.carousel_popover.popdown()
+
+        elif keyval == Gdk.KEY_Left:
+            print('qwe')
+            self.scroll_in_direction(0)
+            return True
+        elif keyval == Gdk.KEY_Right:
+            self.scroll_in_direction(1)
+            return True
+        elif keyval == Gdk.KEY_Menu:
+            if self.dropped_items:
+                self.carousel_popover.popup()
+
+            return True
         
         return False
     
+    def scroll_in_direction(self, direction):
+        """
+            0: scroll left
+            1: scroll right
+        """
+
+        if not self.dropped_items:
+            return
+
+        i = int(self.icon_carousel.get_position())
+
+        if (i == 0 and direction == 0) or \
+            i == (len(self.dropped_items) - 1) and direction == 1:
+            return
+
+        i = i - 1 if direction == 0 else i + 1
+        self.icon_carousel.scroll_to(self.dropped_items[i].image, True)
+
     def drop_value(self, value):
         dropped_items = []
         carousel_items = []
@@ -312,10 +343,11 @@ class CollectorWindow(Adw.ApplicationWindow):
             elif isinstance(value, str) and self.settings.get_boolean('collect-text-to-csv'):
                 if not self.csvcollector:
                     self.csvcollector = CsvCollector(self.DROPS_PATH)
-                    dropped_item = DroppedItem(self.csvcollector.get_gfile(), 
-                                               drops_dir=self.DROPS_PATH, dynamic_size=True)
+                    dropped_item = DroppedItem(self.csvcollector.get_gfile(),
+                                               is_clipboard=True,
+                                               drops_dir=self.DROPS_PATH, 
+                                               dynamic_size=True)
 
-                    dropped_item.preview_image = 'notepad-symbolic'
                     self.csvcollector.set_dropped_item(dropped_item)
                     self.csvcollector.append_text(value)
                     dropped_items.append(dropped_item)
@@ -433,6 +465,8 @@ class CollectorWindow(Adw.ApplicationWindow):
             ])
 
             self.clipboard.set_content(content_prov)
+
+        self.carousel_popover.popdown()
 
     def update_tot_size_sum(self):
         tot_size = sum([d.dropped_item.get_size() for d in self.dropped_items])

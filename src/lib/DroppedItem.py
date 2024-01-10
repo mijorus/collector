@@ -22,7 +22,7 @@ class DroppedItemNotSupportedException(Exception):
 class DroppedItem():
     MAX_PREVIEW_SIZE_MB = 50
 
-    def __init__(self, item, drops_dir, dynamic_size=False) -> None:
+    def __init__(self, item, drops_dir, dynamic_size=False, is_clipboard=False) -> None:
         self.DROPS_DIR = drops_dir
 
         self.received_item = item
@@ -34,6 +34,7 @@ class DroppedItem():
         self.async_load = False
         self.dynamic_size = dynamic_size
         self.content_is_text = False
+        self.is_clipboard = is_clipboard
 
         logging.debug(f'Creating item from type: {type(item)}')
 
@@ -75,6 +76,9 @@ class DroppedItem():
 
         else:
             raise DroppedItemNotSupportedException(msg=f'item of type {type(item)} not supported')
+        
+        if self.is_clipboard:
+            self.preview_image = 'notepad-symbolic'
     
     def get_size(self, force=False):
         if not force and not self.dynamic_size:

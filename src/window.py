@@ -75,7 +75,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         carousel_overlay = Gtk.Overlay(child=self.icon_carousel)
         carousel_overlay.add_overlay(carousel_info_btn)
 
-        self.carousel_popover = Gtk.Popover(child=self.get_carousel_popover_content())
+        self.carousel_popover = Gtk.Popover(child=self.create_carousel_popover_content())
         carousel_overlay.add_overlay(self.carousel_popover)
 
         self.carousel_container.append(carousel_overlay)
@@ -149,22 +149,6 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         logging.debug('Creting empty folder for drops at: ' +  self.DROPS_PATH)
         os.mkdir(self.DROPS_PATH)
-
-    def get_carousel_popover_content(self):
-        carousel_popover_content = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        preview_btn = Gtk.Button(icon_name='eye-open-negative-filled-symbolic')
-        preview_btn.connect('clicked', self.on_preview_btn_clicked)
-        carousel_popover_content.append(
-            preview_btn
-        )
-
-        delete_btn = Gtk.Button(icon_name='user-trash-symbolic', css_classes=['error'])
-        delete_btn.connect('clicked', self.delete_focused_item)
-        carousel_popover_content.append(
-            delete_btn
-        )
-
-        return carousel_popover_content
 
     def on_drag_prepare(self, source, x, y):
         if not self.dropped_items:
@@ -431,6 +415,25 @@ class CollectorWindow(Adw.ApplicationWindow):
         launcher = Gtk.FileLauncher.new(file)
         launcher.launch(self, None, None, None)
 
+    def on_copy_btn_clicked(self, btn=None):
+        i = int(self.icon_carousel.get_position())
+        carousel_item = self.dropped_items[i]
+
+        if carousel_item.dropped_item.content_is_text:
+            content = carousel_item.dropped_item.get_text_content()
+            self.clipboard.set_text(content)
+        else:
+            gfile = carousel_item.dropped_item.gfile
+            content_prov = Gdk.ContentProvider.new_union([
+                Gdk.ContentProvider.new_for_value(gfile),
+                Gdk.ContentProvider.new_for_bytes(
+                    'text/uri-list', 
+                    GLib.Bytes.new(gfile.get_uri().encode())
+                )
+            ])
+
+            self.clipboard.set_content(content_prov)
+
     def update_tot_size_sum(self):
         tot_size = sum([d.dropped_item.get_size() for d in self.dropped_items])
 
@@ -611,5 +614,20 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         bottom_bar.pack_start(self.window_color_btn)
         return bottom_bar
-        
-        # bottom_
+
+    def create_carousel_popover_content(self):
+        carousel_popover_content = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        copy_btn = Gtk.Button(icon_name='copy-symbolic')
+        copy_btn.connect('clicked', self.on_copy_btn_clicked)
+
+        preview_btn = Gtk.Button(icon_name='eye-open-negative-filled-symbolic')
+        preview_btn.connect('clicked', self.on_preview_btn_clicked)
+
+        delete_btn = Gtk.Button(icon_name='user-trash-symbolic', css_classes=['error'])
+        delete_btn.connect('clicked', self.delete_focused_item)
+
+        [carousel_popover_content.append(b) for b in [
+            copy_btn, preview_btn, delete_btn
+        ]]
+
+        return carousel_popover_content

@@ -1,6 +1,6 @@
 import os
 import logging
-import inspect
+import base64
 from PIL import Image
 
 from gi.repository import Gtk, Adw, Gio, GLib, Gdk
@@ -33,6 +33,7 @@ class DroppedItem():
         self.size = 0
         self.async_load = False
         self.dynamic_size = dynamic_size
+        self.content_is_text = False
 
         logging.debug(f'Creating item from type: {type(item)}')
 
@@ -53,6 +54,7 @@ class DroppedItem():
         elif isinstance(item, str):
             base_filename = 'collected_text_'
             text_string = item
+            self.content_is_text = True
 
             self.preview_image = 'font-x-generic-symbolic'
             if text_string.startswith('http://') or text_string.startswith('https://'):
@@ -79,6 +81,14 @@ class DroppedItem():
             return self.size
         
         return self.gfile.query_info('standard::', Gio.FileQueryInfoFlags.NONE, None).get_size()
+
+    def get_text_content(self):
+        if self.content_is_text:
+            with open(self.target_path, 'r') as f:
+                return f.read()
+        else:
+            with open(self.target_path, 'rb') as f:
+                return base64.b64encode(f.read()).decode()
 
     def complete_load(self):
         logging.debug(f'Completing load for {self.received_item}')

@@ -148,6 +148,10 @@ class CollectorWindow(Adw.ApplicationWindow):
             shutil.rmtree(self.DROPS_PATH)
 
         logging.debug('Creting empty folder for drops at: ' +  self.DROPS_PATH)
+
+        if not os.path.exists(self.DROPS_BASE_PATH):
+            os.mkdir(self.DROPS_BASE_PATH)
+
         os.mkdir(self.DROPS_PATH)
 
     def on_drag_prepare(self, source, x, y):
@@ -348,18 +352,16 @@ class CollectorWindow(Adw.ApplicationWindow):
                                                drops_dir=self.DROPS_PATH, 
                                                dynamic_size=True)
 
-                    self.csvcollector.set_dropped_item(dropped_item)
                     self.csvcollector.append_text(value)
                     dropped_items.append(dropped_item)
 
                 else:
                     self.csvcollector.append_text(value)
 
-                    if self.csvcollector.dropped_item:
-                        for c in self.dropped_items:
-                            if c.dropped_item is self.csvcollector.dropped_item:
-                                self.icon_carousel.scroll_to(c.image, True)
-                                break
+                    for c in self.dropped_items:
+                        if c.dropped_item.is_clipboard:
+                            self.icon_carousel.scroll_to(c.image, True)
+                            break
 
                     self.update_tot_size_sum()
                     return
@@ -428,9 +430,9 @@ class CollectorWindow(Adw.ApplicationWindow):
         if len(self.dropped_items) == 1:
             self.remove_all_items()
         else:
-            if self.csvcollector and \
-                self.csvcollector.dropped_item == item.dropped_item:
-                self.csvcollector.delete_file()
+            if self.csvcollector and item.dropped_item.is_clipboard:
+                self.csvcollector.clear()
+                self.csvcollector = None
 
             self.icon_carousel.remove(item.image)
             self.dropped_items.pop(i)
@@ -442,18 +444,27 @@ class CollectorWindow(Adw.ApplicationWindow):
 
     def on_preview_btn_clicked(self, btn: Gtk.Button):
         i = int(self.icon_carousel.get_position())
-        file = self.dropped_items[i].dropped_item.gfile
+        item = self.dropped_items[i].dropped_item
+        file = item.gfile
 
-        launcher = Gtk.FileLauncher.new(file)
-        launcher.launch(self, None, None, None)
+        if item.is_clipboard:
+            m = self.csvcollector.create_preview_modal()
+            m.set_transient_for(self)
+            m.present()
+        else:
+            launcher = Gtk.FileLauncher.new(file)
+            launcher.launch(self, None, None, None)
 
     def on_copy_btn_clicked(self, btn=None):
         i = int(self.icon_carousel.get_position())
         carousel_item = self.dropped_items[i]
 
-        if carousel_item.dropped_item.content_is_text:
+        if carousel_item.dropped_item.is_clipboard:
+            content = self.csvcollector.get_copied_text()
+            content_prov = Gdk.ContentProvider.new_for_value('\n'.join(content))
+        elif carousel_item.dropped_item.content_is_text:
             content = carousel_item.dropped_item.get_text_content()
-            self.clipboard.set_text(content)
+            content_prov = Gdk.ContentProvider.new_for_value(content)
         else:
             gfile = carousel_item.dropped_item.gfile
             content_prov = Gdk.ContentProvider.new_union([
@@ -464,8 +475,7 @@ class CollectorWindow(Adw.ApplicationWindow):
                 )
             ])
 
-            self.clipboard.set_content(content_prov)
-
+        self.clipboard.set_content(content_prov)
         self.carousel_popover.popdown()
 
     def update_tot_size_sum(self):
@@ -493,7 +503,8 @@ class CollectorWindow(Adw.ApplicationWindow):
             self.icon_carousel.remove(d.image)
 
         if self.csvcollector:
-            self.csvcollector.delete_file()
+            self.csvcollector.clear()
+            self.csvcollector = None
 
         self.dropped_items = []
         self.update_tot_size_sum()
@@ -505,7 +516,10 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.keep_items_indicator.set_reveal_child(False)
 
     def on_close_request(self, widget):
-        self.init_cache_folder()
+        if os.path.exists(self.DROPS_PATH):
+            logging.debug('Removing ' +  self.DROPS_PATH)
+            shutil.rmtree(self.DROPS_PATH)
+
         return False
     
     def get_new_image_from_dropped_item(self, dropped_item: DroppedItem):
@@ -554,15 +568,6 @@ class CollectorWindow(Adw.ApplicationWindow):
         if self.window_color_btn:
             self.window_color_btn.remove_css_class(f'collector-{old_color}')
             self.window_color_btn.add_css_class(f'collector-{color}')
-
-    # def create_tmp_file_from_texture(self, texture: Gdk.Texture):
-    #     tmp_filename = get_safe_path(f'{self.DROPS_PATH}/pasted_image_', '.png')
-    #     texture.save_to_png(tmp_filename)
-
-    #     file = Gio.File.new_for_path(tmp_filename)
-    #     return file
-
-    # Create methods
         
     def create_drag_source_controller(self):
         drag_source_controller = Gtk.DragSource()

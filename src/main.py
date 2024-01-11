@@ -19,6 +19,8 @@
 
 import sys
 import gi
+import os
+import shutil
 import logging
 
 gi.require_version('Gtk', '4.0')
@@ -56,6 +58,12 @@ class CollectorApplication(Adw.Application):
         w_index = len(self.get_windows())
 
         win = CollectorWindow(window_index=w_index, application=self)
+
+        if not self.get_windows():
+            if os.path.exists(win.DROPS_BASE_PATH):
+                logging.debug('Removing ' +  win.DROPS_BASE_PATH)
+                shutil.rmtree(win.DROPS_BASE_PATH)
+
         self.add_window(win)
 
         win.present()

@@ -609,6 +609,9 @@ class CollectorWindow(Adw.ApplicationWindow):
         return content_box
 
     def create_header_bar(self):
+        menu_obj = Gtk.Builder.new_from_resource('/it/mijorus/collector/gtk/main-menu.ui')
+        menu_button = Gtk.MenuButton(icon_name='open-menu', menu_model=menu_obj.get_object('primary_menu'))
+    
         header_bar = Adw.HeaderBar(
             show_title=False,
             decoration_layout='icon:close',
@@ -616,6 +619,8 @@ class CollectorWindow(Adw.ApplicationWindow):
             css_classes=['flat']
         )
         
+        header_bar.pack_start(menu_button)
+
         return header_bar
     
     def create_bottom_bar(self):

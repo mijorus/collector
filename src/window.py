@@ -345,26 +345,28 @@ class CollectorWindow(Adw.ApplicationWindow):
                     d = DroppedItem(file, drops_dir=self.DROPS_PATH)
                     dropped_items.append(d)
             elif isinstance(value, str) and self.settings.get_boolean('collect-text-to-csv'):
-                if not self.csvcollector:
-                    self.csvcollector = CsvCollector(self.DROPS_PATH)
-                    dropped_item = DroppedItem(self.csvcollector.get_gfile(),
-                                               is_clipboard=True,
-                                               drops_dir=self.DROPS_PATH, 
-                                               dynamic_size=True)
+                dropped_item = DroppedItem(self.csvcollector.get_gfile(),
+                                            is_clipboard=True,
+                                            drops_dir=self.DROPS_PATH, 
+                                            dynamic_size=True)
+                
+                if not dropped_item.async_load:
+                    if not self.csvcollector:
+                        self.csvcollector = CsvCollector(self.DROPS_PATH)
 
-                    self.csvcollector.append_text(value)
-                    dropped_items.append(dropped_item)
+                        self.csvcollector.append_text(value)
+                        dropped_items.append(dropped_item)
 
-                else:
-                    self.csvcollector.append_text(value)
+                    else:
+                        self.csvcollector.append_text(value)
 
-                    for c in self.dropped_items:
-                        if c.dropped_item.is_clipboard:
-                            self.icon_carousel.scroll_to(c.image, True)
-                            break
+                        for c in self.dropped_items:
+                            if c.dropped_item.is_clipboard:
+                                self.icon_carousel.scroll_to(c.image, True)
+                                break
 
-                    self.update_tot_size_sum()
-                    return
+                        self.update_tot_size_sum()
+                        return
             else:
                 dropped_item = DroppedItem(value, drops_dir=self.DROPS_PATH)
                 dropped_items.append(dropped_item)

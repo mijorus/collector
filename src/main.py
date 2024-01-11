@@ -31,6 +31,7 @@ gi.require_version('Adw', '1')
 from .lib.constants import *
 from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 from .window import CollectorWindow
+from .preferences import SettingsWindow
 
 LOG_FILE_MAX_N_LINES = 5000
 LOG_FOLDER = GLib.get_user_cache_dir() + '/logs'
@@ -90,7 +91,10 @@ class CollectorApplication(Adw.Application):
 
     def on_preferences_action(self, widget, _):
         """Callback for the app.preferences action."""
-        print('app.preferences action activated')
+        pref = SettingsWindow()
+        pref.set_transient_for(self.props.active_window)
+        pref.present()
+
 
     def on_open_log_file(self, widget, data):
         log_gfile = Gio.File.new_for_path(f'{GLib.get_user_cache_dir()}/logs')

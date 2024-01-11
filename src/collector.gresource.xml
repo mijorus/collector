@@ -4,6 +4,7 @@
     <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
     <file preprocess="xml-stripblanks">gtk/main-menu.ui</file>
     <file preprocess="xml-stripblanks">gtk/shortcuts.ui</file>
+    <file preprocess="xml-stripblanks">gtk/preferences.ui</file>
     <file>assets/style.css</file>
   </gresource>
 </gresources>

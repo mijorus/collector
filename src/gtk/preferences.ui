@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="SettingsWindow" parent="AdwPreferencesWindow">
+    <property name="title" translatable="yes">Preferences</property>
+    <property name="resizable">true</property>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title" translatable="yes">General</property>
+        <property name="icon-name">preferences-system-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">General</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Always keep items when dragging out</property>
+                <property name="subtitle" translatable="yes">This option also disables the Alt shortcut.</property>
+                <child>
+                  <object class="GtkSwitch" id="keep_items_when_dragging">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow" id="download_images_row">
+                <property name="title" translatable="yes">Download images from URLs</property>
+                <property name="subtitle" translatable="yes">If the dropped text is an URL that links to an image, the image is automatically downloaded and saved.</property>
+                <child>
+                  <object class="GtkSwitch" id="download_images">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Collect text strings as a CSV file</property>
+                <property name="subtitle" translatable="yes">When enabled, plain text strings are collected in a single CSV file. URLs that link to images will still follow the respective setting.</property>
+                <child>
+                  <object class="GtkSwitch" id="text_as_csv">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Window behaviour</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Get GNOME extension</property>
+                <property name="subtitle" translatable="yes">The extention adds cool features like forcing Collector to stay always on top of other windows!</property>
+                <child>
+                  <object class="GtkButton" id="open_gnome_ext">
+                    <property name="icon-name">arrow</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Learn how to configure Collector on KDE</property>
+                <child>
+                  <object class="GtkButton" id="configure_kde">
+                    <property name="icon-name">arrow</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Open Collector with a shortcut</property>
+                <property name="subtitle" translatable="yes">Use this code to create a custom shortcut for Collector in the system settings.</property>
+                <child>
+                  <object class="GtkLabel" id="launch_shortcut">
+                    <property name="selectable">yes</property>
+                    <property name="label">flatpak run it.mijorus.collector</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="launch_shortcut_windows">
+                <property name="title" translatable="yes">Number of windows to open with a shortcut</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item>1 -</item>
+                      <item>2 -</item>
+                      <item>3 -</item>
+                    </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+            
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Integrations</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Google Images URL support</property>
+                <property name="subtitle" translatable="yes">Automatically analyse and download files from Google Images links.</property>
+                <child>
+                  <object class="GtkSwitch" id="google_images">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

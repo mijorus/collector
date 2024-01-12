@@ -1,7 +1,7 @@
 import os
 import gi
 
-from .lib.utils import get_gsettings
+from .lib.utils import get_gsettings, on_click_open_uri
 from .lib.constants import SUPPORTED_IMG_TYPES, APP_ID
 
 gi.require_version("Gtk", "4.0")
@@ -51,10 +51,17 @@ class SettingsWindow(Adw.PreferencesWindow):
 
         self.launch_shortcut.set_label(f'flatpak run {APP_ID}')
 
+        self.configure_kde.connect('clicked', on_click_open_uri, 'https://mijorus.it/projects/collector/configure-kde')
+        self.open_gnome_ext.connect('clicked', on_click_open_uri, 'https://mijorus.it/projects/collector/configure-kde')
+
+    def on_click_open_uri(self, w: Gtk.Button, uri: str):
+        launcher = Gtk.UriLauncher(uri=uri)
+        launcher.launch()
+
     def on_launch_shortcuts_wd_changed(self, w: Adw.ComboRow, val):
         val = w.get_selected() + 1
         
         if val > 1:
-            self.launch_shortcut.set_label(f'flatpak run {APP_ID} -w={val}')
+            self.launch_shortcut.set_label(f'flatpak run {APP_ID} --w={val}')
         else:
             self.launch_shortcut.set_label(f'flatpak run {APP_ID}')

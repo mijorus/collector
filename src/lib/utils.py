@@ -112,3 +112,7 @@ def get_random_string(length):
 
 def get_gsettings():
     return Gio.Settings.new(APP_ID)
+
+def on_click_open_uri(w: Gtk.Button, uri: str):
+    launcher = Gtk.UriLauncher(uri=uri)
+    launcher.launch()

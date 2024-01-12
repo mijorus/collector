@@ -33,7 +33,7 @@ from .lib.constants import *
 from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 from .window import CollectorWindow
 from .preferences import SettingsWindow
-from .lib.utils import get_gsettings
+from .lib.utils import get_gsettings, on_click_open_uri
 
 LOG_FILE_MAX_N_LINES = 5000
 LOG_FOLDER = GLib.get_user_cache_dir() + '/logs'
@@ -122,7 +122,7 @@ class CollectorApplication(Adw.Application):
         launcher.launch()
 
     def on_open_welcome_screen(self, widget, data):
-        pass
+        on_click_open_uri(None, 'https://mijorus.it/projects/collector/tutorial')
 
     def on_shortcuts_action(self, widget, data):
         bl = Gtk.Builder.new_from_resource('/it/mijorus/collector/gtk/shortcuts.ui')

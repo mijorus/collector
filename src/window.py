@@ -305,9 +305,8 @@ class CollectorWindow(Adw.ApplicationWindow):
                 return True
         elif keyval == Gdk.KEY_BackSpace:
             if self.dropped_items and not self.is_dragging_away:
-                self.remove_all_items()
-                self.carousel_popover.popdown()
-
+                self.delete_focused_item()
+                return True
         elif keyval == Gdk.KEY_Left:
             self.scroll_in_direction(0)
             return True
@@ -317,9 +316,17 @@ class CollectorWindow(Adw.ApplicationWindow):
         elif keyval == Gdk.KEY_Menu:
             if self.dropped_items:
                 self.carousel_popover.popup()
-
             return True
-        
+        elif keyval == Gdk.KEY_O:
+            if self.dropped_items and ctrl_key:
+                self.on_preview_btn_clicked(None)
+                return True
+        if keyval == Gdk.KEY_Delete:
+            if self.dropped_items and not self.is_dragging_away:
+                self.remove_all_items()
+                self.carousel_popover.popdown()
+                return True
+
         return False
     
     def scroll_in_direction(self, direction):
@@ -442,7 +449,7 @@ class CollectorWindow(Adw.ApplicationWindow):
     def on_carousel_info_btn(self, widget: Gtk.Button):
         self.carousel_popover.popup()
 
-    def delete_focused_item(self, widget):
+    def delete_focused_item(self, widget=None):
         i = int(self.icon_carousel.get_position())
         item = self.dropped_items[i]
         
@@ -461,7 +468,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         self.carousel_popover.popdown()
 
-    def on_preview_btn_clicked(self, btn: Gtk.Button):
+    def on_preview_btn_clicked(self, btn=None):
         i = int(self.icon_carousel.get_position())
         item = self.dropped_items[i].dropped_item
         file = item.gfile

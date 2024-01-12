@@ -1,0 +1,203 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-12 15:39+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/CsvCollector.py:87
+msgid "Close"
+msgstr ""
+
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
+msgstr ""
+
+#: src/window.py:38
+msgid "Drop content here"
+msgstr ""
+
+#: src/window.py:200
+msgid "Release to drop"
+msgstr ""
+
+#: src/window.py:252
+msgid "Release to collect"
+msgstr ""
+
+#: src/window.py:520
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr ""
+
+#: src/window.py:522
+#, python-brace-format
+msgid "{files_count} Files | {size}"
+msgstr ""
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr ""
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr ""
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr ""
+
+#: src/gtk/main-menu.ui:6
+msgid "_Preferences"
+msgstr ""
+
+#: src/gtk/main-menu.ui:10
+msgid "_Tutorial"
+msgstr ""
+
+#: src/gtk/main-menu.ui:14
+msgid "_Shortcuts"
+msgstr ""
+
+#: src/gtk/main-menu.ui:18
+msgid "_Open Log File"
+msgstr ""
+
+#: src/gtk/main-menu.ui:22
+msgid "_About Collector"
+msgstr ""
+
+#: src/gtk/preferences.ui:5
+msgid "Preferences"
+msgstr ""
+
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13 src/gtk/shortcuts.ui:9
+msgid "General"
+msgstr ""
+
+#: src/gtk/preferences.ui:16
+msgid "Always keep items when dragging out"
+msgstr ""
+
+#: src/gtk/preferences.ui:17
+msgid "This option also disables the Alt shortcut."
+msgstr ""
+
+#: src/gtk/preferences.ui:27
+msgid "Download images from URLs"
+msgstr ""
+
+#: src/gtk/preferences.ui:28
+msgid ""
+"If the dropped text is an URL that links to an image, the image is "
+"automatically downloaded and saved."
+msgstr ""
+
+#: src/gtk/preferences.ui:38
+msgid "Collect text strings as a CSV file"
+msgstr ""
+
+#: src/gtk/preferences.ui:39
+msgid ""
+"When enabled, plain text strings are collected in a single CSV file. URLs "
+"that link to images will still follow the respective setting."
+msgstr ""
+
+#: src/gtk/preferences.ui:51
+msgid "Window behaviour"
+msgstr ""
+
+#: src/gtk/preferences.ui:54
+msgid "Get GNOME extension"
+msgstr ""
+
+#: src/gtk/preferences.ui:55
+msgid ""
+"The extention adds cool features like forcing Collector to stay always on "
+"top of other windows!"
+msgstr ""
+
+#: src/gtk/preferences.ui:66
+msgid "Learn how to configure Collector on KDE"
+msgstr ""
+
+#: src/gtk/preferences.ui:77
+msgid "Open Collector with a shortcut"
+msgstr ""
+
+#: src/gtk/preferences.ui:78
+msgid ""
+"Use this code to create a custom shortcut for Collector in the system "
+"settings."
+msgstr ""
+
+#: src/gtk/preferences.ui:89
+msgid "Number of windows to open with a shortcut"
+msgstr ""
+
+#: src/gtk/preferences.ui:109
+msgid "Integrations"
+msgstr ""
+
+#: src/gtk/preferences.ui:112
+msgid "Google Images URL support"
+msgstr ""
+
+#: src/gtk/preferences.ui:113
+msgid "Automatically analyse and download files from Google Images links."
+msgstr ""
+
+#: src/gtk/preferences.ui:126
+msgid "Debugginh"
+msgstr ""
+
+#: src/gtk/preferences.ui:129
+msgid "Enable debug logs"
+msgstr ""
+
+#: src/gtk/preferences.ui:130
+msgid "Increase log verbosity."
+msgstr ""
+
+#: src/gtk/shortcuts.ui:12
+msgid "Scroll left"
+msgstr ""
+
+#: src/gtk/shortcuts.ui:18
+msgid "Scroll right"
+msgstr ""
+
+#: src/gtk/shortcuts.ui:24
+msgid "Toggle lock mode"
+msgstr ""
+
+#: src/gtk/shortcuts.ui:30
+msgid "Preview selected item"
+msgstr ""
+
+#: src/gtk/shortcuts.ui:36
+msgid "Delete selected item"
+msgstr ""
+
+#: src/gtk/shortcuts.ui:42
+msgid "Remove all the items"
+msgstr ""
+
+#: src/gtk/shortcuts.ui:48
+msgid "Paste from keyboard"
+msgstr ""

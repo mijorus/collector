@@ -309,7 +309,6 @@ class CollectorWindow(Adw.ApplicationWindow):
                 self.carousel_popover.popdown()
 
         elif keyval == Gdk.KEY_Left:
-            print('qwe')
             self.scroll_in_direction(0)
             return True
         elif keyval == Gdk.KEY_Right:
@@ -414,6 +413,13 @@ class CollectorWindow(Adw.ApplicationWindow):
                 self.icon_carousel.append(new_image)
 
         self.dropped_items.extend(carousel_items)
+
+        for i, c in enumerate(self.dropped_items):
+            if c.dropped_item.is_clipboard:
+                self.icon_carousel.reorder(c.image, 0)
+                self.dropped_items.pop(i)
+                self.dropped_items.insert(0, c)
+                break
 
         if any([d.async_load for d in dropped_items]):
             threading.Thread(

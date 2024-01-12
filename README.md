@@ -13,3 +13,6 @@ Drag multiple files and folders on to Collection window, drop them anywhere!
 - Drop the content of your clipboard with `Ctrl + V`
 - Optionally group your text drops into a single, ready-to-use CSV file
 - Modern design built with LibAdawaita design
+
+
+![Preview of Collector - Dropover replacement for linux](docs/preview2.png)

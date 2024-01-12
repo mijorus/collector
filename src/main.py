@@ -21,6 +21,7 @@ import sys
 import gi
 import os
 import shutil
+import argparse
 import logging
 import os
 
@@ -32,9 +33,11 @@ from .lib.constants import *
 from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 from .window import CollectorWindow
 from .preferences import SettingsWindow
+from .lib.utils import get_gsettings
 
 LOG_FILE_MAX_N_LINES = 5000
 LOG_FOLDER = GLib.get_user_cache_dir() + '/logs'
+MAX_WINDOWS_FROM_ARGS = 5
 
 class CollectorApplication(Adw.Application):
     """The main application singleton class."""
@@ -51,6 +54,12 @@ class CollectorApplication(Adw.Application):
         self.create_action('open_log_file', self.on_open_log_file)
         self.create_action('open_welcome_screen', self.on_open_welcome_screen)
 
+        self.add_main_option_entries([
+            self.make_option('w')
+        ])
+
+        self.n_of_windows = 1
+
     def do_startup(self):
         logging.warn('\n\n--- App startup ---')
         Adw.Application.do_startup(self)
@@ -65,18 +74,30 @@ class CollectorApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
+
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--w', type=int)
+
+        n_of_windows = 1
+        args = parser.parse_args()
+        if args.w:
+            n_of_windows = args.w if args.w < MAX_WINDOWS_FROM_ARGS else 1
+
         w_index = len(self.get_windows())
 
-        win = CollectorWindow(window_index=w_index, application=self)
-
         if not self.get_windows():
-            if os.path.exists(win.DROPS_BASE_PATH):
-                logging.debug('Removing ' +  win.DROPS_BASE_PATH)
-                shutil.rmtree(win.DROPS_BASE_PATH)
+            if os.path.exists(CollectorWindow.DROPS_BASE_PATH):
+                logging.debug('Removing ' +  CollectorWindow.DROPS_BASE_PATH)
+                shutil.rmtree(CollectorWindow.DROPS_BASE_PATH)
+        else:
+            n_of_windows = 1
 
-        self.add_window(win)
+        logging.debug(f'Opening {n_of_windows} windows')
+        for n in range(n_of_windows):
+            win = CollectorWindow(window_index=(w_index + n), application=self)
+            self.add_window(win)
 
-        win.present()
+            win.present()
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
@@ -94,7 +115,6 @@ class CollectorApplication(Adw.Application):
         pref = SettingsWindow()
         pref.set_transient_for(self.props.active_window)
         pref.present()
-
 
     def on_open_log_file(self, widget, data):
         log_gfile = Gio.File.new_for_path(f'{GLib.get_user_cache_dir()}/logs')
@@ -125,10 +145,22 @@ class CollectorApplication(Adw.Application):
         if shortcuts:
             self.set_accels_for_action(f"app.{name}", shortcuts)
 
+    # thank you mate ❤️
+    # https://github.com/gtimelog/gtimelog/blob/6e4b07b58c730777dbdb00b3b85291139f8b10aa/src/gtimelog/main.py#L159
+    def make_option(self, long_name, short_name=None, flags=0, arg=0, arg_data=None, description=None, arg_description=None):
+        # surely something like this should exist inside PyGObject itself?!
+        option = GLib.OptionEntry()
+        option.long_name = long_name.lstrip('-')
+        option.short_name = 0 if not short_name else short_name.lstrip('-')
+        option.flags = flags
+        option.arg = arg
+        option.arg_data = arg_data
+        option.description = description
+        option.arg_description = arg_description
+        return option
 
 def main(version):
     """The application's entry point."""
-    print( os.environ.get('APP_DEBUG', False))
     if os.environ.get('APP_DEBUG', False) == '1':
         logging.basicConfig(
             stream=sys.stdout,
@@ -137,6 +169,7 @@ def main(version):
             force=True
         )
     else:
+        debug_logs = get_gsettings().get_boolean('debug-logs')
         if not os.path.exists(LOG_FOLDER):
             os.makedirs(LOG_FOLDER)
 
@@ -151,7 +184,7 @@ def main(version):
             filename=log_file,
             filemode='a',
             encoding='utf-8',
-            level= logging.WARN,
+            level= logging.DEBUG if debug_logs else logging.WARN,
             force=True
         )
 

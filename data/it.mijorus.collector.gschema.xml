@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="collector">
 	<schema id="it.mijorus.collector" path="/it/mijorus/collector/">
-		<key name="clear-on-drag" type="b">
+		<key name="keep-on-drag" type="b">
             <default>true</default>
         </key>
 		<key name="google-images-support" type="b">
@@ -12,6 +12,9 @@
         </key>
         <key name="collect-text-to-csv" type="b">
             <default>true</default>
+        </key>
+        <key name="debug-logs" type="b">
+            <default>false</default>
         </key>
 	</schema>
 </schemalist>

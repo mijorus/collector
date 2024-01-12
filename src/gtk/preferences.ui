@@ -55,7 +55,7 @@
                 <property name="subtitle" translatable="yes">The extention adds cool features like forcing Collector to stay always on top of other windows!</property>
                 <child>
                   <object class="GtkButton" id="open_gnome_ext">
-                    <property name="icon-name">arrow</property>
+                    <property name="icon-name">arrow2-top-right-symbolic</property>
                     <property name="valign">center</property>
                   </object>
                 </child>
@@ -66,7 +66,7 @@
                 <property name="title" translatable="yes">Learn how to configure Collector on KDE</property>
                 <child>
                   <object class="GtkButton" id="configure_kde">
-                    <property name="icon-name">arrow</property>
+                    <property name="icon-name">arrow2-top-right-symbolic</property>
                     <property name="valign">center</property>
                   </object>
                 </child>
@@ -79,7 +79,7 @@
                 <child>
                   <object class="GtkLabel" id="launch_shortcut">
                     <property name="selectable">yes</property>
-                    <property name="label">flatpak run it.mijorus.collector</property>
+                    <property name="label"></property>
                   </object>
                 </child>
               </object>
@@ -93,6 +93,8 @@
                       <item>1 -</item>
                       <item>2 -</item>
                       <item>3 -</item>
+                      <item>4 -</item>
+                      <item>5 -</item>
                     </items>
                   </object>
                 </property>
@@ -101,6 +103,7 @@
             
           </object>
         </child>
+        
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Integrations</property>
@@ -109,7 +112,24 @@
                 <property name="title" translatable="yes">Google Images URL support</property>
                 <property name="subtitle" translatable="yes">Automatically analyse and download files from Google Images links.</property>
                 <child>
-                  <object class="GtkSwitch" id="google_images">
+                  <object class="GtkSwitch" id="google_images_support">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Debugginh</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Enable debug logs</property>
+                <property name="subtitle" translatable="yes">Increase log verbosity.</property>
+                <child>
+                  <object class="GtkSwitch" id="debug_logs">
                     <property name="valign">center</property>
                   </object>
                 </child>

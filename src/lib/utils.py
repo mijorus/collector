@@ -35,12 +35,11 @@ def link_is_image(link) -> tuple[bool, str]:
     logging.info(f'Testing link headers for: {link}')
 
     link = link.strip()
-    settings = Gio.Settings(APP_ID)
     MAX_SIZE_MB_FOR_BINARIES = 25
     
     file_ext = link.split('.')[-1]
 
-    if settings.get_boolean('google-images-support'):   
+    if get_gsettings().get_boolean('google-images-support'):   
         is_google_image = google_re.findall(link)
 
         if is_google_image:
@@ -110,3 +109,6 @@ def get_safe_path(p, ext):
 def get_random_string(length):
     result_str = ''.join(random.choice(string.ascii_letters) for i in range(length))
     return result_str
+
+def get_gsettings():
+    return Gio.Settings.new(APP_ID)

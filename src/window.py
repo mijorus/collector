@@ -29,7 +29,7 @@ from gi.repository import Gtk, Adw, Gio, Gdk, GObject, GLib
 from .lib.constants import APP_ID, SUPPORTED_IMG_TYPES
 from .lib.CarouselItem import CarouselItem
 from .lib.CsvCollector import CsvCollector
-from .lib.utils import get_safe_path
+from .lib.utils import get_gsettings
 from .lib.DroppedItem import DroppedItem, DroppedItemNotSupportedException
 
 class CollectorWindow(Adw.ApplicationWindow):
@@ -38,11 +38,13 @@ class CollectorWindow(Adw.ApplicationWindow):
     EMPTY_DROP_TEXT = _('Drop content here')
     CAROUSEL_ICONS_PIX_SIZE=50
     DROPS_BASE_PATH = GLib.get_user_cache_dir() + f'/drops'
-    settings = Gio.Settings.new(APP_ID)
+    settings = get_gsettings()
 
     def __init__(self, window_index=0, **kwargs):
         super().__init__(**kwargs, title='CollectorMainWindow')
         self.DROPS_PATH = f'{self.DROPS_BASE_PATH}/{window_index}'
+
+        self.settings.connect('changed::keep-on-drag', self.on_keep_on_drag_changed)
 
         self.WINDOW_INDEX = window_index
         self.window_color = self.get_color()
@@ -98,7 +100,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         label_stack.add(self.drops_label)
 
         self.keep_items_indicator = Gtk.Revealer(
-            reveal_child=False,
+            reveal_child=(self.settings.get_boolean('keep-on-drag')),
             transition_type=Gtk.RevealerTransitionType.CROSSFADE,
             child=Gtk.Button(
                 icon_name='padlock2-symbolic',
@@ -154,6 +156,10 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         os.mkdir(self.DROPS_PATH)
 
+    def on_keep_on_drag_changed(self, settings, key):
+        val = settings.get_boolean(key)
+        self.keep_items_indicator.set_reveal_child(val)
+
     def on_drag_prepare(self, source, x, y):
         if not self.dropped_items:
             return None
@@ -180,7 +186,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.is_dragging_away = False
 
         if not self.drag_aborted:
-            if self.settings.get_boolean('clear-on-drag') or \
+            if self.settings.get_boolean('keep-on-drag') or \
                 not self.keep_items_indicator.get_child_visible():
 
                self.remove_all_items()
@@ -191,7 +197,7 @@ class CollectorWindow(Adw.ApplicationWindow):
     def on_drag_start(self, drag, move_data):
         self.is_dragging_away = True
         
-        self.drops_label.set_label(_('Release to drop\nPress Esc to cancel drag'))
+        self.drops_label.set_label(_('Release to drop'))
         self.icon_stack.set_visible_child(self.release_drag_icon)
 
     def on_drop_event(self, widget, value, x, y):
@@ -271,7 +277,7 @@ class CollectorWindow(Adw.ApplicationWindow):
                 self.close()
                 return True
         elif keyval == Gdk.KEY_Alt_L:
-            if self.dropped_items:
+            if self.settings.get_boolean('keep-on-drag') == False:
                 r = self.keep_items_indicator.get_reveal_child()
                 self.keep_items_indicator.set_reveal_child(not r)
         elif keyval == Gdk.KEY_v:
@@ -345,6 +351,7 @@ class CollectorWindow(Adw.ApplicationWindow):
                     d = DroppedItem(file, drops_dir=self.DROPS_PATH)
                     dropped_items.append(d)
             elif isinstance(value, str) and self.settings.get_boolean('collect-text-to-csv'):
+                
                 dropped_item = DroppedItem(self.csvcollector.get_gfile(),
                                             is_clipboard=True,
                                             drops_dir=self.DROPS_PATH, 
@@ -515,7 +522,6 @@ class CollectorWindow(Adw.ApplicationWindow):
     def reset_to_empty_state(self):
         self.drops_label.set_label(self.EMPTY_DROP_TEXT)
         self.icon_stack.set_visible_child(self.default_drop_icon)
-        self.keep_items_indicator.set_reveal_child(False)
 
     def on_close_request(self, widget):
         if os.path.exists(self.DROPS_PATH):

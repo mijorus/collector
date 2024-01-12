@@ -11,7 +11,7 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--device=dri",
-        "--env=APP_DEBUG=0"
+        "--env=APP_DEBUG=1"
     ],
     "cleanup": [
         "/include",

@@ -9,7 +9,7 @@ from .constants import APP_ID, SUPPORTED_IMG_TYPES
 from .utils import get_giofile_content_type, \
     pillow_crop_center, get_file_hash, \
     link_is_image, download_file, get_safe_path, \
-    get_random_string
+    get_random_string, get_gsettings
     
 
 class DroppedItemNotSupportedException(Exception):
@@ -37,6 +37,9 @@ class DroppedItem():
         self.is_clipboard = is_clipboard
 
         logging.debug(f'Creating item from type: {type(item)}')
+
+        if item == None:
+            raise DroppedItemNotSupportedException(msg=f'item of type None not supported')
 
         if isinstance(item, Gdk.Texture):
             item = self.create_tmp_file_from_texture(item)
@@ -101,7 +104,7 @@ class DroppedItem():
             return
         
         if isinstance(self.received_item, str):
-            settings = Gio.Settings(APP_ID)
+            settings = get_gsettings()
             should_download_images = settings.get_boolean('download-images')
 
             if not should_download_images:

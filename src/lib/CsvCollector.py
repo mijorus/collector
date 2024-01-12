@@ -10,11 +10,13 @@ class CsvCollector():
     def __init__(self, drop_dir) -> None:
         self.DROP_DIR = drop_dir
         self.FILENAME = get_safe_path(f'{drop_dir}/collected_strings_', 'csv')
+        self.text_pieces = 0
 
         with open(self.FILENAME, 'w+') as f:
             f.write('')
 
     def append_text(self, text: str):
+        self.text_pieces += 1
         with open(self.FILENAME, 'a') as f:
             writer = csv.writer(f)
             writer.writerow([text])

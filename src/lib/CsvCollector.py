@@ -27,6 +27,7 @@ class CsvCollector():
         return Gio.File.new_for_path(self.FILENAME)
 
     def clear(self):
+        self.text_pieces = 0
         if os.path.exists(self.FILENAME):
             os.remove(self.FILENAME)
 

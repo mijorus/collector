@@ -28,7 +28,7 @@ class DroppedItem():
         self.received_item = item
         self.target_path = None
         self.display_value = ''
-        self.preview_image = 'paper-symbolic'
+        self.preview_image: Gio.File or str = 'paper-symbolic'
         self.gfile = None
         self.size = 0
         self.async_load = False
@@ -140,6 +140,9 @@ class DroppedItem():
                 return
             
             extension = tmp_file_content_type.split('/')[1]
+            if extension == 'svg+xml':
+                extension = 'svg'
+
             base_name = os.path.splitext(filename)[0]
             self.target_path = get_safe_path(f'{self.DROPS_DIR}/{base_name}', extension)
 
@@ -164,10 +167,12 @@ class DroppedItem():
             filehash = get_file_hash(self.gfile)
             preview_path = f'{self.DROPS_DIR}/__{filehash}.{extension}'
 
-            image = self.crop_image(self.target_path)
-            image.save(preview_path, format='png')
-        
-            self.preview_image = Gio.File.new_for_path(preview_path)
+            if content_type not in ['image/svg', 'image/svg+xml']:
+                image = self.crop_image(self.target_path)
+                image.save(preview_path, format='png')
+                self.preview_image = Gio.File.new_for_path(preview_path)
+            else:
+                self.preview_image = self.gfile
         else:
             info = self.gfile.query_info('standard::icon' , 0 , Gio.Cancellable())
             self.preview_image = info.get_icon()

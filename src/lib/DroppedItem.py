@@ -22,7 +22,7 @@ class DroppedItemNotSupportedException(Exception):
 class DroppedItem():
     MAX_PREVIEW_SIZE_MB = 50
 
-    def __init__(self, item, drops_dir, dynamic_size=False, is_clipboard=False) -> None:
+    def __init__(self, item, drops_dir, dynamic_size=False, is_clipboard=False, ignore_urls=False) -> None:
         self.DROPS_DIR = drops_dir
 
         self.received_item = item
@@ -61,7 +61,9 @@ class DroppedItem():
             self.content_is_text = True
 
             self.preview_image = 'font-x-generic-symbolic'
-            if text_string.startswith('http://') or text_string.startswith('https://'):
+            if ignore_urls == False and is_clipboard == False and \
+                  (text_string.startswith('http://') or text_string.startswith('https://')):
+                
                 logging.debug(f'Found http url: {text_string}')
                 base_filename = 'collected_link_'
                 self.preview_image = 'chain-link-symbolic'
@@ -81,7 +83,6 @@ class DroppedItem():
             self.size = len(text_string)
 
             self.set_display_value(text_string)
-
         else:
             raise DroppedItemNotSupportedException(msg=f'item of type {type(item)} not supported')
         
@@ -156,6 +157,7 @@ class DroppedItem():
 
             self.display_value = self.set_display_value(img_link)
             self.size = self.get_size(True)
+            self.content_is_text = False
 
             self.generate_preview_for_image()
 

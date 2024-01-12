@@ -34,6 +34,7 @@ from .lib.DroppedItem import DroppedItem, DroppedItemNotSupportedException
 
 class CollectorWindow(Adw.ApplicationWindow):
 
+    
     COLLECTOR_COLORS = ["blue", "yellow", "purple", "rose", "orange", "green"]
     EMPTY_DROP_TEXT = _('Drop content here')
     CAROUSEL_ICONS_PIX_SIZE=50
@@ -212,15 +213,46 @@ class CollectorWindow(Adw.ApplicationWindow):
     def on_drop_event_complete(self, carousel_items: list[CarouselItem]):
         new_image = False
         for carousel_item in carousel_items:
+            dropped_item = carousel_item.dropped_item
             self.icon_carousel.remove(carousel_item.image)
+            
+            for i, c in enumerate(self.dropped_items):
+                if c is carousel_item:
+                    del self.dropped_items[i]
+                    break
 
-            new_image = self.get_new_image_from_dropped_item(carousel_item.dropped_item)
-            new_image.set_tooltip_text(carousel_item.dropped_item.display_value)
+            if self.settings.get_boolean('collect-text-to-csv') and \
+                    dropped_item.content_is_text:
 
-            carousel_item.image = new_image
+                value = dropped_item.get_text_content()
+                if self.csvcollector:
+                    self.csvcollector.append_text(value)
+                else:
+                    self.csvcollector = CsvCollector(self.DROPS_PATH)
+                    self.csvcollector.append_text(value)
 
-            self.icon_carousel.append(new_image)            
-            self.dropped_items[carousel_item.index] = carousel_item
+                    dropped_item = DroppedItem(self.csvcollector.get_gfile(),
+                        is_clipboard=True,
+                        drops_dir=self.DROPS_PATH,
+                        dynamic_size=True)
+                    
+                    carousel_item = CarouselItem(
+                        item=dropped_item, 
+                        image=self.get_new_image_from_dropped_item(dropped_item),
+                        index=0
+                    )
+
+                    self.icon_carousel.prepend(carousel_item.image)
+                    self.dropped_items.insert(0, carousel_item)
+            else:
+                new_image = self.get_new_image_from_dropped_item(dropped_item)
+                new_image.set_tooltip_text(dropped_item.display_value)
+
+                carousel_item.image = new_image
+
+                self.icon_carousel.append(new_image)          
+                self.dropped_items.append(carousel_item)  
+                self.dropped_items[carousel_item.index] = carousel_item
 
         if new_image:
             self.icon_carousel.scroll_to(new_image, True)
@@ -229,6 +261,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
     def on_drop_event_complete_async(self, carousel_items: list[CarouselItem]):
         async_items: list[CarouselItem] = []
+        GLib.idle_add(lambda: self.update_tot_size_sum(True))
 
         for carousel_item in carousel_items:
             if carousel_item.dropped_item.async_load:
@@ -317,11 +350,11 @@ class CollectorWindow(Adw.ApplicationWindow):
             if self.dropped_items:
                 self.carousel_popover.popup()
             return True
-        elif keyval == Gdk.KEY_O:
+        elif keyval == Gdk.KEY_o:
             if self.dropped_items and ctrl_key:
                 self.on_preview_btn_clicked(None)
                 return True
-        if keyval == Gdk.KEY_Delete:
+        elif keyval == Gdk.KEY_Delete:
             if self.dropped_items and not self.is_dragging_away:
                 self.remove_all_items()
                 self.carousel_popover.popdown()
@@ -358,7 +391,7 @@ class CollectorWindow(Adw.ApplicationWindow):
                     dropped_items.append(d)
             elif isinstance(value, str) and self.settings.get_boolean('collect-text-to-csv'):
                 dropped_item = DroppedItem(value, drops_dir=self.DROPS_PATH)
-                
+
                 if dropped_item.async_load:
                     dropped_items.append(dropped_item)
                 else:
@@ -413,20 +446,20 @@ class CollectorWindow(Adw.ApplicationWindow):
                 carousel_item = CarouselItem(
                     item=dropped_item, 
                     image=new_image,
-                    index=len(self.dropped_items)
+                    index=0 if dropped_item.is_clipboard else len(self.dropped_items)
                 )
 
                 carousel_items.append(carousel_item)
-                self.icon_carousel.append(new_image)
+                if dropped_item.is_clipboard:
+                    self.icon_carousel.prepend(new_image)
+                else:
+                    self.icon_carousel.append(new_image)
 
-        self.dropped_items.extend(carousel_items)
-
-        for i, c in enumerate(self.dropped_items):
+        for c in carousel_items:
             if c.dropped_item.is_clipboard:
-                self.icon_carousel.reorder(c.image, 0)
-                self.dropped_items.pop(i)
                 self.dropped_items.insert(0, c)
-                break
+            else:
+                self.dropped_items.append(c)
 
         if any([d.async_load for d in dropped_items]):
             threading.Thread(
@@ -504,7 +537,11 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.clipboard.set_content(content_prov)
         self.carousel_popover.popdown()
 
-    def update_tot_size_sum(self):
+    def update_tot_size_sum(self, loading_state=False):
+        if loading_state:
+            self.drops_label.set_label('...')
+            return
+
         tot_size = sum([d.dropped_item.get_size() for d in self.dropped_items])
 
         if tot_size > (1024 * 1024 * 1024):

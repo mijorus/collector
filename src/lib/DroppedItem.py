@@ -64,8 +64,13 @@ class DroppedItem():
             if text_string.startswith('http://') or text_string.startswith('https://'):
                 logging.debug(f'Found http url: {text_string}')
                 base_filename = 'collected_link_'
-                self.async_load = True
                 self.preview_image = 'chain-link-symbolic'
+                
+                settings = get_gsettings()
+                should_download_images = settings.get_boolean('download-images')
+
+                if should_download_images:
+                    self.async_load = True
 
 
             self.target_path = get_safe_path(f'{self.DROPS_DIR}/{base_filename}', 'txt')

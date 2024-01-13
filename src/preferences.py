@@ -51,8 +51,8 @@ class SettingsWindow(Adw.PreferencesWindow):
 
         self.launch_shortcut.set_label(f'flatpak run {APP_ID}')
 
-        self.configure_kde.connect('clicked', on_click_open_uri, 'https://mijorus.it/projects/collector/configure-kde')
-        self.open_gnome_ext.connect('clicked', on_click_open_uri, 'https://mijorus.it/projects/collector/configure-kde')
+        self.configure_kde.connect('clicked', on_click_open_uri, 'https://mijorus.it/posts/collector/configure-kde')
+        self.open_gnome_ext.connect('clicked', on_click_open_uri, 'https://mijorus.it/posts/collector/install-gnome-ext.html')
 
     def on_click_open_uri(self, w: Gtk.Button, uri: str):
         launcher = Gtk.UriLauncher(uri=uri)

@@ -187,9 +187,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         self.is_dragging_away = False
 
         if not self.drag_aborted:
-            if self.settings.get_boolean('keep-on-drag') or \
-                not self.keep_items_indicator.get_child_visible():
-
+            if self.keep_items_indicator.get_child_visible():
                self.remove_all_items()
 
         self.drag_aborted = False

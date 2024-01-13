@@ -14,5 +14,16 @@ Drag multiple files and folders on to Collection window, drop them anywhere!
 - Optionally group your text drops into a single, ready-to-use CSV file
 - Modern design built with LibAdawaita
 
+## Get the app
+
+## Get the GNOME extension
+
+<a href="https://extensions.gnome.org/extension/6096/smile-complementary-extension" align="center">
+  <img width="200" src="https://mijorus.it/gnome-extension.svg">
+</a>
+
+
+___
+
 
 ![Preview of Collector - Dropover replacement for linux](docs/preview2.png)

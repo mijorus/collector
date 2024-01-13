@@ -12,7 +12,7 @@ Drag multiple files and folders on to Collection window, drop them anywhere!
 - Drag directly from Google Images!
 - Drop the content of your clipboard with `Ctrl + V`
 - Optionally group your text drops into a single, ready-to-use CSV file
-- Modern design built with LibAdawaita design
+- Modern design built with LibAdawaita
 
 
 ![Preview of Collector - Dropover replacement for linux](docs/preview2.png)

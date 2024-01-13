@@ -19,4 +19,17 @@
             </description>
         </release>
 	</releases>
+    <screenshots>
+        <screenshot type="default">
+            <caption>Application showcase</caption>
+            <image type="source">
+                https://raw.githubusercontent.com/mijorus/collector/master/docs/collector-preview-1.png</image>
+        </screenshot>
+        <screenshot>
+            <caption>Application showcase</caption>
+            <image type="source">
+                https://raw.githubusercontent.com/mijorus/collector/master/docs/collector-preview-2.png</image>
+        </screenshot>
+    </screenshots>
+    <content_rating type="oars-1.0" />
 </component>

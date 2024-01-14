@@ -21,3 +21,4 @@ venv
 
 .flatpak-buider/
 .flatpak-buider
+.flatpak-builder/checksums/x86_64-it.mijorus.collector.json

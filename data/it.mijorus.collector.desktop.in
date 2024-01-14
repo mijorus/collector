@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=collector
+Name=Collector
 Exec=collector
 Icon=it.mijorus.collector
 Terminal=false

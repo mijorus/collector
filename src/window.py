@@ -165,22 +165,16 @@ class CollectorWindow(Adw.ApplicationWindow):
         if not self.dropped_items:
             return None
 
-        dropped_files = [f.dropped_item.gfile for f in self.dropped_items]
-        # path_list = '\n'.join([f.target_path for f in self.dropped_items])
-        # uri_list = '\n'.join([f'file://{f.target_path}' for f in self.dropped_items])
-
+        uri_list = '\n'.join([f'file://{f.dropped_item.target_path}' for f in self.dropped_items])
         return Gdk.ContentProvider.new_union([
-            Gdk.ContentProvider.new_for_value(Gdk.FileList.new_from_array(dropped_files)),
-            # Gdk.ContentProvider.new_for_value(path_list),
-            # Gdk.ContentProvider.new_for_value(uri_list),
-            # Gdk.ContentProvider.new_for_bytes(
-            #     'text/uri-list', 
-            #     GLib.Bytes.new(uri_list.encode())
-            # )
+            Gdk.ContentProvider.new_for_bytes(
+                'text/uri-list', 
+                GLib.Bytes.new(uri_list.encode())
+            )
         ])
 
     def on_drag_cancel(self, source, drag, reason):
-        logging.debug('Drag operation canceled')
+        logging.debug('Drag operation canceled, reason: ', reason)
         self.drag_aborted = True
 
     def on_drag_end(self, source, drag, move_data):
@@ -307,8 +301,8 @@ class CollectorWindow(Adw.ApplicationWindow):
             else:
                 self.close()
                 return True
-        elif keyval == Gdk.KEY_Alt_L:
-            if self.settings.get_boolean('keep-on-drag') == False:
+        elif keyval == Gdk.KEY_d:
+            if ctrl_key and self.settings.get_boolean('keep-on-drag') == False:
                 r = self.keep_items_indicator.get_reveal_child()
                 self.keep_items_indicator.set_reveal_child(not r)
         elif keyval == Gdk.KEY_v:

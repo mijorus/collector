@@ -15,7 +15,7 @@ Drag multiple files and folders on to Collection window, drop them anywhere!
 - Modern design built with LibAdawaita
 
 ## Get the app
-<a href="https://flathub.org/apps/details/collector" align="center">
+<a href="https://flathub.org/it/apps/it.mijorus.collector" align="center">
   <img width="200" src="https://flathub.org/assets/badges/flathub-badge-i-en.png">
 </a>
 

@@ -1,0 +1,214 @@
+# Russian translation for Collector.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Сергей Ворон <voron@duck.com>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-12 15:39+0100\n"
+"PO-Revision-Date: 2024-01-20 17:07+0300\n"
+"Last-Translator: Сергей Ворон <voron@duck.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/lib/CsvCollector.py:87
+msgid "Close"
+msgstr "Закрыть"
+
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
+msgstr "В настоящее время поддерживаются следующие форматы изображений:"
+
+#: src/window.py:38
+msgid "Drop content here"
+msgstr "Перекиньте контент сюда"
+
+#: src/window.py:200
+msgid "Release to drop"
+msgstr "Отпустите, чтобы перекинуть"
+
+#: src/window.py:252
+msgid "Release to collect"
+msgstr "Отпустите, чтобы собрать"
+
+#: src/window.py:520
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr "1 Файл | {size}"
+
+#: src/window.py:522
+#, python-brace-format
+msgid "{files_count} Files | {size}"
+msgstr "{files_count} Файлы | {size}"
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Общие"
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Показать комбинации клавиш"
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Выйти"
+
+#: src/gtk/main-menu.ui:6
+msgid "_Preferences"
+msgstr "_Настройки"
+
+#: src/gtk/main-menu.ui:10
+msgid "_Tutorial"
+msgstr "_Руководство"
+
+#: src/gtk/main-menu.ui:14
+msgid "_Shortcuts"
+msgstr "_Комбинации клавиш"
+
+#: src/gtk/main-menu.ui:18
+msgid "_Open Log File"
+msgstr "_Открыть файл лога"
+
+#: src/gtk/main-menu.ui:22
+msgid "_About Collector"
+msgstr "_О приложении"
+
+#: src/gtk/preferences.ui:5
+msgid "Preferences"
+msgstr "Настройки"
+
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13 src/gtk/shortcuts.ui:9
+msgid "General"
+msgstr "Общие"
+
+#: src/gtk/preferences.ui:16
+msgid "Always keep items when dragging out"
+msgstr "Всегда сохранять элементы при перетаскивании"
+
+#: src/gtk/preferences.ui:17
+msgid "This option also disables the Alt shortcut."
+msgstr "Эта опция также отключает комбинации клавиш Alt."
+
+#: src/gtk/preferences.ui:27
+msgid "Download images from URLs"
+msgstr "Загружать изображения по ссылке"
+
+#: src/gtk/preferences.ui:28
+msgid ""
+"If the dropped text is an URL that links to an image, the image is "
+"automatically downloaded and saved."
+msgstr ""
+"Если перетаскиваемый текст является ссылкой на изображение, оно "
+"автоматически загружается и сохраняется."
+
+#: src/gtk/preferences.ui:38
+msgid "Collect text strings as a CSV file"
+msgstr "Собирать текстовые строки в файл CSV"
+
+#: src/gtk/preferences.ui:39
+msgid ""
+"When enabled, plain text strings are collected in a single CSV file. URLs "
+"that link to images will still follow the respective setting."
+msgstr ""
+"Если включено, простые текстовые строки собираются в один файл CSV. URL-"
+"адреса, которые ссылаются на изображения, по-прежнему будут следовать "
+"соответствующим настройкам."
+
+#: src/gtk/preferences.ui:51
+msgid "Window behaviour"
+msgstr "Поведение окна"
+
+#: src/gtk/preferences.ui:54
+msgid "Get GNOME extension"
+msgstr "Установить расширение GNOME"
+
+#: src/gtk/preferences.ui:55
+msgid ""
+"The extention adds cool features like forcing Collector to stay always on "
+"top of other windows!"
+msgstr ""
+"Расширение добавляет интересные функции, например, заставляет Collector "
+"всегда оставаться поверх других окон!"
+
+#: src/gtk/preferences.ui:66
+msgid "Learn how to configure Collector on KDE"
+msgstr "Узнайте, как настроить Collector в KDE."
+
+#: src/gtk/preferences.ui:77
+msgid "Open Collector with a shortcut"
+msgstr "Открывать Collector с помощью комбинаций клавиш"
+
+#: src/gtk/preferences.ui:78
+msgid ""
+"Use this code to create a custom shortcut for Collector in the system "
+"settings."
+msgstr ""
+"Используйте этот код, чтобы создать собственную комбинацию клавиш для "
+"Collector в настройках системы."
+
+#: src/gtk/preferences.ui:89
+msgid "Number of windows to open with a shortcut"
+msgstr "Количество окон, которые можно открыть с помощью комбинации клавиш"
+
+#: src/gtk/preferences.ui:109
+msgid "Integrations"
+msgstr "Интеграции"
+
+#: src/gtk/preferences.ui:112
+msgid "Google Images URL support"
+msgstr "Поддержка URL-адресов Google Картинок"
+
+#: src/gtk/preferences.ui:113
+msgid "Automatically analyse and download files from Google Images links."
+msgstr ""
+"Автоматически анализировать и загружать файлы по ссылкам Google Картинок."
+
+#: src/gtk/preferences.ui:126
+msgid "Debugginh"
+msgstr "Отладка"
+
+#: src/gtk/preferences.ui:129
+msgid "Enable debug logs"
+msgstr "Включить журнал отладки"
+
+#: src/gtk/preferences.ui:130
+msgid "Increase log verbosity."
+msgstr "Увеличить детализацию журнала."
+
+#: src/gtk/shortcuts.ui:12
+msgid "Scroll left"
+msgstr "Прокрутка влево"
+
+#: src/gtk/shortcuts.ui:18
+msgid "Scroll right"
+msgstr "Прокрутка вправо"
+
+#: src/gtk/shortcuts.ui:24
+msgid "Toggle lock mode"
+msgstr "Переключить режим блокировки"
+
+#: src/gtk/shortcuts.ui:30
+msgid "Preview selected item"
+msgstr "Предварительный просмотр выбранного элемента"
+
+#: src/gtk/shortcuts.ui:36
+msgid "Delete selected item"
+msgstr "Удалить выбранный элемент"
+
+#: src/gtk/shortcuts.ui:42
+msgid "Remove all the items"
+msgstr "Удалите все элементы"
+
+#: src/gtk/shortcuts.ui:48
+msgid "Paste from keyboard"
+msgstr "Вставить с клавиатуры"

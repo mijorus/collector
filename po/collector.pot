@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-12 15:39+0100\n"
+"POT-Creation-Date: 2024-01-21 07:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/CsvCollector.py:87
-msgid "Close"
+#. Translators: Keep as `Collector`
+#: data/it.mijorus.collector.desktop.in:4
+msgid "Collector"
 msgstr ""
 
-#: src/preferences.py:46
-msgid "The following image formats are currently supported: "
+#: data/it.mijorus.collector.desktop.in:6
+#: data/it.mijorus.collector.metainfo.xml.in:5
+msgid "Drag and Drop to the next level"
 msgstr ""
 
-#: src/window.py:38
-msgid "Drop content here"
+#: data/it.mijorus.collector.metainfo.xml.in:19
+msgid ""
+"Collector is a simple utility that allows you to drag multiple files into a "
+"single window and drop them anywhere! It can also download images "
+"automatically when pasting urls."
 msgstr ""
 
-#: src/window.py:200
-msgid "Release to drop"
-msgstr ""
-
-#: src/window.py:252
-msgid "Release to collect"
-msgstr ""
-
-#: src/window.py:520
-#, python-brace-format
-msgid "1 File | {size}"
-msgstr ""
-
-#: src/window.py:522
-#, python-brace-format
-msgid "{files_count} Files | {size}"
+#: data/it.mijorus.collector.metainfo.xml.in:32
+#: data/it.mijorus.collector.metainfo.xml.in:37
+msgid "Application showcase"
 msgstr ""
 
 #: src/gtk/help-overlay.ui:11
@@ -54,7 +46,7 @@ msgstr ""
 
 #: src/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr ""
 
 #: src/gtk/help-overlay.ui:20
@@ -62,23 +54,55 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr ""
 
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Scroll left"
+msgstr ""
+
+#: src/gtk/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Scroll right"
+msgstr ""
+
+#: src/gtk/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Toggle lock mode"
+msgstr ""
+
+#: src/gtk/help-overlay.ui:44
+msgctxt "shortcut window"
+msgid "Preview selected item"
+msgstr ""
+
+#: src/gtk/help-overlay.ui:50
+msgctxt "shortcut window"
+msgid "Delete selected item"
+msgstr ""
+
+#: src/gtk/help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Remove all items"
+msgstr ""
+
+#: src/gtk/help-overlay.ui:62
+msgctxt "shortcut window"
+msgid "Paste from clipboard"
+msgstr ""
+
 #: src/gtk/main-menu.ui:6
 msgid "_Preferences"
 msgstr ""
 
 #: src/gtk/main-menu.ui:10
-msgid "_Tutorial"
+msgid "_Keyboard Shortcuts"
 msgstr ""
 
 #: src/gtk/main-menu.ui:14
-msgid "_Shortcuts"
-msgstr ""
-
-#: src/gtk/main-menu.ui:18
 msgid "_Open Log File"
 msgstr ""
 
-#: src/gtk/main-menu.ui:22
+#. Translators: Do not translate the application name
+#: src/gtk/main-menu.ui:19
 msgid "_About Collector"
 msgstr ""
 
@@ -86,7 +110,7 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13 src/gtk/shortcuts.ui:9
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13
 msgid "General"
 msgstr ""
 
@@ -163,7 +187,7 @@ msgid "Automatically analyse and download files from Google Images links."
 msgstr ""
 
 #: src/gtk/preferences.ui:126
-msgid "Debugginh"
+msgid "Debugging"
 msgstr ""
 
 #: src/gtk/preferences.ui:129
@@ -174,30 +198,37 @@ msgstr ""
 msgid "Increase log verbosity."
 msgstr ""
 
-#: src/gtk/shortcuts.ui:12
-msgid "Scroll left"
+#: src/lib/CsvCollector.py:87
+msgid "Close"
 msgstr ""
 
-#: src/gtk/shortcuts.ui:18
-msgid "Scroll right"
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/main.py:110
+msgid "translator-credits"
 msgstr ""
 
-#: src/gtk/shortcuts.ui:24
-msgid "Toggle lock mode"
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
 msgstr ""
 
-#: src/gtk/shortcuts.ui:30
-msgid "Preview selected item"
+#: src/window.py:39
+msgid "Drop content here"
 msgstr ""
 
-#: src/gtk/shortcuts.ui:36
-msgid "Delete selected item"
+#: src/window.py:193
+msgid "Release to drop"
 msgstr ""
 
-#: src/gtk/shortcuts.ui:42
-msgid "Remove all the items"
+#: src/window.py:277
+msgid "Release to collect"
 msgstr ""
 
-#: src/gtk/shortcuts.ui:48
-msgid "Paste from keyboard"
+#: src/window.py:549
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr ""
+
+#: src/window.py:551
+#, python-brace-format
+msgid "{files_count} Files | {size}"
 msgstr ""

@@ -18,7 +18,3 @@ src/ui/settings.glade~
 .DS_Store
 po/*.mo
 venv
-
-.flatpak-buider/
-.flatpak-buider
-.flatpak-builder/checksums/x86_64-it.mijorus.collector.json

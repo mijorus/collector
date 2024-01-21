@@ -7,8 +7,8 @@
                 <attribute name="action">app.preferences</attribute>
             </item>
             <item>
-                <attribute name="label" translatable="yes">_Shortcuts</attribute>
-                <attribute name="action">app.shortcuts</attribute>
+                <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+                <attribute name="action">win.show-help-overlay</attribute>
             </item>
             <item>
                 <attribute name="label" translatable="yes">_Open Log File</attribute>

@@ -99,7 +99,7 @@ class CollectorApplication(Adw.Application):
 
             win.present()
 
-    def on_about_action(self, widget, _):
+    def on_about_action(self, *args):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='Collector',
@@ -107,6 +107,8 @@ class CollectorApplication(Adw.Application):
                                 developer_name='Lorenzo Paderi',
                                 version=self.version,
                                 developers=['Lorenzo Paderi'],
+                                # Translators: Replace "translator-credits" with your names, one name per line
+                                translator_credits=_("translator-credits"),
                                 copyright='© 2023 Lorenzo Paderi')
         about.present()
 

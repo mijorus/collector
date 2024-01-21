@@ -1,6 +1,8 @@
 [Desktop Entry]
+# Translators: Keep as `Collector`
 Name=Collector
 Exec=collector
+Comment=Drag and Drop to the next level
 Icon=it.mijorus.collector
 Terminal=false
 Type=Application

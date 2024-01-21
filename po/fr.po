@@ -1,14 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# French translation for collector
+# Copyright (C) 2024 collector'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the collector package.
+#
 # Irénée THIRION <irenee.thirion@e.email>, 2024.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unnamed project\n"
+"Project-Id-Version: collector\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-12 15:39+0100\n"
+"POT-Creation-Date: 2024-01-21 07:06+0300\n"
 "PO-Revision-Date: 2024-01-17 18:39+0100\n"
 "Last-Translator: Irénée THIRION <irenee.thirion@e.email>\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
@@ -19,35 +19,27 @@ msgstr ""
 "X-Generator: Gtranslator 45.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#: src/lib/CsvCollector.py:87
-msgid "Close"
-msgstr "Fermer"
+#. Translators: Keep as `Collector`
+#: data/it.mijorus.collector.desktop.in:4
+msgid "Collector"
+msgstr "Collector"
 
-#: src/preferences.py:46
-msgid "The following image formats are currently supported: "
-msgstr "Les formats d’image suivants sont actuellement pris en charge :"
+#: data/it.mijorus.collector.desktop.in:6
+#: data/it.mijorus.collector.metainfo.xml.in:5
+msgid "Drag and Drop to the next level"
+msgstr ""
 
-#: src/window.py:38
-msgid "Drop content here"
-msgstr "Déposez du contenu ici"
+#: data/it.mijorus.collector.metainfo.xml.in:19
+msgid ""
+"Collector is a simple utility that allows you to drag multiple files into a "
+"single window and drop them anywhere! It can also download images "
+"automatically when pasting urls."
+msgstr ""
 
-#: src/window.py:200
-msgid "Release to drop"
-msgstr "Relâcher pour déposer"
-
-#: src/window.py:252
-msgid "Release to collect"
-msgstr "Relâcher pour collecter"
-
-#: src/window.py:520
-#, python-brace-format
-msgid "1 File | {size}"
-msgstr "1 fichier | {size}"
-
-#: src/window.py:522
-#, python-brace-format
-msgid "{files_count} Files | {size}"
-msgstr "{files_count} fichiers | {size}"
+#: data/it.mijorus.collector.metainfo.xml.in:32
+#: data/it.mijorus.collector.metainfo.xml.in:37
+msgid "Application showcase"
+msgstr ""
 
 #: src/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -56,7 +48,7 @@ msgstr "Général"
 
 #: src/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr "Afficher les raccourcis"
 
 #: src/gtk/help-overlay.ui:20
@@ -64,23 +56,57 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Quitter"
 
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Scroll left"
+msgstr "Défiler vers la gauche"
+
+#: src/gtk/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Scroll right"
+msgstr "Défiler vers la droite"
+
+#: src/gtk/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Toggle lock mode"
+msgstr "Basculer le mode verrouillé"
+
+#: src/gtk/help-overlay.ui:44
+msgctxt "shortcut window"
+msgid "Preview selected item"
+msgstr "Visualiser l’élément sélectionné"
+
+#: src/gtk/help-overlay.ui:50
+msgctxt "shortcut window"
+msgid "Delete selected item"
+msgstr "Supprimer l’élément sélectionné"
+
+#: src/gtk/help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Remove all items"
+msgstr "Supprimer tous les éléments"
+
+#: src/gtk/help-overlay.ui:62
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Paste from clipboard"
+msgstr "Coller depuis le presse-papiers"
+
 #: src/gtk/main-menu.ui:6
 msgid "_Preferences"
 msgstr "_Préférences"
 
 #: src/gtk/main-menu.ui:10
-msgid "_Tutorial"
-msgstr "_Tutoriel"
-
-#: src/gtk/main-menu.ui:14
-msgid "_Shortcuts"
+#, fuzzy
+msgid "_Keyboard Shortcuts"
 msgstr "_Raccourcis"
 
-#: src/gtk/main-menu.ui:18
+#: src/gtk/main-menu.ui:14
 msgid "_Open Log File"
 msgstr "_Journal de débogage"
 
-#: src/gtk/main-menu.ui:22
+#. Translators: Do not translate the application name
+#: src/gtk/main-menu.ui:19
 msgid "_About Collector"
 msgstr "À _propos de Collector"
 
@@ -88,7 +114,7 @@ msgstr "À _propos de Collector"
 msgid "Preferences"
 msgstr "Préférences"
 
-#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13 src/gtk/shortcuts.ui:9
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13
 msgid "General"
 msgstr "Général"
 
@@ -176,7 +202,7 @@ msgstr ""
 "Images."
 
 #: src/gtk/preferences.ui:126
-msgid "Debugginh"
+msgid "Debugging"
 msgstr "Débogage"
 
 #: src/gtk/preferences.ui:129
@@ -187,30 +213,37 @@ msgstr "Activer les journaux de débogage"
 msgid "Increase log verbosity."
 msgstr "Augmente la verbosité du journal."
 
-#: src/gtk/shortcuts.ui:12
-msgid "Scroll left"
-msgstr "Défiler vers la gauche"
+#: src/lib/CsvCollector.py:87
+msgid "Close"
+msgstr "Fermer"
 
-#: src/gtk/shortcuts.ui:18
-msgid "Scroll right"
-msgstr "Défiler vers la droite"
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/main.py:110
+msgid "translator-credits"
+msgstr "Irénée THIRION <irenee.thirion@e.email>"
 
-#: src/gtk/shortcuts.ui:24
-msgid "Toggle lock mode"
-msgstr "Basculer le mode verrouillé"
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
+msgstr "Les formats d’image suivants sont actuellement pris en charge :"
 
-#: src/gtk/shortcuts.ui:30
-msgid "Preview selected item"
-msgstr "Visualiser l’élément sélectionné"
+#: src/window.py:39
+msgid "Drop content here"
+msgstr "Déposez du contenu ici"
 
-#: src/gtk/shortcuts.ui:36
-msgid "Delete selected item"
-msgstr "Supprimer l’élément sélectionné"
+#: src/window.py:193
+msgid "Release to drop"
+msgstr "Relâcher pour déposer"
 
-#: src/gtk/shortcuts.ui:42
-msgid "Remove all the items"
-msgstr "Supprimer tous les éléments"
+#: src/window.py:277
+msgid "Release to collect"
+msgstr "Relâcher pour collecter"
 
-#: src/gtk/shortcuts.ui:48
-msgid "Paste from keyboard"
-msgstr "Coller depuis le presse-papiers"
+#: src/window.py:549
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr "1 fichier | {size}"
+
+#: src/window.py:551
+#, python-brace-format
+msgid "{files_count} Files | {size}"
+msgstr "{files_count} fichiers | {size}"

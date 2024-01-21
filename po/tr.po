@@ -1,0 +1,248 @@
+# Turkish translation for collector
+# Copyright (C) 2024 collector'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the collector package.
+#
+# Sabri Ünal <libreajans@gmail.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: collector\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-21 07:03+0300\n"
+"PO-Revision-Date: 2024-01-21 07:04+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"Language-Team: Turkish <takim@gnome.org.tr>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Project-Style: gnome\n"
+
+#. Translators: Keep as `Collector`
+#: data/it.mijorus.collector.desktop.in:4
+msgid "Collector"
+msgstr "Collector"
+
+#: data/it.mijorus.collector.desktop.in:6
+#: data/it.mijorus.collector.metainfo.xml.in:5
+msgid "Drag and Drop to the next level"
+msgstr "Bir sonraki düzeye Sürükle ve Bırak"
+
+#: data/it.mijorus.collector.metainfo.xml.in:19
+msgid ""
+"Collector is a simple utility that allows you to drag multiple files into a "
+"single window and drop them anywhere! It can also download images "
+"automatically when pasting urls."
+msgstr ""
+"Collector, birden çok dosyayı tek pencereye sürüklemenizi ve istediğiniz "
+"yere bırakmanızı sağlayan basit bir uygulamadır! Ayrıca URLʼleri "
+"yapıştırırken görüntüleri kendiliğinden indirebilir."
+
+#: data/it.mijorus.collector.metainfo.xml.in:32
+#: data/it.mijorus.collector.metainfo.xml.in:37
+msgid "Application showcase"
+msgstr "Uygulama vitrini"
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Genel"
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "Kısayolları göster"
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Çık"
+
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Scroll left"
+msgstr "Sola kaydır"
+
+#: src/gtk/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Scroll right"
+msgstr "Sağa kaydır"
+
+#: src/gtk/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Toggle lock mode"
+msgstr "Kilit kipini değiştir"
+
+#: src/gtk/help-overlay.ui:44
+msgctxt "shortcut window"
+msgid "Preview selected item"
+msgstr "Seçili öğeyi ön izle"
+
+#: src/gtk/help-overlay.ui:50
+msgctxt "shortcut window"
+msgid "Delete selected item"
+msgstr "Seçili öğeyi sil"
+
+#: src/gtk/help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Remove all items"
+msgstr "Tüm öğeleri kaldır"
+
+#: src/gtk/help-overlay.ui:62
+msgctxt "shortcut window"
+msgid "Paste from clipboard"
+msgstr "Panodan yapıştır"
+
+#: src/gtk/main-menu.ui:6
+msgid "_Preferences"
+msgstr "_Tercihler"
+
+#: src/gtk/main-menu.ui:10
+msgid "_Keyboard Shortcuts"
+msgstr "_Klavye Kısayolları"
+
+#: src/gtk/main-menu.ui:14
+msgid "_Open Log File"
+msgstr "_Günlük Dosyasını Aç"
+
+#. Translators: Do not translate the application name
+#: src/gtk/main-menu.ui:19
+msgid "_About Collector"
+msgstr "Collector _Hakkında"
+
+#: src/gtk/preferences.ui:5
+msgid "Preferences"
+msgstr "Tercihler"
+
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13
+msgid "General"
+msgstr "Genel"
+
+#: src/gtk/preferences.ui:16
+msgid "Always keep items when dragging out"
+msgstr "Ögeleri dışarı çıkarırken daima sakla"
+
+#: src/gtk/preferences.ui:17
+msgid "This option also disables the Alt shortcut."
+msgstr "Bu seçenek Alt kısayolunu da devre dışı bırakır."
+
+#: src/gtk/preferences.ui:27
+msgid "Download images from URLs"
+msgstr "URLʼlerden görüntü indir"
+
+#: src/gtk/preferences.ui:28
+msgid ""
+"If the dropped text is an URL that links to an image, the image is "
+"automatically downloaded and saved."
+msgstr ""
+"Bırakılan metin görüntüye bağlantı veren bir URL ise, resim kendiliğinden "
+"indirilir ve kaydedilir."
+
+#: src/gtk/preferences.ui:38
+msgid "Collect text strings as a CSV file"
+msgstr "Metin dizgelerini CSV dosyası olarak topla"
+
+#: src/gtk/preferences.ui:39
+msgid ""
+"When enabled, plain text strings are collected in a single CSV file. URLs "
+"that link to images will still follow the respective setting."
+msgstr ""
+"Etkinleştirildiğinde, düz metin dizgeleri tek CSV dosyasında toplanır. "
+"Görüntülerle bağlantılı URL'ler ilgili ayarı takip etmeye devam eder."
+
+#: src/gtk/preferences.ui:51
+msgid "Window behaviour"
+msgstr "Pencere davranışı"
+
+#: src/gtk/preferences.ui:54
+msgid "Get GNOME extension"
+msgstr "GNOME uzantısını edin"
+
+#: src/gtk/preferences.ui:55
+msgid ""
+"The extention adds cool features like forcing Collector to stay always on "
+"top of other windows!"
+msgstr ""
+"Uzantı, Collectorʼı her zaman diğer pencerelerin üstünde kalmaya zorlamak "
+"gibi harika özellikler ekler!"
+
+#: src/gtk/preferences.ui:66
+msgid "Learn how to configure Collector on KDE"
+msgstr "KDEʼde Collectorʼu nasıl yapılandıracağınızı öğrenin"
+
+#: src/gtk/preferences.ui:77
+msgid "Open Collector with a shortcut"
+msgstr "Collectorʼu kısayol ile aç"
+
+#: src/gtk/preferences.ui:78
+msgid ""
+"Use this code to create a custom shortcut for Collector in the system "
+"settings."
+msgstr ""
+"Sistem ayarlarında Collectorʼa özel kısayol oluşturmak için bu kodu kullanın."
+
+#: src/gtk/preferences.ui:89
+msgid "Number of windows to open with a shortcut"
+msgstr "Kısayol ile açılacak pencere sayısı"
+
+#: src/gtk/preferences.ui:109
+msgid "Integrations"
+msgstr "Tümleşim"
+
+#: src/gtk/preferences.ui:112
+msgid "Google Images URL support"
+msgstr "Google Görseller URL desteği"
+
+#: src/gtk/preferences.ui:113
+msgid "Automatically analyse and download files from Google Images links."
+msgstr ""
+"Google Görseller bağlantılarındaki dosyaları kendiliğinden incele ve indir."
+
+#: src/gtk/preferences.ui:126
+msgid "Debugging"
+msgstr "Hata Ayıklama"
+
+#: src/gtk/preferences.ui:129
+msgid "Enable debug logs"
+msgstr "Hata ayıklama günlüklerini etkinleştir"
+
+#: src/gtk/preferences.ui:130
+msgid "Increase log verbosity."
+msgstr "Günlük ayrıntı düzeyini artır"
+
+#: src/lib/CsvCollector.py:87
+msgid "Close"
+msgstr "Kapat"
+
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/main.py:110
+msgid "translator-credits"
+msgstr "Sabri Ünal <libreajans@gmail.com>"
+
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
+msgstr "Aşağıdaki görüntü biçimleri desteklenmektedir: "
+
+#: src/window.py:39
+msgid "Drop content here"
+msgstr "İçeriği buraya bırakın"
+
+#: src/window.py:193
+msgid "Release to drop"
+msgstr "Bırakmak için serbest bırak"
+
+#: src/window.py:277
+msgid "Release to collect"
+msgstr "Toplamak için serbest bırak"
+
+#: src/window.py:549
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr "1 Dosya | {size}"
+
+#: src/window.py:551
+#, python-brace-format
+msgid "{files_count} Files | {size}"
+msgstr "{files_count} Dosya | {size}"

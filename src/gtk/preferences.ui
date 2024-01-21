@@ -123,7 +123,7 @@
 
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Debugginh</property>
+            <property name="title" translatable="yes">Debugging</property>
             <child>
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">Enable debug logs</property>

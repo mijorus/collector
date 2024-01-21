@@ -39,13 +39,13 @@
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes">Remove all the items</property>
+                <property name="title" translatable="yes">Remove all items</property>
                 <property name="accelerator">Delete</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes">Paste from keyboard</property>
+                <property name="title" translatable="yes">Paste from clipboard</property>
                 <property name="accelerator">&lt;ctrl&gt;v</property>
               </object>
             </child>

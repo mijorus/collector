@@ -1,3 +1,10 @@
+data/it.mijorus.collector.desktop.in
+data/it.mijorus.collector.gschema.xml
+data/it.mijorus.collector.metainfo.xml.in
+src/gtk/help-overlay.ui
+src/gtk/main-menu.ui
+src/gtk/preferences.ui
+src/gtk/help-overlay.ui
 src/lib/CarouselItem.py
 src/lib/constants.py
 src/lib/CsvCollector.py
@@ -6,7 +13,3 @@ src/lib/utils.py
 src/main.py
 src/preferences.py
 src/window.py
-src/gtk/help-overlay.ui
-src/gtk/main-menu.ui
-src/gtk/preferences.ui
-src/gtk/shortcuts.ui

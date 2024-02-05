@@ -49,8 +49,7 @@ class CollectorApplication(Adw.Application):
         self.version = version
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
-        self.create_action('preferences', self.on_preferences_action)
-        self.create_action('shortcuts', self.on_shortcuts_action)
+        self.create_action('preferences', self.on_preferences_action, ['<primary>comma'])
         self.create_action('open_log_file', self.on_open_log_file)
         self.create_action('open_welcome_screen', self.on_open_welcome_screen)
 
@@ -99,7 +98,7 @@ class CollectorApplication(Adw.Application):
 
             win.present()
 
-    def on_about_action(self, widget, _):
+    def on_about_action(self, *args):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='Collector',
@@ -107,6 +106,8 @@ class CollectorApplication(Adw.Application):
                                 developer_name='Lorenzo Paderi',
                                 version=self.version,
                                 developers=['Lorenzo Paderi'],
+                                # Translators: Replace "translator-credits" with your names, one name per line
+                                translator_credits=_("translator-credits"),
                                 copyright='© 2023 Lorenzo Paderi')
         about.present()
 
@@ -123,12 +124,6 @@ class CollectorApplication(Adw.Application):
 
     def on_open_welcome_screen(self, widget, data):
         on_click_open_uri(None, 'https://mijorus.it/projects/collector/tutorial')
-
-    def on_shortcuts_action(self, widget, data):
-        bl = Gtk.Builder.new_from_resource('/it/mijorus/collector/gtk/shortcuts.ui')
-        shortcuts_window = bl.get_object('shortcuts-builder')
-        shortcuts_window.set_transient_for(self.props.active_window)
-        shortcuts_window.present()
 
     def create_action(self, name, callback, shortcuts=None):
         """Add an application action.

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <object class="GtkShortcutsWindow" id="help_overlay">
-    <property name="modal">True</property>
+    <property name="modal">1</property>
     <child>
       <object class="GtkShortcutsSection">
         <property name="section-name">shortcuts</property>
@@ -11,7 +11,7 @@
             <property name="title" translatable="yes" context="shortcut window">General</property>
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Show Shortcuts</property>
+                <property name="title" translatable="yes" context="shortcut window">Show shortcuts</property>
                 <property name="action-name">win.show-help-overlay</property>
               </object>
             </child>
@@ -19,6 +19,48 @@
               <object class="GtkShortcutsShortcut">
                 <property name="title" translatable="yes" context="shortcut window">Quit</property>
                 <property name="action-name">app.quit</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Scroll left</property>
+                <property name="accelerator">Left</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Scroll right</property>
+                <property name="accelerator">Right</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Toggle lock mode</property>
+                <property name="accelerator">&lt;ctrl&gt;d</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Preview selected item</property>
+                <property name="accelerator">&lt;ctrl&gt;o</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Delete selected item</property>
+                <property name="accelerator">BackSpace</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Remove all items</property>
+                <property name="accelerator">Delete</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Paste from clipboard</property>
+                <property name="accelerator">&lt;ctrl&gt;v</property>
               </object>
             </child>
           </object>

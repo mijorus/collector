@@ -1,0 +1,216 @@
+# Ukrainian translation for Collector.
+# Copyright (C) 2024 THE Collector'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# volkov <volkovissocool@gmail.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Collector\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-12 15:39+0100\n"
+"PO-Revision-Date: 2024-01-22 17:13+0200\n"
+"Last-Translator: volkov <volkovissocool@gmail.com>\n"
+"Language-Team: volkov <volkovissocool@gmail.com>\n"
+"Language: uk_UA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.4\n"
+
+#: src/lib/CsvCollector.py:87
+msgid "Close"
+msgstr "Закрити"
+
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
+msgstr "Підтримуються наступні формати зображень: "
+
+#: src/window.py:38
+msgid "Drop content here"
+msgstr "Перетягуйте зміст сюди"
+
+#: src/window.py:200
+msgid "Release to drop"
+msgstr "Відпустіть щоб перетягнути"
+
+#: src/window.py:252
+msgid "Release to collect"
+msgstr "Відпустіть щоб зібрати"
+
+#: src/window.py:520
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr "1 файл | {size}"
+
+#: src/window.py:522
+#, python-brace-format
+msgid "{files_count} Files | {size}"
+msgstr "{files_count} файли(ів) | {size}"
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Загальні"
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Показати клавіатурні скорочення"
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Вийти"
+
+#: src/gtk/main-menu.ui:6
+msgid "_Preferences"
+msgstr "_Налаштування"
+
+#: src/gtk/main-menu.ui:10
+msgid "_Tutorial"
+msgstr "_Інструкції"
+
+#: src/gtk/main-menu.ui:14
+msgid "_Shortcuts"
+msgstr "_Клавіатурні скорочення"
+
+#: src/gtk/main-menu.ui:18
+msgid "_Open Log File"
+msgstr "Відкрити файл _звітування"
+
+#: src/gtk/main-menu.ui:22
+msgid "_About Collector"
+msgstr "_Про Збирач"
+
+#: src/gtk/preferences.ui:5
+msgid "Preferences"
+msgstr "Налаштування"
+
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13 src/gtk/shortcuts.ui:9
+msgid "General"
+msgstr "Загальні"
+
+#: src/gtk/preferences.ui:16
+msgid "Always keep items when dragging out"
+msgstr "Завжди зберігати предмети коли вони перетягуються за межі Збирача"
+
+#: src/gtk/preferences.ui:17
+msgid "This option also disables the Alt shortcut."
+msgstr "Ця опція також вимкне клавіатурне скорочення з Alt."
+
+#: src/gtk/preferences.ui:27
+msgid "Download images from URLs"
+msgstr "Завантажувати зображення із URL-посилань"
+
+#: src/gtk/preferences.ui:28
+msgid ""
+"If the dropped text is an URL that links to an image, the image is "
+"automatically downloaded and saved."
+msgstr ""
+"Якщо перетягнутий текст це URL-посилання яке веде до зображення, тоді це "
+"зображення буде автоматично завантажено і збережено."
+
+#: src/gtk/preferences.ui:38
+msgid "Collect text strings as a CSV file"
+msgstr "Збирати текстові строчки у CSV файл"
+
+#: src/gtk/preferences.ui:39
+msgid ""
+"When enabled, plain text strings are collected in a single CSV file. URLs "
+"that link to images will still follow the respective setting."
+msgstr ""
+"Коли ввімкнено, текстові строчки будуть збиратися в єдиний CSV файл. URL-"
+"посилання до зображень будуть наслідувати їхні відповідні налаштування."
+
+#: src/gtk/preferences.ui:51
+msgid "Window behaviour"
+msgstr "Поведінка вікна"
+
+#: src/gtk/preferences.ui:54
+msgid "Get GNOME extension"
+msgstr "Отримати розширення для GNOME"
+
+#: src/gtk/preferences.ui:55
+msgid ""
+"The extention adds cool features like forcing Collector to stay always on "
+"top of other windows!"
+msgstr ""
+"Це розширення надасть кльові нові можливості, такі от як змусити вікно "
+"Збирача бути завжди зверху!"
+
+#: src/gtk/preferences.ui:66
+msgid "Learn how to configure Collector on KDE"
+msgstr "Дізнайтеся тут, яка налаштувати Збирач у стільниці KDE"
+
+#: src/gtk/preferences.ui:77
+msgid "Open Collector with a shortcut"
+msgstr "Відкрити Збирач через клавіатурне скорочення"
+
+#: src/gtk/preferences.ui:78
+msgid ""
+"Use this code to create a custom shortcut for Collector in the system "
+"settings."
+msgstr ""
+"Використовуйте цей код, щоб створити власне клавіатурне скорочення для "
+"Збирача у системних налаштуваннях."
+
+#: src/gtk/preferences.ui:89
+msgid "Number of windows to open with a shortcut"
+msgstr ""
+"Кількість вікон які будуть відкриватися через клавіатурне скорочення"
+
+#: src/gtk/preferences.ui:109
+msgid "Integrations"
+msgstr "Інтеграції"
+
+#: src/gtk/preferences.ui:112
+msgid "Google Images URL support"
+msgstr "Підтримка URL-посилань із Google Зображень"
+
+#: src/gtk/preferences.ui:113
+msgid "Automatically analyse and download files from Google Images links."
+msgstr ""
+"Автоматично аналізувати і завантажувати файли із URL-посилань із Google "
+"Зображень."
+
+#: src/gtk/preferences.ui:126
+msgid "Debugginh"
+msgstr "Налагодження"
+
+#: src/gtk/preferences.ui:129
+msgid "Enable debug logs"
+msgstr "Увімкнути звітування"
+
+#: src/gtk/preferences.ui:130
+msgid "Increase log verbosity."
+msgstr "Збільшує детальність звітування."
+
+#: src/gtk/shortcuts.ui:12
+msgid "Scroll left"
+msgstr "Гортати вліво"
+
+#: src/gtk/shortcuts.ui:18
+msgid "Scroll right"
+msgstr "Гортати вправо"
+
+#: src/gtk/shortcuts.ui:24
+msgid "Toggle lock mode"
+msgstr "Перемикнути режим блокування"
+
+#: src/gtk/shortcuts.ui:30
+msgid "Preview selected item"
+msgstr "Попередній перегляд обраних предметів"
+
+#: src/gtk/shortcuts.ui:36
+msgid "Delete selected item"
+msgstr "Видалити обрані предмети"
+
+#: src/gtk/shortcuts.ui:42
+msgid "Remove all the items"
+msgstr "Видалити усі предмети"
+
+#: src/gtk/shortcuts.ui:48
+msgid "Paste from keyboard"
+msgstr "Вставити із буферу обміну"

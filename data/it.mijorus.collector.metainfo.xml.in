@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
 	<id>it.mijorus.collector.desktop</id>
-	<name>Collector</name>
+	<name translatable="no">Collector</name>
     <summary>Drag and Drop to the next level</summary>
     <url type="donation">https://ko-fi.com/mijorus</url>
     <url type="homepage">https://mijorus.it/projects/collector</url>
     <url type="bugtracker">https://github.com/mijorus/collector/issues</url>
+    <url type="vcs-browser">https://mijorus.it/projects/collector</url>
+    <url type="translate">https://github.com/mijorus/collector/tree/master/po</url>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0-or-later</project_license>
-    <developer_name>Lorenzo Paderi</developer_name>
+    <!-- developer_name tag deprecated with Appstream 1.0 -->
+    <developer_name translatable="no">Lorenzo Paderi</developer_name>
+    <developer id="mijorus.it">
+        <name translatable="no">Lorenzo Paderi</name>
+    </developer>
     <description>
         <p>Collector is a simple utility that allows you to drag multiple files into a single window and drop them anywhere! It can also download images automatically when pasting urls.</p>
     </description>
+    <translation type="gettext">collector</translation>
+    <launchable type="desktop-id">it.mijorus.collector.desktop</launchable>
 	<releases>
 		<release type="stable" version="1.0.0" date="2024-01-12T00:00:00Z">
-            <description>
+            <description translatable="no">
                 <p>- First release</p>
             </description>
         </release>
@@ -31,5 +39,5 @@
                 https://raw.githubusercontent.com/mijorus/collector/master/docs/collector-preview-2.png</image>
         </screenshot>
     </screenshots>
-    <content_rating type="oars-1.0" />
+    <content_rating type="oars-1.1" />
 </component>

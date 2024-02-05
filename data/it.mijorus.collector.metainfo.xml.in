@@ -21,6 +21,12 @@
     <translation type="gettext">collector</translation>
     <launchable type="desktop-id">it.mijorus.collector.desktop</launchable>
 	<releases>
+		<release type="stable" version="1.0.1" date="2024-02-05T00:00:00Z">
+            <description translatable="no">
+                <p>- Added translations</p>
+                <p>- Bug fix</p>
+            </description>
+        </release>
 		<release type="stable" version="1.0.0" date="2024-01-12T00:00:00Z">
             <description translatable="no">
                 <p>- First release</p>

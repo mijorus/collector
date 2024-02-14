@@ -1,0 +1,246 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-21 07:03+0300\n"
+"PO-Revision-Date: 2024-02-13 17:27+0100\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. Translators: Keep as `Collector`
+#: data/it.mijorus.collector.desktop.in:4
+msgid "Collector"
+msgstr "Collector"
+
+#: data/it.mijorus.collector.desktop.in:6
+#: data/it.mijorus.collector.metainfo.xml.in:5
+msgid "Drag and Drop to the next level"
+msgstr "Slepen-en-neerzetten krijgt een nieuwe dimensie"
+
+#: data/it.mijorus.collector.metainfo.xml.in:19
+msgid ""
+"Collector is a simple utility that allows you to drag multiple files into a "
+"single window and drop them anywhere! It can also download images "
+"automatically when pasting urls."
+msgstr ""
+"Collector is een eenvoudig hulpmiddel waarmee u meerdere bestanden naar een "
+"venster kunt verslepen en ze overal kunt neerzetten! Met behulp van url's "
+"kunnen tevens afbeeldingen worden gedownload."
+
+#: data/it.mijorus.collector.metainfo.xml.in:32
+#: data/it.mijorus.collector.metainfo.xml.in:37
+msgid "Application showcase"
+msgstr "Galerij"
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Algemeen"
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "Sneltoetsen tonen"
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Scroll left"
+msgstr "Naar links schuiven"
+
+#: src/gtk/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Scroll right"
+msgstr "Naar rechts schuiven"
+
+#: src/gtk/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Toggle lock mode"
+msgstr "Vergrendeling aan/uit"
+
+#: src/gtk/help-overlay.ui:44
+msgctxt "shortcut window"
+msgid "Preview selected item"
+msgstr "Gekozen item voorvertonen"
+
+#: src/gtk/help-overlay.ui:50
+msgctxt "shortcut window"
+msgid "Delete selected item"
+msgstr "Gekozen item wissen"
+
+#: src/gtk/help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Remove all items"
+msgstr "Alle items wissen"
+
+#: src/gtk/help-overlay.ui:62
+msgctxt "shortcut window"
+msgid "Paste from clipboard"
+msgstr "Plakken van klembord"
+
+#: src/gtk/main-menu.ui:6
+msgid "_Preferences"
+msgstr "_Voorkeuren"
+
+#: src/gtk/main-menu.ui:10
+msgid "_Keyboard Shortcuts"
+msgstr "_Sneltoetsen"
+
+#: src/gtk/main-menu.ui:14
+msgid "_Open Log File"
+msgstr "Logboek _openen"
+
+#. Translators: Do not translate the application name
+#: src/gtk/main-menu.ui:19
+msgid "_About Collector"
+msgstr "Over _Collector"
+
+#: src/gtk/preferences.ui:5
+msgid "Preferences"
+msgstr "Voorkeuren"
+
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13
+msgid "General"
+msgstr "Algemeen"
+
+#: src/gtk/preferences.ui:16
+msgid "Always keep items when dragging out"
+msgstr "Items bewaren na uit het venster slepen"
+
+#: src/gtk/preferences.ui:17
+msgid "This option also disables the Alt shortcut."
+msgstr "Let op: hierdoor wordt de Alt-sneltoets uitgeschakeld."
+
+#: src/gtk/preferences.ui:27
+msgid "Download images from URLs"
+msgstr "Afbeeldingen van url's downloaden"
+
+#: src/gtk/preferences.ui:28
+msgid ""
+"If the dropped text is an URL that links to an image, the image is "
+"automatically downloaded and saved."
+msgstr ""
+"Als de versleepte tekst een url is die naar een afbeelding verwijst, dan "
+"wordt de afbeelding automatisch gedownload en bewaard."
+
+#: src/gtk/preferences.ui:38
+msgid "Collect text strings as a CSV file"
+msgstr "Tekstreeksen opslaan in csv-bestand"
+
+#: src/gtk/preferences.ui:39
+msgid ""
+"When enabled, plain text strings are collected in a single CSV file. URLs "
+"that link to images will still follow the respective setting."
+msgstr ""
+"Schakel in plattetekstreeksen op te slaan in een csv-bestand. Url's die "
+"naar afbeeldingen verwijzen, volgen de url-voorkeur."
+
+#: src/gtk/preferences.ui:51
+msgid "Window behaviour"
+msgstr "Venstergedrag"
+
+#: src/gtk/preferences.ui:54
+msgid "Get GNOME extension"
+msgstr "GNOME-uitbreiding installeren"
+
+#: src/gtk/preferences.ui:55
+msgid ""
+"The extention adds cool features like forcing Collector to stay always on "
+"top of other windows!"
+msgstr ""
+"Door deze uitbreiding krijgt Collector de beschikking over handige extra "
+"mogelijkheden, zoals altijd boven andere vensters tonen."
+
+#: src/gtk/preferences.ui:66
+msgid "Learn how to configure Collector on KDE"
+msgstr "Collector instellen op KDE"
+
+#: src/gtk/preferences.ui:77
+msgid "Open Collector with a shortcut"
+msgstr "Collector openen middels sneltoets"
+
+#: src/gtk/preferences.ui:78
+msgid ""
+"Use this code to create a custom shortcut for Collector in the system "
+"settings."
+msgstr ""
+"Gebruik deze code om een eigen sneltoets in te stellen in de "
+"systeemvoorkeuren."
+
+#: src/gtk/preferences.ui:89
+msgid "Number of windows to open with a shortcut"
+msgstr "Aantal te openen vensters met sneltoets"
+
+#: src/gtk/preferences.ui:109
+msgid "Integrations"
+msgstr "Integraties"
+
+#: src/gtk/preferences.ui:112
+msgid "Google Images URL support"
+msgstr "Google Afbeeldingen-ondersteuning"
+
+#: src/gtk/preferences.ui:113
+msgid "Automatically analyse and download files from Google Images links."
+msgstr "Download automatisch bestanden van Google Afbeeldingen-links."
+
+#: src/gtk/preferences.ui:126
+msgid "Debugging"
+msgstr "Foutopsporing"
+
+#: src/gtk/preferences.ui:129
+msgid "Enable debug logs"
+msgstr "Foutopsporing inschakelen"
+
+#: src/gtk/preferences.ui:130
+msgid "Increase log verbosity."
+msgstr "Verhoog het logniveau."
+
+#: src/lib/CsvCollector.py:87
+msgid "Close"
+msgstr "Sluiten"
+
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/main.py:110
+msgid "translator-credits"
+msgstr "Heimen Stoffels <vistausss@fastmail.com>"
+
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
+msgstr "Momenteel worden de volgende formaten ondersteund: "
+
+#: src/window.py:39
+msgid "Drop content here"
+msgstr "Sleep items hierheen"
+
+#: src/window.py:193
+msgid "Release to drop"
+msgstr "Laat los om te plakken"
+
+#: src/window.py:277
+msgid "Release to collect"
+msgstr "Laat los om te verzamelen"
+
+#: src/window.py:549
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr "1 bestand | {size}"
+
+#: src/window.py:551
+#, python-brace-format
+msgid "{files_count} Files | {size}"
+msgstr "{files_count} bestanden | {size}"

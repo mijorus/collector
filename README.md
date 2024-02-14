@@ -6,7 +6,7 @@
 
 Drag multiple files and folders on to Collection window, drop them anywhere!
 
-- Browse and preview all you dropped items
+- Browse and preview all your dropped items
 - Open multiple Collector windows with a shortcut and customize their color
 - Easily drag images from web browser windows and download them automatically
 - Drag directly from Google Images!

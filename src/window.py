@@ -274,7 +274,7 @@ class CollectorWindow(Adw.ApplicationWindow):
     def on_drop_enter(self, widget, x, y):
         if not self.is_dragging_away:
             self.icon_stack.set_visible_child(self.release_drop_icon)
-            self.drops_label.set_label(_('Release to collect'))
+            self.drops_label.set_label(_('Release to Collect'))
 
         return Gdk.DragAction.COPY
 

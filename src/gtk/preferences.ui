@@ -13,8 +13,8 @@
             <property name="title" translatable="yes">General</property>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Always keep items when dragging out</property>
-                <property name="subtitle" translatable="yes">This option also disables the Alt shortcut.</property>
+                <property name="title" translatable="yes">Keep Items</property>
+                <property name="subtitle" translatable="yes">Keep items even when they're dragged out. This option also disables the Alt shortcut.</property>
                 <child>
                   <object class="GtkSwitch" id="keep_items_when_dragging">
                     <property name="valign">center</property>
@@ -24,8 +24,8 @@
             </child>
             <child>
               <object class="AdwActionRow" id="download_images_row">
-                <property name="title" translatable="yes">Download images from URLs</property>
-                <property name="subtitle" translatable="yes">If the dropped text is an URL that links to an image, the image is automatically downloaded and saved.</property>
+                <property name="title" translatable="yes">Download Images From URLs</property>
+                <property name="subtitle" translatable="yes">If the dropped text is a URL that links to an image, the image is automatically downloaded and saved</property>
                 <child>
                   <object class="GtkSwitch" id="download_images">
                     <property name="valign">center</property>
@@ -35,8 +35,8 @@
             </child>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Collect text strings as a CSV file</property>
-                <property name="subtitle" translatable="yes">When enabled, plain text strings are collected in a single CSV file. URLs that link to images will still follow the respective setting.</property>
+                <property name="title" translatable="yes">Collect Strings as CSV File</property>
+                <property name="subtitle" translatable="yes">Collect plain text strings in a single CSV file. URLs that link to images will still follow the respective setting.</property>
                 <child>
                   <object class="GtkSwitch" id="text_as_csv">
                     <property name="valign">center</property>
@@ -48,11 +48,11 @@
         </child>
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Window behaviour</property>
+            <property name="title" translatable="yes">Window Behavior</property>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Get GNOME extension</property>
-                <property name="subtitle" translatable="yes">The extention adds cool features like forcing Collector to stay always on top of other windows!</property>
+                <property name="title" translatable="yes">GNOME Extension</property>
+                <property name="subtitle" translatable="yes">The extension adds features like forcing Collector to always stay on top of other windows</property>
                 <child>
                   <object class="GtkButton" id="open_gnome_ext">
                     <property name="icon-name">arrow2-top-right-symbolic</property>
@@ -63,7 +63,7 @@
             </child>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Learn how to configure Collector on KDE</property>
+                <property name="title" translatable="yes">Configure Collector on KDE</property>
                 <child>
                   <object class="GtkButton" id="configure_kde">
                     <property name="icon-name">arrow2-top-right-symbolic</property>
@@ -74,8 +74,8 @@
             </child>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Open Collector with a shortcut</property>
-                <property name="subtitle" translatable="yes">Use this code to create a custom shortcut for Collector in the system settings.</property>
+                <property name="title" translatable="yes">Open Collector With a Shortcut</property>
+                <property name="subtitle" translatable="yes">Use this command to create a custom shortcut for Collector in the system settings</property>
                 <child>
                   <object class="GtkLabel" id="launch_shortcut">
                     <property name="selectable">yes</property>
@@ -90,11 +90,11 @@
                 <property name="model">
                   <object class="GtkStringList">
                     <items>
-                      <item>1 -</item>
-                      <item>2 -</item>
-                      <item>3 -</item>
-                      <item>4 -</item>
-                      <item>5 -</item>
+                      <item>1</item>
+                      <item>2</item>
+                      <item>3</item>
+                      <item>4</item>
+                      <item>5</item>
                     </items>
                   </object>
                 </property>
@@ -109,8 +109,8 @@
             <property name="title" translatable="yes">Integrations</property>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Google Images URL support</property>
-                <property name="subtitle" translatable="yes">Automatically analyse and download files from Google Images links.</property>
+                <property name="title" translatable="yes">Google Images URL Support</property>
+                <property name="subtitle" translatable="yes">Automatically analyze and download files from Google Images links</property>
                 <child>
                   <object class="GtkSwitch" id="google_images_support">
                     <property name="valign">center</property>
@@ -126,8 +126,8 @@
             <property name="title" translatable="yes">Debugging</property>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Enable debug logs</property>
-                <property name="subtitle" translatable="yes">Increase log verbosity.</property>
+                <property name="title" translatable="yes">Enable Debug Logs</property>
+                <property name="subtitle" translatable="yes">Increase the log verbosity</property>
                 <child>
                   <object class="GtkSwitch" id="debug_logs">
                     <property name="valign">center</property>

@@ -36,7 +36,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
     
     COLLECTOR_COLORS = ["blue", "yellow", "purple", "rose", "orange", "green"]
-    EMPTY_DROP_TEXT = _('Drop content here')
+    EMPTY_DROP_TEXT = _('Drop Content Here')
     CAROUSEL_ICONS_PIX_SIZE=50
     DROPS_BASE_PATH = GLib.get_user_cache_dir() + f'/drops'
     settings = get_gsettings()

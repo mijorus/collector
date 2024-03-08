@@ -42,11 +42,6 @@ class SettingsWindow(Adw.PreferencesWindow):
         self.settings.bind('debug-logs', self.debug_logs, 
         'active', Gio.SettingsBindFlags.DEFAULT)
 
-        download_images_sbt = self.download_images_row.get_subtitle()
-        suported_formats_str = '\n\n' + _('The following image formats are currently supported: ')
-        suported_formats_str += ', '.join([s.split('/')[1] for s in SUPPORTED_IMG_TYPES])
-        self.download_images_row.set_subtitle(download_images_sbt + suported_formats_str)
-
         self.launch_shortcut_windows.connect('notify::selected', self.on_launch_shortcuts_wd_changed)
 
         self.launch_shortcut.set_label(f'flatpak run {APP_ID}')

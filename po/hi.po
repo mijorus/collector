@@ -1,0 +1,246 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Scrambled777 <weblate.scrambled777@simplelogin.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Collector\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-21 07:03+0300\n"
+"PO-Revision-Date: 2024-03-31 09:37+0530\n"
+"Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
+"Language-Team: Hindi\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Gtranslator 46.0\n"
+
+#. Translators: Keep as `Collector`
+#: data/it.mijorus.collector.desktop.in:4
+msgid "Collector"
+msgstr "Collector"
+
+#: data/it.mijorus.collector.desktop.in:6
+#: data/it.mijorus.collector.metainfo.xml.in:5
+msgid "Drag and Drop to the next level"
+msgstr "खींचें और छोड़ें अगले स्तर तक"
+
+#: data/it.mijorus.collector.metainfo.xml.in:19
+msgid ""
+"Collector is a simple utility that allows you to drag multiple files into a "
+"single window and drop them anywhere! It can also download images "
+"automatically when pasting urls."
+msgstr ""
+"Collector एक सरल उपयोगिता है जो आपको कई फाइलों को एक ही विंडो में खींचने और उन्हें कहीं "
+"भी छोड़ने की अनुमति देती है! URL चिपकाने पर यह स्वचालित रूप से छवियां भी डाउनलोड कर "
+"सकता है।"
+
+#: data/it.mijorus.collector.metainfo.xml.in:32
+#: data/it.mijorus.collector.metainfo.xml.in:37
+msgid "Application showcase"
+msgstr "एप्लिकेशन प्रदर्शन"
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "जनरल"
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "शॉर्टकट दिखाएँ"
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "छोड़ें"
+
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Scroll left"
+msgstr "बाएँ स्क्रॉल करें"
+
+#: src/gtk/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Scroll right"
+msgstr "दाएँ स्क्रॉल करें"
+
+#: src/gtk/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Toggle lock mode"
+msgstr "लॉक मोड को टॉगल करें"
+
+#: src/gtk/help-overlay.ui:44
+msgctxt "shortcut window"
+msgid "Preview selected item"
+msgstr "चयनित वस्तु का पूर्वावलोकन करें"
+
+#: src/gtk/help-overlay.ui:50
+msgctxt "shortcut window"
+msgid "Delete selected item"
+msgstr "चयनित वस्तु हटाएँ"
+
+#: src/gtk/help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Remove all items"
+msgstr "सभी वस्तुएँ हटाएँ"
+
+#: src/gtk/help-overlay.ui:62
+msgctxt "shortcut window"
+msgid "Paste from clipboard"
+msgstr "क्लिपबोर्ड से पेस्ट करें"
+
+#: src/gtk/main-menu.ui:6
+msgid "_Preferences"
+msgstr "प्राथमिकताएँ (_P)"
+
+#: src/gtk/main-menu.ui:10
+msgid "_Keyboard Shortcuts"
+msgstr "कीबोर्ड शॉर्टकट (_K)"
+
+#: src/gtk/main-menu.ui:14
+msgid "_Open Log File"
+msgstr "लॉग फाइल खोलें (_O)"
+
+#. Translators: Do not translate the application name
+#: src/gtk/main-menu.ui:19
+msgid "_About Collector"
+msgstr "Collector के बारे में (_A)"
+
+#: src/gtk/preferences.ui:5
+msgid "Preferences"
+msgstr "प्राथमिकताएँ"
+
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13
+msgid "General"
+msgstr "जनरल"
+
+#: src/gtk/preferences.ui:16
+msgid "Always keep items when dragging out"
+msgstr "बाहर खींचते समय हमेशा वस्तुएं रखें"
+
+#: src/gtk/preferences.ui:17
+msgid "This option also disables the Alt shortcut."
+msgstr "यह विकल्प Alt शॉर्टकट को भी अक्षम कर देता है।"
+
+#: src/gtk/preferences.ui:27
+msgid "Download images from URLs"
+msgstr "URL से छवियाँ डाउनलोड करें"
+
+#: src/gtk/preferences.ui:28
+msgid ""
+"If the dropped text is an URL that links to an image, the image is "
+"automatically downloaded and saved."
+msgstr ""
+"यदि छोड़ा गया पाठ एक URL है जो किसी छवि से लिंक होता है, तो छवि स्वचालित रूप से "
+"डाउनलोड और सहेजी जाती है।"
+
+#: src/gtk/preferences.ui:38
+msgid "Collect text strings as a CSV file"
+msgstr "पाठ स्ट्रिंग्स को CSV फाइल के रूप में एकत्रित करें"
+
+#: src/gtk/preferences.ui:39
+msgid ""
+"When enabled, plain text strings are collected in a single CSV file. URLs "
+"that link to images will still follow the respective setting."
+msgstr ""
+"सक्षम होने पर, सादे पाठ स्ट्रिंग्स को एक एकल CSV फाइल में एकत्र किया जाता है। छवियों से "
+"लिंक करने वाले URL अभी भी संबंधित सेटिंग का पालन करेंगे।"
+
+#: src/gtk/preferences.ui:51
+msgid "Window behaviour"
+msgstr "विंडो व्यवहार"
+
+#: src/gtk/preferences.ui:54
+msgid "Get GNOME extension"
+msgstr "GNOME एक्सटेंशन प्राप्त करें"
+
+#: src/gtk/preferences.ui:55
+msgid ""
+"The extention adds cool features like forcing Collector to stay always on "
+"top of other windows!"
+msgstr ""
+"एक्सटेंशन में Collector को हमेशा अन्य विंडो के शीर्ष पर रहने के लिए मजबूर करने जैसी शानदार "
+"सुविधाएं शामिल हैं!"
+
+#: src/gtk/preferences.ui:66
+msgid "Learn how to configure Collector on KDE"
+msgstr "जानें कि KDE पर Collector को कैसे कॉन्फ़िगर करें"
+
+#: src/gtk/preferences.ui:77
+msgid "Open Collector with a shortcut"
+msgstr "शॉर्टकट से Collector खोलें"
+
+#: src/gtk/preferences.ui:78
+msgid ""
+"Use this code to create a custom shortcut for Collector in the system "
+"settings."
+msgstr ""
+"सिस्टम सेटिंग्स में Collector के लिए एक कस्टम शॉर्टकट बनाने के लिए इस कोड का उपयोग करें।"
+
+#: src/gtk/preferences.ui:89
+msgid "Number of windows to open with a shortcut"
+msgstr "शॉर्टकट से खोलने के लिए विंडोज़ की संख्या"
+
+#: src/gtk/preferences.ui:109
+msgid "Integrations"
+msgstr "एकीकरण"
+
+#: src/gtk/preferences.ui:112
+msgid "Google Images URL support"
+msgstr "Google छवियां URL समर्थन"
+
+#: src/gtk/preferences.ui:113
+msgid "Automatically analyse and download files from Google Images links."
+msgstr "Google Images लिंक से स्वचालित रूप से फाइलों का विश्लेषण और डाउनलोड करें।"
+
+#: src/gtk/preferences.ui:126
+msgid "Debugging"
+msgstr "डिबगिंग"
+
+#: src/gtk/preferences.ui:129
+msgid "Enable debug logs"
+msgstr "डिबग लॉग सक्षम करें"
+
+#: src/gtk/preferences.ui:130
+msgid "Increase log verbosity."
+msgstr "लॉग वाचालता बढ़ाएँ।"
+
+#: src/lib/CsvCollector.py:87
+msgid "Close"
+msgstr "बंद"
+
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/main.py:110
+msgid "translator-credits"
+msgstr "Scrambled777 <weblate.scrambled777@simplelogin.com>"
+
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
+msgstr "वर्तमान में निम्नलिखित छवि प्रारूप समर्थित हैं:"
+
+#: src/window.py:39
+msgid "Drop content here"
+msgstr "सामग्री यहां छोड़ें"
+
+#: src/window.py:193
+msgid "Release to drop"
+msgstr "गिराने के लिए छोड़ें"
+
+#: src/window.py:277
+msgid "Release to collect"
+msgstr "इकट्ठा करने के लिए छोड़ें"
+
+#: src/window.py:549
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr "1 फाइल | {size}"
+
+#: src/window.py:551
+#, python-brace-format
+msgid "{files_count} Files | {size}"
+msgstr "{files_count} फाइलें | {size}"

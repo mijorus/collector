@@ -4,9 +4,9 @@
 	<name translate="no">Collector</name>
     <summary>Drag and Drop to the next level</summary>
     <url type="donation">https://ko-fi.com/mijorus</url>
-    <url type="homepage">https://mijorus.it/projects/collector</url>
+    <url type="homepage">https://mijorus.it/projects/collector/</url>
     <url type="bugtracker">https://github.com/mijorus/collector/issues</url>
-    <url type="vcs-browser">https://mijorus.it/projects/collector</url>
+    <url type="vcs-browser">https://github.com/mijorus/collector</url>
     <url type="translate">https://github.com/mijorus/collector/tree/master/po</url>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0-or-later</project_license>

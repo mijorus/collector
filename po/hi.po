@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Collector\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-21 07:03+0300\n"
-"PO-Revision-Date: 2024-03-31 09:37+0530\n"
+"PO-Revision-Date: 2024-05-11 14:28+0530\n"
 "Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
-"Language-Team: Hindi\n"
+"Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 46.0\n"
+"X-Generator: Gtranslator 46.1\n"
 
 #. Translators: Keep as `Collector`
 #: data/it.mijorus.collector.desktop.in:4
@@ -35,24 +35,24 @@ msgid ""
 "single window and drop them anywhere! It can also download images "
 "automatically when pasting urls."
 msgstr ""
-"Collector एक सरल उपयोगिता है जो आपको कई फाइलों को एक ही विंडो में खींचने और उन्हें कहीं "
-"भी छोड़ने की अनुमति देती है! URL चिपकाने पर यह स्वचालित रूप से छवियां भी डाउनलोड कर "
-"सकता है।"
+"Collector एक सरल उपयोगिता है जो आपको कई फाइलों को एक ही खिड़की में खींचने और उन्हें "
+"कहीं भी छोड़ने की अनुमति देती है! URL चिपकाने पर यह स्वचालित रूप से छवियां भी डाउनलोड "
+"कर सकता है।"
 
 #: data/it.mijorus.collector.metainfo.xml.in:32
 #: data/it.mijorus.collector.metainfo.xml.in:37
 msgid "Application showcase"
-msgstr "एप्लिकेशन प्रदर्शन"
+msgstr "अनुप्रयोग प्रदर्शन-मंजूषा"
 
 #: src/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr "जनरल"
+msgstr "सामान्य"
 
 #: src/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Show shortcuts"
-msgstr "शॉर्टकट दिखाएँ"
+msgstr "शॉर्टकट दिखाएं"
 
 #: src/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -62,12 +62,12 @@ msgstr "छोड़ें"
 #: src/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
 msgid "Scroll left"
-msgstr "बाएँ स्क्रॉल करें"
+msgstr "बाएं स्क्रॉल करें"
 
 #: src/gtk/help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "Scroll right"
-msgstr "दाएँ स्क्रॉल करें"
+msgstr "दाएं स्क्रॉल करें"
 
 #: src/gtk/help-overlay.ui:38
 msgctxt "shortcut window"
@@ -82,12 +82,12 @@ msgstr "चयनित वस्तु का पूर्वावलोकन
 #: src/gtk/help-overlay.ui:50
 msgctxt "shortcut window"
 msgid "Delete selected item"
-msgstr "चयनित वस्तु हटाएँ"
+msgstr "चयनित वस्तु मिटाएं"
 
 #: src/gtk/help-overlay.ui:56
 msgctxt "shortcut window"
 msgid "Remove all items"
-msgstr "सभी वस्तुएँ हटाएँ"
+msgstr "सभी वस्तुएं हटाएं"
 
 #: src/gtk/help-overlay.ui:62
 msgctxt "shortcut window"
@@ -96,7 +96,7 @@ msgstr "क्लिपबोर्ड से पेस्ट करें"
 
 #: src/gtk/main-menu.ui:6
 msgid "_Preferences"
-msgstr "प्राथमिकताएँ (_P)"
+msgstr "प्राथमिकताएं (_P)"
 
 #: src/gtk/main-menu.ui:10
 msgid "_Keyboard Shortcuts"
@@ -113,11 +113,11 @@ msgstr "Collector के बारे में (_A)"
 
 #: src/gtk/preferences.ui:5
 msgid "Preferences"
-msgstr "प्राथमिकताएँ"
+msgstr "प्राथमिकताएं"
 
 #: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13
 msgid "General"
-msgstr "जनरल"
+msgstr "सामान्य"
 
 #: src/gtk/preferences.ui:16
 msgid "Always keep items when dragging out"
@@ -129,7 +129,7 @@ msgstr "यह विकल्प Alt शॉर्टकट को भी अक
 
 #: src/gtk/preferences.ui:27
 msgid "Download images from URLs"
-msgstr "URL से छवियाँ डाउनलोड करें"
+msgstr "URL से छवियां डाउनलोड करें"
 
 #: src/gtk/preferences.ui:28
 msgid ""
@@ -153,7 +153,7 @@ msgstr ""
 
 #: src/gtk/preferences.ui:51
 msgid "Window behaviour"
-msgstr "विंडो व्यवहार"
+msgstr "खिड़की व्यवहार"
 
 #: src/gtk/preferences.ui:54
 msgid "Get GNOME extension"
@@ -164,12 +164,12 @@ msgid ""
 "The extention adds cool features like forcing Collector to stay always on "
 "top of other windows!"
 msgstr ""
-"एक्सटेंशन में Collector को हमेशा अन्य विंडो के शीर्ष पर रहने के लिए मजबूर करने जैसी शानदार "
-"सुविधाएं शामिल हैं!"
+"एक्सटेंशन में Collector को हमेशा अन्य खिड़कियों के शीर्ष पर रहने के लिए बाध्य करने जैसी "
+"शानदार सुविधाएं शामिल हैं!"
 
 #: src/gtk/preferences.ui:66
 msgid "Learn how to configure Collector on KDE"
-msgstr "जानें कि KDE पर Collector को कैसे कॉन्फ़िगर करें"
+msgstr "जानें कि KDE पर Collector को कैसे विन्यस्त करें"
 
 #: src/gtk/preferences.ui:77
 msgid "Open Collector with a shortcut"
@@ -180,11 +180,11 @@ msgid ""
 "Use this code to create a custom shortcut for Collector in the system "
 "settings."
 msgstr ""
-"सिस्टम सेटिंग्स में Collector के लिए एक कस्टम शॉर्टकट बनाने के लिए इस कोड का उपयोग करें।"
+"सिस्टम सेटिंग्स में Collector के लिए तदनुकूल शॉर्टकट बनाने के लिए इस कोड का उपयोग करें।"
 
 #: src/gtk/preferences.ui:89
 msgid "Number of windows to open with a shortcut"
-msgstr "शॉर्टकट से खोलने के लिए विंडोज़ की संख्या"
+msgstr "शॉर्टकट से खोलने के लिए खिड़कियों की संख्या"
 
 #: src/gtk/preferences.ui:109
 msgid "Integrations"
@@ -208,11 +208,11 @@ msgstr "डिबग लॉग सक्षम करें"
 
 #: src/gtk/preferences.ui:130
 msgid "Increase log verbosity."
-msgstr "लॉग वाचालता बढ़ाएँ।"
+msgstr "लॉग वाचालता बढ़ाएं।"
 
 #: src/lib/CsvCollector.py:87
 msgid "Close"
-msgstr "बंद"
+msgstr "बंद करें"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
 #: src/main.py:110

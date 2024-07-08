@@ -1,0 +1,247 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Filipe Motta <luizfilipemotta@gmail.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: unnamed project\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-21 07:03+0300\n"
+"PO-Revision-Date: 2024-02-17 18:05-0300\n"
+"Last-Translator: Filipe Motta <luizfilipemotta@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Gtranslator 45.3\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#. Translators: Keep as `Collector`
+#: data/it.mijorus.collector.desktop.in:4
+msgid "Collector"
+msgstr "Collector"
+
+#: data/it.mijorus.collector.desktop.in:6
+#: data/it.mijorus.collector.metainfo.xml.in:5
+msgid "Drag and Drop to the next level"
+msgstr "Arrastar e Soltar em outro nível"
+
+#: data/it.mijorus.collector.metainfo.xml.in:19
+msgid ""
+"Collector is a simple utility that allows you to drag multiple files into a "
+"single window and drop them anywhere! It can also download images "
+"automatically when pasting urls."
+msgstr ""
+"Collector é um utilitário simples que permite que você arraste vários "
+"arquivos para uma única janela e solte-os em qualquer lugar! Ele também pode "
+"baixar imagens automaticamente ao colar URLs."
+
+#: data/it.mijorus.collector.metainfo.xml.in:32
+#: data/it.mijorus.collector.metainfo.xml.in:37
+msgid "Application showcase"
+msgstr "Apresentação do aplicativo"
+
+#: src/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Geral"
+
+#: src/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "Mostrar atalhos"
+
+#: src/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Sair"
+
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Scroll left"
+msgstr "Rolar para a esquerda"
+
+#: src/gtk/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Scroll right"
+msgstr "Rolar para a direita"
+
+#: src/gtk/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Toggle lock mode"
+msgstr "Ativar/Desativar modo trancado"
+
+#: src/gtk/help-overlay.ui:44
+msgctxt "shortcut window"
+msgid "Preview selected item"
+msgstr "Pré-visualizar item selecionado"
+
+#: src/gtk/help-overlay.ui:50
+msgctxt "shortcut window"
+msgid "Delete selected item"
+msgstr "Remover item selecionado"
+
+#: src/gtk/help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Remove all items"
+msgstr "Remover todos os itens"
+
+#: src/gtk/help-overlay.ui:62
+msgctxt "shortcut window"
+msgid "Paste from clipboard"
+msgstr "Colar da área de transferência"
+
+#: src/gtk/main-menu.ui:6
+msgid "_Preferences"
+msgstr "_Preferências"
+
+#: src/gtk/main-menu.ui:10
+msgid "_Keyboard Shortcuts"
+msgstr "_Atalhos de teclado"
+
+#: src/gtk/main-menu.ui:14
+msgid "_Open Log File"
+msgstr "_Abrir arquivo de logs"
+
+#. Translators: Do not translate the application name
+#: src/gtk/main-menu.ui:19
+msgid "_About Collector"
+msgstr "_Sobre o Collector"
+
+#: src/gtk/preferences.ui:5
+msgid "Preferences"
+msgstr "Preferências"
+
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13
+msgid "General"
+msgstr "GEral"
+
+#: src/gtk/preferences.ui:16
+msgid "Always keep items when dragging out"
+msgstr "Sempre manter itens ao arrastar para fora"
+
+#: src/gtk/preferences.ui:17
+msgid "This option also disables the Alt shortcut."
+msgstr "Essa opção também desabilita o atalho do Alt."
+
+#: src/gtk/preferences.ui:27
+msgid "Download images from URLs"
+msgstr "Baixar imagens de URLs"
+
+#: src/gtk/preferences.ui:28
+msgid ""
+"If the dropped text is an URL that links to an image, the image is "
+"automatically downloaded and saved."
+msgstr ""
+"Se o texto arrastado for uma URL para uma imagem, a imagem é automaticamente "
+"baixada e salva."
+
+#: src/gtk/preferences.ui:38
+msgid "Collect text strings as a CSV file"
+msgstr "Junte cadeias de texto como um arquivo CSV"
+
+#: src/gtk/preferences.ui:39
+msgid ""
+"When enabled, plain text strings are collected in a single CSV file. URLs "
+"that link to images will still follow the respective setting."
+msgstr ""
+"Quando habilitado, cadeias de texto puro são reunidas em um único arquivo "
+"CSV. URLs para imagens continuarão seguindo sua respectiva configuração."
+
+#: src/gtk/preferences.ui:51
+msgid "Window behaviour"
+msgstr "Comportamento da janela"
+
+#: src/gtk/preferences.ui:54
+msgid "Get GNOME extension"
+msgstr "Obter a extensão para o GNOME"
+
+#: src/gtk/preferences.ui:55
+msgid ""
+"The extention adds cool features like forcing Collector to stay always on "
+"top of other windows!"
+msgstr ""
+"A extensão adiciona funções legais, como forçar o Collector a ficar sempre "
+"sobre as outras janelas!"
+
+#: src/gtk/preferences.ui:66
+msgid "Learn how to configure Collector on KDE"
+msgstr "Aprenda a configurar o Collector no KDE"
+
+#: src/gtk/preferences.ui:77
+msgid "Open Collector with a shortcut"
+msgstr "Abrir o Collector com um atalho"
+
+#: src/gtk/preferences.ui:78
+msgid ""
+"Use this code to create a custom shortcut for Collector in the system "
+"settings."
+msgstr ""
+"Use este código para criar um atalho personalizado para o Collector nas "
+"configurações de sistema."
+
+#: src/gtk/preferences.ui:89
+msgid "Number of windows to open with a shortcut"
+msgstr "Número de janelas a serem abertas com um atalho"
+
+#: src/gtk/preferences.ui:109
+msgid "Integrations"
+msgstr "Integrações"
+
+#: src/gtk/preferences.ui:112
+msgid "Google Images URL support"
+msgstr "Suporte a URLs do Google Images"
+
+#: src/gtk/preferences.ui:113
+msgid "Automatically analyse and download files from Google Images links."
+msgstr "Analisar e baixar automaticamente arquivos de links do Google Imagens."
+
+#: src/gtk/preferences.ui:126
+msgid "Debugging"
+msgstr "Depuração"
+
+#: src/gtk/preferences.ui:129
+msgid "Enable debug logs"
+msgstr "Habilitar logs de depuração"
+
+#: src/gtk/preferences.ui:130
+msgid "Increase log verbosity."
+msgstr "Aumentar verbosidade dos logs."
+
+#: src/lib/CsvCollector.py:87
+msgid "Close"
+msgstr "Fechar"
+
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/main.py:110
+msgid "translator-credits"
+msgstr "Filipe Motta <luizfilipemotta@gmail.com>"
+
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
+msgstr "Atualmente são suportados os seguintes formatos de imagens:"
+
+#: src/window.py:39
+msgid "Drop content here"
+msgstr "Solte os conteúdos aqui"
+
+#: src/window.py:193
+msgid "Release to drop"
+msgstr "Largue para soltar"
+
+#: src/window.py:277
+msgid "Release to collect"
+msgstr "Largue para coletar"
+
+#: src/window.py:549
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr "1 Arquivo | {size}"
+
+#: src/window.py:551
+#, python-brace-format
+msgid "{files_count} Files | {size}"
+msgstr "{files_count} Arquivos | {size}"

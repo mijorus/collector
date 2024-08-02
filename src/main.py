@@ -109,6 +109,8 @@ class CollectorApplication(Adw.Application):
                                 # Translators: Replace "translator-credits" with your names, one name per line
                                 translator_credits=_("translator-credits"),
                                 copyright='© 2023 Lorenzo Paderi')
+    
+        about.add_credit_section('Icon by', ['Jakub Steiner'])
         about.present()
 
     def on_preferences_action(self, widget, _):

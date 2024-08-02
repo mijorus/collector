@@ -21,7 +21,12 @@
     <translation type="gettext">collector</translation>
     <launchable type="desktop-id">it.mijorus.collector.desktop</launchable>
 	<releases>
-		<release type="stable" version="1.0.1" date="2024-02-05T00:00:00Z">
+		<release type="stable" version="1.0.2" date="2024-08-02T00:00:00Z">
+            <description translate="no">
+                <p>- New icon! By Jakub Steiner</p>
+            </description>
+        </release>
+        <release type="stable" version="1.0.1" date="2024-02-05T00:00:00Z">
             <description translate="no">
                 <p>- Added translations</p>
                 <p>- Bug fix</p>

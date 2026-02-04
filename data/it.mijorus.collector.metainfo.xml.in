@@ -21,6 +21,12 @@
     <translation type="gettext">collector</translation>
     <launchable type="desktop-id">it.mijorus.collector.desktop</launchable>
 	<releases>
+        <release type="stable" version="1.0.3" date="2026-02-03T00:00:00Z">
+            <description translate="no">
+                <p>- Updated to SDK 49 (Finally)</p>
+                <p>- Small UI touches</p>
+            </description>
+        </release>
 		<release type="stable" version="1.0.2" date="2024-08-02T00:00:00Z">
             <description translate="no">
                 <p>- New icon! By Jakub Steiner</p>

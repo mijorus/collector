@@ -63,7 +63,7 @@ class CollectorWindow(Adw.ApplicationWindow):
 
         carousel_info_btn = Gtk.Button(
             css_classes=['circular', 'opaque', 'dropped-item-info-btn'],
-            icon_name='view-more-symbolic',
+            icon_name='plus-symbolic',
             valign=Gtk.Align.CENTER,
             halign=Gtk.Align.CENTER,
         )
@@ -135,7 +135,7 @@ class CollectorWindow(Adw.ApplicationWindow):
         content_box.add_controller(self.drag_source_controller)
 
         self.dropped_items: list[CarouselItem] = []
-        self.set_default_size(225, 225)
+        self.set_default_size(300, 300)
         self.set_resizable(False)
         self.set_content(toolbar)
 
@@ -589,6 +589,7 @@ class CollectorWindow(Adw.ApplicationWindow):
                 css_classes=['dropped-item-thumb'],
                 height_request=70,
                 width_request=70,
+                pixel_size=70,
             )
 
         return new_image
@@ -668,7 +669,7 @@ class CollectorWindow(Adw.ApplicationWindow):
     
         header_bar = Adw.HeaderBar(
             show_title=False,
-            decoration_layout='icon:close',
+            # decoration_layout='icon:close',
             valign=Gtk.Align.START,
             css_classes=['flat']
         )

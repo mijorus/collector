@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-	<id>it.mijorus.collector.desktop</id>
+	<id>it.mijorus.collector</id>
 	<name translate="no">Collector</name>
     <summary>Drag and Drop to the next level</summary>
     <url type="donation">https://ko-fi.com/mijorus</url>

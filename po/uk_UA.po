@@ -1,53 +1,49 @@
 # Ukrainian translation for Collector.
 # Copyright (C) 2024 THE Collector'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the Collector package.
 # volkov <volkovissocool@gmail.com>, 2024.
+# Димко <Dymkovych@proton.me>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Collector\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-12 15:39+0100\n"
-"PO-Revision-Date: 2024-01-22 17:13+0200\n"
-"Last-Translator: volkov <volkovissocool@gmail.com>\n"
-"Language-Team: volkov <volkovissocool@gmail.com>\n"
+"POT-Creation-Date: 2024-01-21 07:03+0300\n"
+"PO-Revision-Date: 2026-10-20 10:32+0300\n"
+"Last-Translator: Димко <Dymkovych@proton.me>\n"
+"Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Gtranslator 50.0\n"
 
-#: src/lib/CsvCollector.py:87
-msgid "Close"
-msgstr "Закрити"
+#. Translators: Keep as `Collector`
+#: data/it.mijorus.collector.desktop.in:4
+msgid "Collector"
+msgstr "Збирач"
 
-#: src/preferences.py:46
-msgid "The following image formats are currently supported: "
-msgstr "Підтримуються наступні формати зображень: "
+#: data/it.mijorus.collector.desktop.in:6
+#: data/it.mijorus.collector.metainfo.xml.in:5
+msgid "Drag and Drop to the next level"
+msgstr "Перетягування нового покоління"
 
-#: src/window.py:38
-msgid "Drop content here"
-msgstr "Перетягуйте зміст сюди"
+#: data/it.mijorus.collector.metainfo.xml.in:19
+msgid ""
+"Collector is a simple utility that allows you to drag multiple files into a "
+"single window and drop them anywhere! It can also download images "
+"automatically when pasting urls."
+msgstr ""
+"Збирайте кілька файлів у єдиному вікні для швидкого перетягування будь-куди! "
+"Додатково утиліта підтримує автозавантаження зображень зі вставлених "
+"посилань."
 
-#: src/window.py:200
-msgid "Release to drop"
-msgstr "Відпустіть щоб перетягнути"
-
-#: src/window.py:252
-msgid "Release to collect"
-msgstr "Відпустіть щоб зібрати"
-
-#: src/window.py:520
-#, python-brace-format
-msgid "1 File | {size}"
-msgstr "1 файл | {size}"
-
-#: src/window.py:522
-#, python-brace-format
-msgid "{files_count} Files | {size}"
-msgstr "{files_count} файли(ів) | {size}"
+#: data/it.mijorus.collector.metainfo.xml.in:32
+#: data/it.mijorus.collector.metainfo.xml.in:37
+msgid "Application showcase"
+msgstr "Огляд можливостей"
 
 #: src/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -56,31 +52,63 @@ msgstr "Загальні"
 
 #: src/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
-msgstr "Показати клавіатурні скорочення"
+msgid "Show shortcuts"
+msgstr "Клавіатурні скорочення"
 
 #: src/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Вийти"
 
+#: src/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Scroll left"
+msgstr "Ліворуч"
+
+#: src/gtk/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Scroll right"
+msgstr "Праворуч"
+
+#: src/gtk/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Toggle lock mode"
+msgstr "Режим блокування"
+
+#: src/gtk/help-overlay.ui:44
+msgctxt "shortcut window"
+msgid "Preview selected item"
+msgstr "Перегляд вибраного елемента"
+
+#: src/gtk/help-overlay.ui:50
+msgctxt "shortcut window"
+msgid "Delete selected item"
+msgstr "Видалити елемент"
+
+#: src/gtk/help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Remove all items"
+msgstr "Очистити вікно від вмісту"
+
+#: src/gtk/help-overlay.ui:62
+msgctxt "shortcut window"
+msgid "Paste from clipboard"
+msgstr "Вставити із буфера"
+
 #: src/gtk/main-menu.ui:6
 msgid "_Preferences"
 msgstr "_Налаштування"
 
 #: src/gtk/main-menu.ui:10
-msgid "_Tutorial"
-msgstr "_Інструкції"
-
-#: src/gtk/main-menu.ui:14
-msgid "_Shortcuts"
+msgid "_Keyboard Shortcuts"
 msgstr "_Клавіатурні скорочення"
 
-#: src/gtk/main-menu.ui:18
+#: src/gtk/main-menu.ui:14
 msgid "_Open Log File"
-msgstr "Відкрити файл _звітування"
+msgstr "Файл _журналу"
 
-#: src/gtk/main-menu.ui:22
+#. Translators: Do not translate the application name
+#: src/gtk/main-menu.ui:19
 msgid "_About Collector"
 msgstr "_Про Збирач"
 
@@ -88,41 +116,41 @@ msgstr "_Про Збирач"
 msgid "Preferences"
 msgstr "Налаштування"
 
-#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13 src/gtk/shortcuts.ui:9
+#: src/gtk/preferences.ui:9 src/gtk/preferences.ui:13
 msgid "General"
-msgstr "Загальні"
+msgstr "Загальне"
 
 #: src/gtk/preferences.ui:16
 msgid "Always keep items when dragging out"
-msgstr "Завжди зберігати предмети коли вони перетягуються за межі Збирача"
+msgstr "Залишати елементи після перетягування з вікна"
 
 #: src/gtk/preferences.ui:17
 msgid "This option also disables the Alt shortcut."
-msgstr "Ця опція також вимкне клавіатурне скорочення з Alt."
+msgstr "Цей параметр також вимикає скорочення з Alt."
 
 #: src/gtk/preferences.ui:27
 msgid "Download images from URLs"
-msgstr "Завантажувати зображення із URL-посилань"
+msgstr "Завантаження зображень за ланкою"
 
 #: src/gtk/preferences.ui:28
 msgid ""
 "If the dropped text is an URL that links to an image, the image is "
 "automatically downloaded and saved."
 msgstr ""
-"Якщо перетягнутий текст це URL-посилання яке веде до зображення, тоді це "
-"зображення буде автоматично завантажено і збережено."
+"Якщо перетягнутий текст — це вебпосилання на зображення, воно завантажиться "
+"й збережеться."
 
 #: src/gtk/preferences.ui:38
 msgid "Collect text strings as a CSV file"
-msgstr "Збирати текстові строчки у CSV файл"
+msgstr "Збереження тексту у файл CSV"
 
 #: src/gtk/preferences.ui:39
 msgid ""
 "When enabled, plain text strings are collected in a single CSV file. URLs "
 "that link to images will still follow the respective setting."
 msgstr ""
-"Коли ввімкнено, текстові строчки будуть збиратися в єдиний CSV файл. URL-"
-"посилання до зображень будуть наслідувати їхні відповідні налаштування."
+"Увесь звичайний текст зберігатиметься в єдиному файлі CSV. Посилання на "
+"зображення й надалі оброблятимуться згідно з відповідним параметром."
 
 #: src/gtk/preferences.ui:51
 msgid "Window behaviour"
@@ -130,36 +158,34 @@ msgstr "Поведінка вікна"
 
 #: src/gtk/preferences.ui:54
 msgid "Get GNOME extension"
-msgstr "Отримати розширення для GNOME"
+msgstr "Розширення для GNOME"
 
 #: src/gtk/preferences.ui:55
 msgid ""
 "The extention adds cool features like forcing Collector to stay always on "
 "top of other windows!"
 msgstr ""
-"Це розширення надасть кльові нові можливості, такі от як змусити вікно "
-"Збирача бути завжди зверху!"
+"Має кілька цікавих переваг, зокрема закріплення вікна Збирача поверх інших."
 
 #: src/gtk/preferences.ui:66
 msgid "Learn how to configure Collector on KDE"
-msgstr "Дізнайтеся тут, яка налаштувати Збирач у стільниці KDE"
+msgstr "Налаштування Збирача у KDE"
 
 #: src/gtk/preferences.ui:77
 msgid "Open Collector with a shortcut"
-msgstr "Відкрити Збирач через клавіатурне скорочення"
+msgstr "Виклик Збирача клавіатурним скороченням"
 
 #: src/gtk/preferences.ui:78
 msgid ""
 "Use this code to create a custom shortcut for Collector in the system "
 "settings."
 msgstr ""
-"Використовуйте цей код, щоб створити власне клавіатурне скорочення для "
-"Збирача у системних налаштуваннях."
+"Код для створення власного клавіатурного скорочення для Збирача у "
+"налаштуваннях системи."
 
 #: src/gtk/preferences.ui:89
 msgid "Number of windows to open with a shortcut"
-msgstr ""
-"Кількість вікон які будуть відкриватися через клавіатурне скорочення"
+msgstr "Кількість вікон для відкриття скороченням"
 
 #: src/gtk/preferences.ui:109
 msgid "Integrations"
@@ -167,50 +193,57 @@ msgstr "Інтеграції"
 
 #: src/gtk/preferences.ui:112
 msgid "Google Images URL support"
-msgstr "Підтримка URL-посилань із Google Зображень"
+msgstr "Підтримка посилань із Google Зображень"
 
 #: src/gtk/preferences.ui:113
 msgid "Automatically analyse and download files from Google Images links."
-msgstr ""
-"Автоматично аналізувати і завантажувати файли із URL-посилань із Google "
-"Зображень."
+msgstr "Аналізування й завантаження файлів за посиланнями з Google Зображень."
 
 #: src/gtk/preferences.ui:126
-msgid "Debugginh"
-msgstr "Налагодження"
+msgid "Debugging"
+msgstr "Зневадження"
 
 #: src/gtk/preferences.ui:129
 msgid "Enable debug logs"
-msgstr "Увімкнути звітування"
+msgstr "Журнал зневадження"
 
 #: src/gtk/preferences.ui:130
 msgid "Increase log verbosity."
-msgstr "Збільшує детальність звітування."
+msgstr "Розширена деталізація журналу."
 
-#: src/gtk/shortcuts.ui:12
-msgid "Scroll left"
-msgstr "Гортати вліво"
+#: src/lib/CsvCollector.py:87
+msgid "Close"
+msgstr "Закрити"
 
-#: src/gtk/shortcuts.ui:18
-msgid "Scroll right"
-msgstr "Гортати вправо"
+#. Translators: Replace "translator-credits" with your names, one name per line
+#: src/main.py:110
+msgid "translator-credits"
+msgstr ""
+"volkov <volkovissocool@gmail.com>\n"
+"Димко <Dymkovych@proton.me>"
 
-#: src/gtk/shortcuts.ui:24
-msgid "Toggle lock mode"
-msgstr "Перемикнути режим блокування"
+#: src/preferences.py:46
+msgid "The following image formats are currently supported: "
+msgstr "Підтримуються такі формати зображень: "
 
-#: src/gtk/shortcuts.ui:30
-msgid "Preview selected item"
-msgstr "Попередній перегляд обраних предметів"
+#: src/window.py:39
+msgid "Drop content here"
+msgstr "Перетягніть вміст сюди"
 
-#: src/gtk/shortcuts.ui:36
-msgid "Delete selected item"
-msgstr "Видалити обрані предмети"
+#: src/window.py:193
+msgid "Release to drop"
+msgstr "Відпустіть, щоб перетягнути"
 
-#: src/gtk/shortcuts.ui:42
-msgid "Remove all the items"
-msgstr "Видалити усі предмети"
+#: src/window.py:277
+msgid "Release to collect"
+msgstr "Відпустіть, щоб зібрати"
 
-#: src/gtk/shortcuts.ui:48
-msgid "Paste from keyboard"
-msgstr "Вставити із буферу обміну"
+#: src/window.py:549
+#, python-brace-format
+msgid "1 File | {size}"
+msgstr "1 файл | {size}"
+
+#: src/window.py:551
+#, python-brace-format
+msgid "{files_count} Files | {size}"
+msgstr "Файлів: {files_count} | {size}"
